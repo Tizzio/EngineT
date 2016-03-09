@@ -4,7 +4,7 @@
 
 #include <GL/glew.h>
 #include <sdl/SDL.h> 
-#include <glm/glm.hpp> 
+#include <glm/glm.hpp>
 
 #include <iostream>
 #include <vector> 

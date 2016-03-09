@@ -27,8 +27,8 @@ namespace EngineT {
 
 		frameIndices = 6 * 9; //9 quads
 
-		int w = size.x;
-		int h = size.y;
+		int w = (int)size.x;
+		int h = (int)size.y;
 
 		float bL = borderLeft;
 		float bT = borderTop;

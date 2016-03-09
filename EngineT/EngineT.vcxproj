@@ -42,19 +42,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\cpp\Includes;C:\cpp\Includes\assimp;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\cpp\Libs;C:\cpp\Libs\bullet;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)includes\;$(SolutionDir)includes\assimp;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)libraries\;$(SolutionDir)libraries\bullet</LibraryPath>
     <OutDir>$(SolutionDir)\build\</OutDir>
     <IntDir>$(SolutionDir)\build\compile\</IntDir>
     <TargetName>$(ProjectName)_$(PlatformTarget)_d</TargetName>
+    <CodeAnalysisRuleSet>C:\Program Files (x86)\Microsoft Visual Studio 14.0\Team Tools\Static Analysis Tools\Rule Sets\NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\cpp\Includes;C:\cpp\Includes\assimp;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\cpp\Libs;C:\cpp\Libs\bullet;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)includes\;$(SolutionDir)includes\assimp;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)libraries\;$(SolutionDir)libraries\bullet</LibraryPath>
     <OutDir>$(SolutionDir)\build\</OutDir>
     <IntDir>$(SolutionDir)\build\compile\</IntDir>
     <TargetName>$(ProjectName)_$(PlatformTarget)</TargetName>
+    <CodeAnalysisRuleSet>C:\Program Files (x86)\Microsoft Visual Studio 14.0\Team Tools\Static Analysis Tools\Rule Sets\NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -64,14 +68,15 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\cpp\Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ShowIncludes>false</ShowIncludes>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <EnablePREfast>true</EnablePREfast>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\cpp\Libs</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)libraries</AdditionalLibraryDirectories>
       <AdditionalDependencies>assimp.lib;opengl32.lib;glu32.lib;glew32s.lib;SDL2.lib;SDL2main.lib;BulletCollision_debug.lib;BulletDynamics_debug.lib;LinearMath_debug.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -85,15 +90,16 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\cpp\Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <EnablePREfast>true</EnablePREfast>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>C:\cpp\Libs</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)libraries</AdditionalLibraryDirectories>
       <AdditionalDependencies>assimp.lib;opengl32.lib;glu32.lib;glew32s.lib;SDL2.lib;SDL2main.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
