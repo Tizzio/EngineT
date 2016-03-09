@@ -23,12 +23,14 @@
 #endif
 
 
-namespace EngineT{
+namespace EngineT
+{
 
 	class Debug
 	{
 	public:
-		void LogS(int n){
+		void LogS(int n)
+		{
 			std::ofstream log("log.txt", std::ios_base::app | std::ios_base::out);
 			log << n << '\n';
 		}
@@ -42,7 +44,7 @@ namespace EngineT{
 		{
 			va_list args;
 			va_start(args, szString);
-			for (const char* arg = szString; arg != NULL; arg = va_arg(args, const char*)) {
+			for(const char* arg = szString; arg != NULL; arg = va_arg(args, const char*)) {
 				std::ofstream log("log.txt", std::ios_base::app | std::ios_base::out);
 				log << arg << '\n';
 			}
@@ -51,7 +53,8 @@ namespace EngineT{
 
 		}
 
-		void LogDate(){
+		void LogDate()
+		{
 			time_t rawtime;
 			time(&rawtime);
 			char out[100];
@@ -59,8 +62,7 @@ namespace EngineT{
 			LogM("--------------------------------------", out, "--------------------------------------", NULL);
 		}
 
-		 
-	};
 
+	};
 
 }

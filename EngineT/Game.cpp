@@ -43,23 +43,23 @@ Game::Game()
 	//load textures
 	//auto tex_font0 = make_unique<Texture>("data/fonts/font16.png");
 	Texture* tex_font0 = new Texture("data/fonts/font16.png");
-	Texture* tex_test = new Texture("data/textures/test.png",3);
-	Texture* tex_bricks = new Texture("data/textures/tex_bricks.png", 3); 
+	Texture* tex_test = new Texture("data/textures/test.png", 3);
+	Texture* tex_bricks = new Texture("data/textures/tex_bricks.png", 3);
 
 	Texture* tex_atlas0 = new Texture("data/textures/atlas0.png");
-	 
+
 	Sprite* spr_window = new Sprite();
 	spr_window->LoadSliced(tex_atlas0, "data/sprites/spr_window.spr", vec2(400, 250));
 
 	Sprite* spr_spider = new Sprite(tex_atlas0, "data/sprites/spr_spider.spr");
-	Sprite* spr_tree = new Sprite(tex_atlas0, "data/sprites/spr_tree.spr"); 
+	Sprite* spr_tree = new Sprite(tex_atlas0, "data/sprites/spr_tree.spr");
 	//spr_test->CreateFromStrip(tex_sprite_test, 11*21, tex_sprite_test->width / 11, tex_sprite_test->height / 21);
 
-	
+
 	//load airplane
 	Mesh* mesh_airplane = new Mesh("data/models/airplane.obj");
 	mesh_airplane->SetTexture(tex_test, 0, 0);
-	 
+
 	//load farm
 	/*Mesh* mesh_farm = new Mesh("data/models/farm.obj");
 	mesh_farm->SetTexture(tex_farm, 0, 0);*/
@@ -78,22 +78,22 @@ Game::Game()
 	farm->SetMesh(mesh_farm);*/
 	//scene->Add(farm, mainLayer);
 
-	for (int i = 0; i < 5; i++){
+	for(int i = 0; i < 5; i++){
 		Obj3D* airplane = new Obj3D();
 		airplane->SetMesh(mesh_airplane);
 
 		airplane->transform.SetScaling(vec3(0.2f, 0.2f, 0.2f));
 		airplane->transform.SetPosition(vec3(
 			cos(i * 15 * 0.01745) * 35.0f,
-			10.0f + i*1.0f ,
+			10.0f + i*1.0f,
 			sin(i * 15 * 0.01745) * 35.0f
-			)); 
+			));
 		scene->Add(airplane, mainLayer);
 	}
 
 	//2d spider
 	Obj2D* obj_spider = new Obj2D();
-	obj_spider->SetSprite(spr_spider); 
+	obj_spider->SetSprite(spr_spider);
 	obj_spider->transform.SetScaling(vec3(2, 2, 2));
 	obj_spider->imageSpeed = 0.1f;
 	scene->Add(obj_spider, layer2D);
@@ -109,7 +109,7 @@ Game::Game()
 	obj_tree->SetSprite(spr_tree);
 	obj_tree->transform.SetPosition(vec3(300, 100, 0));
 	scene->Add(obj_tree, layer2D);
-  
+
 	//labirynth
 	Labyr * labyr = new Labyr();
 	labyr->set_difficulty(1);
@@ -151,12 +151,12 @@ Game::Game()
 	Mesh* mesh_cube = new Mesh("data/models/cube.obj");
 	mesh_cube->SetTexture(tex_bricks, 0, 0);
 
-	for (int i = 0; i < 12; i++)
+	for(int i = 0; i < 12; i++)
 	{
 
 		Obj3D* obj_cube = new Obj3D();
 		obj_cube->SetMesh(mesh_cube);
-		obj_cube->transform.SetPosition(vec3(0, i*1.2f+5.0f, 0));
+		obj_cube->transform.SetPosition(vec3(0, i*1.2f + 5.0f, 0));
 		//scene->Add(obj_cube, mainLayer);
 
 		Rigidbody* body_cube = new Rigidbody(obj_cube);
@@ -165,7 +165,7 @@ Game::Game()
 	}
 
 
-	 
+
 
 	//create lights
 	Light* light;
@@ -175,7 +175,7 @@ Game::Game()
 	scene->Add(light);
 
 	/*light = new Light(LightType::Point);
-	light->color = vec3(1.0f, 0.0f, 0.0f); 
+	light->color = vec3(1.0f, 0.0f, 0.0f);
 	light->transform.SetPosition(vec3(20.0f, 3.0f, 0.0f));
 	scene->Add(light);
 
@@ -204,7 +204,7 @@ Game::Game()
 	//text->transform.SetScaling(vec3(2,2,2));
 	//text->transform.SetPosition(vec3(50, 250, 0));
 	scene->Add(text, layer2D);
-	 
+
 	//set the current scene
 	Engine.SetScene(scene);
 }

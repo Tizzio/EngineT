@@ -7,7 +7,8 @@
 #include "transform.h"
 
 
-namespace EngineT {
+namespace EngineT
+{
 
 	EffectText::EffectText()
 	{
@@ -27,10 +28,9 @@ namespace EngineT {
 
 	void EffectText::UpdateUniforms()
 	{
-		mat4 worldMatrix = ((Text*)(renderer->curObj))->transform.GetWorldMatrix();
+		mat4 worldMatrix = ((Text*) (renderer->curObj))->transform.GetWorldMatrix();
 		mat4  WVP = renderer->curCamera->GetViewProjMatrix() * worldMatrix;
 		glUniformMatrix4fv(gWVP, 1, GL_FALSE, &WVP[0][0]); //set WVP 
 		glUniform1i(gSampler, 0); //set texture unit 
 	}
-
 }

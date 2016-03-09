@@ -4,11 +4,13 @@
  
 #include "engine_t.h"
 
-namespace EngineT{
+namespace EngineT
+{
 
 	typedef int Layer;
 
-	class Scene{
+	class Scene
+	{
 		friend class Renderer;
 	private:
 		//non renderable objects
@@ -20,7 +22,7 @@ namespace EngineT{
 		vector<Layer> layerList;
 		Layer currentLayerId = 0;
 
-	public:  
+	public:
 		vector<Camera*> cameras;
 		vector<Light*> lights;
 		Scene();

@@ -1,7 +1,8 @@
 
 #include "shadowmap.h"
 
-namespace EngineT{
+namespace EngineT
+{
 	Shadowmap::Shadowmap()
 	{
 		fbo = 0;
@@ -12,11 +13,11 @@ namespace EngineT{
 
 	Shadowmap::~Shadowmap()
 	{
-		if (fbo != 0) {
+		if(fbo != 0) {
 			glDeleteFramebuffers(1, &fbo);
 		}
 
-		if (shadowMap != 0) {
+		if(shadowMap != 0) {
 			glDeleteTextures(1, &shadowMap);
 		}
 	}
@@ -46,7 +47,7 @@ namespace EngineT{
 
 		GLenum Status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 
-		if (Status != GL_FRAMEBUFFER_COMPLETE) {
+		if(Status != GL_FRAMEBUFFER_COMPLETE) {
 			cout << "FrameBuffer error, status: 0x" << Status << endl;
 			return false;
 		}

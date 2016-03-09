@@ -4,7 +4,8 @@
 #include "rect.h"  
 #include "transform.h"  
 
-namespace EngineT {
+namespace EngineT
+{
 	class UIElement
 	{
 	public:

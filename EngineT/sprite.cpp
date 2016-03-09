@@ -2,7 +2,8 @@
 #include "texture.h" 
 #include "utils.h" 
 
-namespace EngineT {
+namespace EngineT
+{
 
 
 
@@ -11,37 +12,37 @@ namespace EngineT {
 		glDeleteBuffers(1, &vbo_v);
 		glDeleteBuffers(1, &vbo_i);
 		glDeleteVertexArrays(1, &vao);
-	} 
+	}
 
 
-	Sprite::Sprite(){}
+	Sprite::Sprite() {}
 
 	Sprite::Sprite(Texture* texture, string filename)
 	{
 		Load(texture, filename);
 	}
 
-	
+
 	void Sprite::ResizeSliced(vec2 size)
 	{
 
 		frameIndices = 6 * 9; //9 quads
 
-		int w = (int)size.x;
-		int h = (int)size.y;
+		int w = (int) size.x;
+		int h = (int) size.y;
 
 		float bL = borderLeft;
 		float bT = borderTop;
 		float bR = borderRight;
 		float bB = borderBottom;
 
-		if (w < bL + bR)
-			w = bL + bR;
-		if (h < bT + bB)
-			h = bT + bB;
+		if(w < bL + bR)
+			w = (int) (bL + bR);
+		if(h < bT + bB)
+			h = (int) (bT + bB);
 
 
-		for (uint i = 0; i < subImages.size(); i++)
+		for(uint i = 0; i < subImages.size(); i++)
 		{
 			SubImage img = subImages[i];
 
@@ -56,7 +57,7 @@ namespace EngineT {
 			float uvR = bR / texture->width; //right
 			float uvB = bB / texture->height; //bottom
 
-			
+
 			//TODO: add the size argument to each Vertex(...)
 			vertices.insert(vertices.end(), {
 				Vertex(vec2(0, 0), vec2(uvX1, uvY1)), //0
@@ -102,29 +103,29 @@ namespace EngineT {
 
 	void Sprite::LoadSliced(Texture* texture, string filename, vec2 size)
 	{
-		
+
 		//read the sprite file
 		ReadFile(filename);
 
 		frameIndices = 6 * 9; //9 quads
 
 		int w = size.x;
-		int h = size.y; 
-		
+		int h = size.y;
+
 		float bL = borderLeft;
 		float bT = borderTop;
 		float bR = borderRight;
 		float bB = borderBottom;
 
 		cout << bL << endl;
-		if (w < bL + bR)
+		if(w < bL + bR)
 			w = bL + bR;
-		if (h < bT + bB)
+		if(h < bT + bB)
 			h = bT + bB;
 
 
 		this->texture = texture;
-		if (subImages.size() <= 0)
+		if(subImages.size() <= 0)
 			return;
 
 		GenerateBuffers();
@@ -135,7 +136,7 @@ namespace EngineT {
 		frames.resize(subImages.size());
 
 
-		for (uint i = 0; i < subImages.size(); i++)
+		for(uint i = 0; i < subImages.size(); i++)
 		{
 			SubImage img = subImages[i];
 
@@ -161,7 +162,7 @@ namespace EngineT {
 			12--13--14--15
 			*/
 
-			
+
 			//TODO: add the size argument to each Vertex(...)
 			vertices.insert(vertices.end(), {
 				Vertex(vec2(0, 0), vec2(uvX1, uvY1)), //0
@@ -199,7 +200,7 @@ namespace EngineT {
 			});
 			frames[i].vertexIndex = i * 9;
 
-			
+
 		}
 
 		UpdateBuffers();
@@ -207,16 +208,16 @@ namespace EngineT {
 
 
 	void Sprite::Load(Texture* texture, string filename)
-	{ 
+	{
 
 		//read the sprite file
 		ReadFile(filename);
-		 
+
 
 		this->texture = texture;
-		if (subImages.size() <= 0) 
+		if(subImages.size() <= 0)
 			return;
-		 
+
 		GenerateBuffers();
 
 		vertices.reserve(subImages.size() * 4);
@@ -224,7 +225,7 @@ namespace EngineT {
 
 		frames.resize(subImages.size());
 
-		for (uint i = 0; i < subImages.size(); i++)
+		for(uint i = 0; i < subImages.size(); i++)
 		{
 			SubImage img = subImages[i];
 
@@ -246,32 +247,32 @@ namespace EngineT {
 			indices.insert(indices.end(), {
 				0, 1, 2, 2, 3, 1
 			});
-			frames[i].vertexIndex = i * 4; 
-			 
+			frames[i].vertexIndex = i * 4;
+
 		}
 
 		UpdateBuffers();
 	}
 
 	void Sprite::ReadFile(string& filename)
-	{ 
+	{
 		ifstream file(filename);
 		string line;
-		while (getline(file, line))
+		while(getline(file, line))
 		{
-			if (line.length() == 0)
+			if(line.length() == 0)
 				continue;
 
 			//if not comment
-			if (line[0] != '#')
+			if(line[0] != '#')
 			{
 				//x  y  w  h xo yo
-				if (line[0] == 's')
+				if(line[0] == 's')
 				{
 
 					//get sprite count
 					vector<string> data = Utils::StringToStringArray(line);
-					if (data.size() == 11)
+					if(data.size() == 11)
 					{
 						name = data[1];
 						int count = stoi(data[2]);
@@ -296,7 +297,7 @@ namespace EngineT {
 				{
 					//add new spriteraw
 					vector<int> data = Utils::StringToIntArray(line);
-					if (data.size() == 2)
+					if(data.size() == 2)
 					{
 						subImages.push_back(SubImage(data));
 					}
@@ -326,14 +327,14 @@ namespace EngineT {
 
 		uint offset = 0;
 		//Position
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(class Vertex, pos));
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(class Vertex, uv));
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) offsetof(class Vertex, pos));
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) offsetof(class Vertex, uv));
 
 		glBindVertexArray(0);
 	}
 
 	void Sprite::UpdateBuffers()
-	{ 
+	{
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo_i);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint)* indices.size(), &indices[0], GL_STATIC_DRAW);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -345,24 +346,24 @@ namespace EngineT {
 
 	void Sprite::CreateFromStrip(Texture* texture, uint count, float width, float height)
 	{
-		
+
 		GenerateBuffers();
 
 		this->width = width;
 		this->height = height;
 
 		frames.resize(count);
-		this->texture = texture;  
+		this->texture = texture;
 		float uRatio = width / texture->width;
 		float vRatio = height / texture->height;
-		
-		 
-		vertices.reserve(count * 4); 
+
+
+		vertices.reserve(count * 4);
 		indices.reserve(count * 6);
 
 		//cout << "u " << uRatio << " ,  v " << vRatio << endl;
-		int sideCount = (int)sqrt(count);
-		for (uint i = 0; i < count; i++)
+		int sideCount = (int) sqrt(count);
+		for(uint i = 0; i < count; i++)
 		{
 			uint x = i % sideCount;
 			uint y = (i / sideCount);
@@ -370,29 +371,29 @@ namespace EngineT {
 			vertices.insert(vertices.end(), {
 				Vertex(vec2(0.0f, 0.0f), vec2(uRatio * x,				vRatio * y)),
 				Vertex(vec2(width, 0.0f), vec2(uRatio * x + uRatio,		vRatio * y)),
-				Vertex(vec2(0.0f, height), vec2(uRatio * x,				vRatio * y +vRatio)),
+				Vertex(vec2(0.0f, height), vec2(uRatio * x,				vRatio * y + vRatio)),
 				Vertex(vec2(width, height), vec2(uRatio * x + uRatio,	vRatio * y + vRatio))
 			});
-			indices.insert(indices.end(),{
+			indices.insert(indices.end(), {
 				0, 1, 2, 2, 3, 1
 			});
 
 
-			frames[i].vertexIndex = i * 4;  
+			frames[i].vertexIndex = i * 4;
 		}
 
 		UpdateBuffers();
-		 
-		
+
+
 	}
-	 
+
 
 	void Sprite::Draw(int imageIndex)
 	{
-		glBindVertexArray(vao); 
-		if (texture != nullptr)
+		glBindVertexArray(vao);
+		if(texture != nullptr)
 			texture->Bind(GL_TEXTURE0);
 		glDrawElementsBaseVertex(GL_TRIANGLES, frameIndices, GL_UNSIGNED_INT, 0, frames[imageIndex].vertexIndex);
 		glBindVertexArray(0);
-	} 
+	}
 }

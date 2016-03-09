@@ -2,7 +2,8 @@
  
 #include "gameobject.h" 
 
-namespace EngineT {
+namespace EngineT
+{
 	class Text : GameObject
 	{
 		friend class Renderer;

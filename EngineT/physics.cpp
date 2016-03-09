@@ -3,11 +3,12 @@
 #include "gameobject.h"
 #include "engine_t.h"
 
-namespace EngineT {
+namespace EngineT
+{
 
 	Physics::~Physics()
 	{
-		for (Rigidbody* body : bodies)
+		for(Rigidbody* body : bodies)
 		{
 			delete body;
 		}
@@ -67,7 +68,7 @@ namespace EngineT {
 		motionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(pos.x, pos.y, pos.z)));
 
 		//calculate local intertia
-		if (mass > 0)
+		if(mass > 0)
 		{
 			shape->calculateLocalInertia(mass, inertia);
 		}
@@ -75,7 +76,7 @@ namespace EngineT {
 		btRigidBody::btRigidBodyConstructionInfo constructionInfo(mass, motionState, shape, inertia);
 
 		body = new btRigidBody(constructionInfo);
-		body->setFriction(1.0f); 
+		body->setFriction(1.0f);
 		Engine.physics->Add(this);
 
 	}
@@ -113,7 +114,7 @@ namespace EngineT {
 		world->addRigidBody(fallRigidBody);
 
 
-		for (int i = 0; i < 300; i++)
+		for(int i = 0; i < 300; i++)
 		{
 			world->stepSimulation(1 / 60.f, 10);
 			btTransform trans;

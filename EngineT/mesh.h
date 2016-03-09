@@ -2,7 +2,8 @@
 
 #include "engine_t.h"  
 
-namespace EngineT{
+namespace EngineT
+{
 
 	class Vertex
 	{
@@ -21,7 +22,7 @@ namespace EngineT{
 	};
 
 
-	class Mesh 
+	class Mesh
 	{
 	public:
 		Mesh();
@@ -34,16 +35,16 @@ namespace EngineT{
 		void Draw();
 		void SetTexture(Texture* texture, uint subMesh, uint index);
 
-	private: 
+	private:
 
 		void GenBuffers();
-		 
+
 		void Clear();
 
-		#define INDEX_BUFFER 0 
-		#define POS_VB 1
-		#define NORMAL_VB 2
-		#define TEXCOORD_VB 3 
+#define INDEX_BUFFER 0 
+#define POS_VB 1
+#define NORMAL_VB 2
+#define TEXCOORD_VB 3 
 
 		GLuint vao;
 		GLuint vbo_i;
@@ -51,14 +52,15 @@ namespace EngineT{
 		GLuint vbo_mat_wvp;
 		GLuint vbo_mat_world;
 
-		struct SubMesh {
+		struct SubMesh
+		{
 		public:
 			uint firstVertex = 0;
 			uint firstIndex = 0;
 			uint numIndices = 0;
-			vector<Texture*> textures; 
+			vector<Texture*> textures;
 		};
-		 
+
 
 		vector<SubMesh> subMeshes;
 	};

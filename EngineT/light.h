@@ -5,10 +5,12 @@
 #include "transform.h" 
 
 
-namespace EngineT{
+namespace EngineT
+{
 	enum class LightType { Directional, Point, Spot };
 
-	class Light{
+	class Light
+	{
 	public:
 		Transform transform;
 
@@ -30,6 +32,5 @@ namespace EngineT{
 
 	};
 }
-
 
 

@@ -11,12 +11,13 @@
 
 using namespace glm;
 
-namespace EngineT{
+namespace EngineT
+{
 	class Camera
 	{
 	public:
 
-		enum ProjectionType{ Ortho, Perspective };
+		enum ProjectionType { Ortho, Perspective };
 
 		vec3 position;
 		vec3 target;

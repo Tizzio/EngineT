@@ -1,6 +1,7 @@
 #include "rect.h"
 
-namespace EngineT {
+namespace EngineT
+{
 
 	Rect::Rect(float x, float y, float width, float height)
 	{
@@ -37,5 +38,4 @@ namespace EngineT {
 		this->x2 = x1 + width;
 		this->y2 = y1 + height;
 	}
-
 }

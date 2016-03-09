@@ -8,7 +8,8 @@
 #include "glm/gtc/quaternion.hpp"
 #include "glm/gtx/quaternion.hpp"
 
-namespace EngineT {
+namespace EngineT
+{
 	FpsController::FpsController(Camera* cam, bool lock, bool hideCursor)
 	{
 		camera = cam;
@@ -18,7 +19,7 @@ namespace EngineT {
 		speed = 0;
 		maxSpeed = 100.0f;
 		acceleration = 50.0f;
-		if (hideCursor)
+		if(hideCursor)
 			SDL_ShowCursor(false);
 		mouseLock = lock;
 
@@ -47,13 +48,13 @@ namespace EngineT {
 
 		shape = new btMultiSphereShape(&spherePositions[0], &sphereRadii[0], 2);
 
-		btTransform startTransform(btQuaternion(0,0,0,1), btVector3(0.0, 12.0, 0.0));
+		btTransform startTransform(btQuaternion(0, 0, 0, 1), btVector3(0.0, 12.0, 0.0));
 		//TODO: DELETE motionState
 		btDefaultMotionState* motionState = new btDefaultMotionState(startTransform);
 		shape->calculateLocalInertia(1.0f, btVector3(0, 0, 0));
 		btRigidBody::btRigidBodyConstructionInfo constructionInfo(1.0f, motionState, shape);
 		rigidBody = new btRigidBody(constructionInfo);
-		
+
 		rigidBody->setSleepingThresholds(0.0, 0.0);
 		rigidBody->setAngularFactor(0.0);
 		rigidBody->setFriction(15.0f);
@@ -79,7 +80,7 @@ namespace EngineT {
 
 	void FpsController::PreUpdate()
 	{
-		
+
 		btTransform xform = rigidBody->getWorldTransform();
 		btVector3 down = -xform.getBasis()[1];
 		btVector3 forward = xform.getBasis()[2];
@@ -102,7 +103,7 @@ namespace EngineT {
 
 			virtual btScalar addSingleResult(btCollisionWorld::LocalRayResult& rayResult, bool normalInWorldSpace)
 			{
-				if (rayResult.m_collisionObject == m_me)
+				if(rayResult.m_collisionObject == m_me)
 					return 1.0;
 
 				return ClosestRayResultCallback::addSingleResult(rayResult, normalInWorldSpace);
@@ -114,11 +115,11 @@ namespace EngineT {
 		ClosestNotMe rayCallback(rigidBody);
 
 		int i = 0;
-		for (i = 0; i < 2; i++)
+		for(i = 0; i < 2; i++)
 		{
 			rayCallback.m_closestHitFraction = 1.0;
 			Engine.physics->world->rayTest(raySource[i], rayTarget[i], rayCallback);
-			if (rayCallback.hasHit())
+			if(rayCallback.hasHit())
 			{
 				rayLambda[i] = rayCallback.m_closestHitFraction;
 			}
@@ -135,11 +136,11 @@ namespace EngineT {
 		float dt = Engine.time->delta;
 		bool moved = false;
 
-		if (mouseLock)
+		if(mouseLock)
 		{
-			if (setmouse && !inputs->GetKey(Keycode::LSHIFT))
+			if(setmouse && !inputs->GetKey(Keycode::LSHIFT))
 			{
-				inputs->SetMouse((int)Engine.windowWidth / 2, (int)Engine.windowHeight / 2);
+				inputs->SetMouse((int) Engine.windowWidth / 2, (int) Engine.windowHeight / 2);
 			}
 			setmouse = !setmouse;
 		}
@@ -156,17 +157,17 @@ namespace EngineT {
 		bool backward = inputs->GetKey(Keycode::S);
 		bool left = inputs->GetKey(Keycode::A);
 		bool right = inputs->GetKey(Keycode::D);
-		 
+
 		vec3 forBack;
-		if (forward)
+		if(forward)
 			forBack = camera->forward;
-		else if (backward) 
+		else if(backward)
 			forBack = -camera->forward;
 
 		vec3 leftRight;
-		if (left)
+		if(left)
 			leftRight = -camera->right;
-		else if (right)
+		else if(right)
 			leftRight = camera->right;
 
 
@@ -174,21 +175,21 @@ namespace EngineT {
 		bool onGround = rayLambda[0] < 1.0f;
 
 		vec3 dirVector = forBack + leftRight;
-		if (length(dirVector) > 0)
-		{ 
+		if(length(dirVector) > 0)
+		{
 			moved = true;
-			
+
 			btVector3 walkDirection = btVector3(dirVector.x, 0, dirVector.z).normalize();
 			btVector3 velocity = walkDirection * walkSpeed*30.0f;
 			rigidBody->applyCentralForce(velocity);
-			
+
 			velocity = rigidBody->getLinearVelocity();
-			
+
 		}
 
-		if (onGround)
-		{  
-			if (inputs->GetKeyPress(Keycode::SPACE))
+		if(onGround)
+		{
+			if(inputs->GetKeyPress(Keycode::SPACE))
 			{
 				btVector3 up = xform.getBasis()[1].normalize();
 				btScalar magnitude = (btScalar(1.0) / rigidBody->getInvMass()) * btScalar(8.0);
@@ -198,7 +199,7 @@ namespace EngineT {
 
 		//rigidBody->setCenterOfMassTransform(xform);
 		//xform = rigidBody->getWorldTransform();
-		if (speed > maxLinearVelocity)
+		if(speed > maxLinearVelocity)
 		{
 			rigidBody->applyCentralForce(linearVelocity.normalize() * maxLinearVelocity);
 		}
@@ -206,28 +207,28 @@ namespace EngineT {
 		transform.rotation = quat(rot.getW(), rot.getX(), rot.getY(), rot.getZ());*/
 
 		btVector3 pos = xform.getOrigin();
-		
+
 		transform.position = vec3(pos.getX(), pos.getY(), pos.getZ());
 
-		if (moved || lastPosition != transform.position)
+		if(moved || lastPosition != transform.position)
 		{
 			camera->SetPosition(transform.position);
-		} 
+		}
 
 		lastPosition = transform.position;
 
 
 		//mouseLook
 
-		if (mouseLock)
+		if(mouseLock)
 		{
-			if (inputs->mouseMoved)
+			if(inputs->mouseMoved)
 			{
 				accumX += inputs->mouseDeltaX * mouseSensitivity;
 				accumY += inputs->mouseDeltaY * mouseSensitivity;
 			}
 
-			if (accumX == 0 && accumY == 0)
+			if(accumX == 0 && accumY == 0)
 				return;
 
 			float deltaX = 0, deltaY = 0;
@@ -242,7 +243,5 @@ namespace EngineT {
 
 			camera->MouseLook(deltaX, deltaY);
 		}
-
-
 	}
 }

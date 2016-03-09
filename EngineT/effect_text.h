@@ -3,7 +3,8 @@
 #include "effect.h"
 
 
-namespace EngineT {
+namespace EngineT
+{
 	class EffectText : public Effect
 	{
 	public:

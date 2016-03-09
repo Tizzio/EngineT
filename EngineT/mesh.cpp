@@ -10,8 +10,9 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-namespace EngineT{ 
-	 
+namespace EngineT
+{
+
 
 	Mesh::Mesh(const string& filename)
 	{
@@ -80,9 +81,9 @@ namespace EngineT{
 		glEnableVertexAttribArray(1);
 		glEnableVertexAttribArray(2);
 
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(class Vertex, position));
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(class Vertex, texcoord));
-		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(class Vertex, normal));
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) offsetof(class Vertex, position));
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) offsetof(class Vertex, texcoord));
+		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) offsetof(class Vertex, normal));
 
 		////world matrix
 		//for (uint i = 0; i < 4; i++) {
@@ -101,13 +102,13 @@ namespace EngineT{
 		glBindVertexArray(0);
 	}
 	bool Mesh::Load(const string& filename)
-	{ 
+	{
 		Clear();
 
 		Assimp::Importer importer;
-		
+
 		GenBuffers();
-		
+
 		const aiScene* scene = importer.ReadFile(filename.c_str(),
 			aiProcess_CalcTangentSpace |
 			aiProcess_Triangulate |
@@ -116,7 +117,7 @@ namespace EngineT{
 			);
 
 
-		if (scene) {
+		if(scene) {
 
 			subMeshes.resize(scene->mNumMeshes);
 
@@ -127,7 +128,7 @@ namespace EngineT{
 			uint numIndices = 0;
 
 			// Count the number of vertices and indices
-			for (unsigned int i = 0; i < subMeshes.size(); i++) {
+			for(unsigned int i = 0; i < subMeshes.size(); i++) {
 				uint verts = scene->mMeshes[i]->mNumVertices;
 				int indices = scene->mMeshes[i]->mNumFaces * 3;
 				subMeshes[i].numIndices = indices;
@@ -146,14 +147,14 @@ namespace EngineT{
 			indices.reserve(numIndices);
 
 			// Initialize the meshes in the scene one by one
-			for (unsigned int i = 0; i < subMeshes.size(); i++) {
+			for(unsigned int i = 0; i < subMeshes.size(); i++) {
 				const aiMesh* paiMesh = scene->mMeshes[i];
 				//InitMesh(paiMesh, positions, normals, texCoords, indices);
-			
+
 				const aiVector3D zero3d(0.0f, 0.0f, 0.0f);
 
 				// Populate the vertex attribute vectors
-				for (unsigned int i = 0; i < paiMesh->mNumVertices; i++) {
+				for(unsigned int i = 0; i < paiMesh->mNumVertices; i++) {
 					const aiVector3D* pos = &(paiMesh->mVertices[i]);
 					const aiVector3D* norm = &(paiMesh->mNormals[i]);
 					const aiVector3D* coord = paiMesh->HasTextureCoords(0) ?
@@ -161,14 +162,14 @@ namespace EngineT{
 					bool n = paiMesh->HasNormals();
 					vertices.push_back(
 						Vertex(
-						vec3(pos->x, pos->y, pos->z),
-						vec2(coord->x, coord->y),
-						vec3(n ? norm->x : 0, n ? norm->y : 0, n ? norm->z : 0)
-						));
+							vec3(pos->x, pos->y, pos->z),
+							vec2(coord->x, coord->y),
+							vec3(n ? norm->x : 0, n ? norm->y : 0, n ? norm->z : 0)
+							));
 				}
 
 				// Populate the index buffer
-				for (unsigned int i = 0; i < paiMesh->mNumFaces; i++) {
+				for(unsigned int i = 0; i < paiMesh->mNumFaces; i++) {
 					const aiFace& face = paiMesh->mFaces[i];
 					assert(face.mNumIndices == 3);
 					indices.push_back(face.mIndices[0]);
@@ -191,22 +192,23 @@ namespace EngineT{
 		}
 
 		return false;
-	} 
+	}
 
-	void Mesh::SetTexture(Texture* texture, uint subMesh, uint textureIndex){
+	void Mesh::SetTexture(Texture* texture, uint subMesh, uint textureIndex)
+	{
 		subMeshes[subMesh].textures[textureIndex] = texture;
 	}
-	  
+
 	void Mesh::Draw()
 	{
 		glBindVertexArray(vao);
 
-		for (unsigned int i = 0; i < subMeshes.size(); i++)
-		{ 
-			if (subMeshes[i].textures[0])
-				subMeshes[i].textures[0]->Bind(GL_TEXTURE0); 
+		for(unsigned int i = 0; i < subMeshes.size(); i++)
+		{
+			if(subMeshes[i].textures[0])
+				subMeshes[i].textures[0]->Bind(GL_TEXTURE0);
 			glDrawElementsBaseVertex(GL_TRIANGLES, subMeshes[i].numIndices, GL_UNSIGNED_INT,
-				(void*)(sizeof(uint)* subMeshes[i].firstIndex),
+				(void*) (sizeof(uint)* subMeshes[i].firstIndex),
 				subMeshes[i].firstVertex);
 		}
 

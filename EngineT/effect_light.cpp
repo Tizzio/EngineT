@@ -6,13 +6,15 @@
 #include "light.h"
 #include "transform.h"
 
-namespace EngineT{
+namespace EngineT
+{
 #define PI glm::atan(1.0f) * 4.0f
 #define toRad PI/180.0f
 #define toDeg 180.0f/PI
 
 
-	LightEffect::LightEffect(){
+	LightEffect::LightEffect()
+	{
 
 		GLuint prog = CreateProgram("data/shaders/light_diffuse_specular.vs", "data/shaders/light_diffuse_specular.fs", "");
 
@@ -39,7 +41,7 @@ namespace EngineT{
 		gDirLights.push_back(light);
 
 		//point light uniforms
-		for (int i = 0; i < MAX_POINT_LIGHTS; i++){
+		for(int i = 0; i < MAX_POINT_LIGHTS; i++){
 
 			gPointLight light;
 			string name = "gPointLights[" + to_string(i) + "].";
@@ -54,7 +56,7 @@ namespace EngineT{
 		}
 
 		//spot light uniforms
-		for (int i = 0; i < MAX_POINT_LIGHTS; i++){
+		for(int i = 0; i < MAX_POINT_LIGHTS; i++){
 
 			gSpotLight light;
 			string name = "gSpotLights[" + to_string(i) + "].";
@@ -80,18 +82,18 @@ namespace EngineT{
 		glUseProgram(shaderProgram);
 		int pointLightCount = 0;
 		int spotLightCount = 0;
-		for (auto light : renderer->lights){ 
-			if (light->type == LightType::Directional)
+		for(auto light : renderer->lights){
+			if(light->type == LightType::Directional)
 			{
-				 
+
 				glUniform3f(gDirLights[0].color, light->color.x, light->color.y, light->color.z);
-				vec3 direction = light->transform.GetForward(); 
-				glUniform3f(gDirLights[0].direction, direction.x, direction.y, direction.z); 
+				vec3 direction = light->transform.GetForward();
+				glUniform3f(gDirLights[0].direction, direction.x, direction.y, direction.z);
 				glUniform1f(gDirLights[0].diffuseIntensity, light->diffuseIntensity);
 			}
-			else if (light->type == LightType::Point)
+			else if(light->type == LightType::Point)
 			{
-				 
+
 				int i = pointLightCount;
 
 				glUniform3f(gPointLights[i].color, light->color.x, light->color.y, light->color.z);
@@ -103,7 +105,7 @@ namespace EngineT{
 
 				pointLightCount++;
 			}
-			else if (light->type == LightType::Spot)
+			else if(light->type == LightType::Spot)
 			{
 
 				int i = spotLightCount;
@@ -135,7 +137,7 @@ namespace EngineT{
 	void LightEffect::UpdateUniforms()
 	{
 
-		mat4 worldMatrix = ((GameObject3D*)(renderer->curObj))->transform.GetWorldMatrix();//translate(mat4(), transform.position);
+		mat4 worldMatrix = ((GameObject3D*) (renderer->curObj))->transform.GetWorldMatrix();//translate(mat4(), transform.position);
 		mat4  WVP = renderer->curCamera->GetViewProjMatrix() * worldMatrix;
 
 		glUniformMatrix4fv(gWVP, 1, GL_FALSE, &WVP[0][0]); //set WVP

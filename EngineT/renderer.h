@@ -3,8 +3,10 @@
 
 #include "engine_t.h"
 
-namespace EngineT{
-	class Renderer{
+namespace EngineT
+{
+	class Renderer
+	{
 	public:
 		void Render(Scene* scene);
 
@@ -16,5 +18,4 @@ namespace EngineT{
 
 		vector<Light*> lights;
 	};
-
 }

@@ -1,8 +1,10 @@
 
 #include "light.h" 
 
-namespace EngineT{
-	Light::Light(LightType type) {
+namespace EngineT
+{
+	Light::Light(LightType type)
+	{
 
 		this->type = type;
 
@@ -15,6 +17,7 @@ namespace EngineT{
 		cutoff = 0.3f;
 	}
 
-	Light::~Light(){
+	Light::~Light()
+	{
 	}
 }

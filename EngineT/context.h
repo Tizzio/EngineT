@@ -2,15 +2,17 @@
 
 #include "root_declar.h"
 
-namespace EngineT{
+namespace EngineT
+{
 
-	class Context{ 
+	class Context
+	{
 		friend class Inputs;
 	private:
 
 
 		SDL_Window* window = NULL;
-		SDL_GLContext glContext = NULL; 
+		SDL_GLContext glContext = NULL;
 
 		bool running = true;
 
@@ -21,6 +23,6 @@ namespace EngineT{
 		bool Init(const uint width, const uint height, const bool fullcreen, const string title);
 		int Run();
 		void Stop();
-		
+
 	};
 }

@@ -1,12 +1,13 @@
 #include "ui_canvas.h"
 #include "sprite.h"
 
-namespace EngineT {
+namespace EngineT
+{
 
 	UICanvas::~UICanvas() {}
-	
+
 	void UICanvas::Destroy() {}
-	 
+
 
 	void UICanvas::SetPosition(int x, int y)
 	{
@@ -29,7 +30,7 @@ namespace EngineT {
 	{
 		return vec2(0, 0);
 	}
-	 
+
 	void UICanvas::SetParent(UIElement* element)
 	{
 
@@ -44,10 +45,10 @@ namespace EngineT {
 	{
 
 	}
-	
+
 	void UICanvas::RemoveChild(UIElement* element)
 	{
-	
+
 	}
 
 	void UICanvas::Draw()
@@ -55,5 +56,4 @@ namespace EngineT {
 		sprite->Draw(0);
 		//render all childs with glScissor
 	}
-
 }

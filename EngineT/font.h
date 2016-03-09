@@ -3,17 +3,18 @@
 
 #include "engine_t.h"
 
-namespace EngineT {
+namespace EngineT
+{
 
 	class Font
-	{ 
-	public: 
+	{
+	public:
 
 		int maxHeight = 0;
 		Font(Texture* texture, const string& filename);
 		~Font();
 		void Load(Texture* texture, const string& filename);
-		
+
 		class Char
 		{
 		public:
@@ -33,7 +34,7 @@ namespace EngineT {
 		};
 
 		vector<Char*> chars;
-		 
+
 		Texture* texture;
 
 	};

@@ -194,7 +194,8 @@ unsigned lodepng_encode24_file(const char* filename,
 
 
 #ifdef LODEPNG_COMPILE_CPP
-namespace lodepng {
+namespace lodepng
+{
 #ifdef LODEPNG_COMPILE_DECODER
 	/*Same as lodepng_decode_memory, but decodes to an std::vector. The colortype
 	is the format to output the pixels to. Default is RGBA 8-bit per channel.*/
@@ -811,7 +812,8 @@ unsigned lodepng_save_file(const unsigned char* buffer, size_t buffersize, const
 
 #ifdef LODEPNG_COMPILE_CPP
 //The LodePNG C++ wrapper uses std::vectors instead of manually allocated memory buffers.
-namespace lodepng {
+namespace lodepng
+{
 #ifdef LODEPNG_COMPILE_PNG
 	class State : public LodePNGState
 	{

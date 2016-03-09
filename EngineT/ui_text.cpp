@@ -4,17 +4,18 @@
 #include "texture.h"
 #include "utils.h"
 
-namespace EngineT {
+namespace EngineT
+{
 
 	Text::Text(wstring text, Style* style)
 	{
 		this->name = "text";
 		this->style = style;
-		if (text.length() <= 0)
-			return; 
+		if(text.length() <= 0)
+			return;
 
 		GenerateBuffers();
-		 
+
 
 		Texture* tex = style->font->texture;
 
@@ -28,11 +29,11 @@ namespace EngineT {
 
 		int count = 0;
 
-		for (char32_t c : text)
+		for(char32_t c : text)
 		{
 			//if character exists
-			if (c > 0 && c < style->font->chars.size())
-				if (style->font->chars[c] != nullptr)
+			if(c > 0 && c < style->font->chars.size())
+				if(style->font->chars[c] != nullptr)
 				{
 					count++;
 				}
@@ -58,19 +59,19 @@ namespace EngineT {
 		bool openCommand = false;
 		string command;
 
-		for (char32_t c : text)
+		for(char32_t c : text)
 		{
 			//check newline
-			if (openCommand)
+			if(openCommand)
 			{
-				if (c == ']')
+				if(c == ']')
 				{
 					openCommand = false;
 
 					//execute command
-					if (command[0] == '#')
+					if(command[0] == '#')
 					{
-						if (command.length() == 7)
+						if(command.length() == 7)
 						{
 							color = Utils::HexColorToVec4(command);
 						}
@@ -90,7 +91,7 @@ namespace EngineT {
 			}
 			else
 			{
-				if (c == '[')
+				if(c == '[')
 				{
 					openCommand = true;
 					continue;
@@ -98,20 +99,20 @@ namespace EngineT {
 			}
 
 			//check newline character
-			if (c == 10 || c == 13)
+			if(c == 10 || c == 13)
 			{
 				xpos = 0;
 				ypos += style->font->maxHeight + lineHeight;
 			}
 
 			//check space
-			else if (c == ' ')
+			else if(c == ' ')
 				xpos += spaceWidth;
 			Font::Char* fc = nullptr;
-			if (c > 0 && c < style->font->chars.size())
+			if(c > 0 && c < style->font->chars.size())
 				fc = style->font->chars[c];
 			//if character exists
-			if (fc != nullptr)
+			if(fc != nullptr)
 			{
 				vertices.insert(vertices.end(), {
 					Vertex(vec2(xpos + fc->xoffset, ypos + fc->yoffset), vec2(fc->uvX1, fc->uvY1), color),
@@ -132,9 +133,9 @@ namespace EngineT {
 	}
 
 	void Text::Draw()
-	{ 
+	{
 		glBindVertexArray(vao);
-		if (style->font->texture != nullptr)
+		if(style->font->texture != nullptr)
 			style->font->texture->Bind(GL_TEXTURE0);
 		glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
@@ -156,9 +157,9 @@ namespace EngineT {
 		glEnableVertexAttribArray(1);
 		glEnableVertexAttribArray(2);
 
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(class Vertex, pos));
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(class Vertex, uv));
-		glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(class Vertex, col));
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) offsetof(class Vertex, pos));
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) offsetof(class Vertex, uv));
+		glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) offsetof(class Vertex, col));
 
 		glBindVertexArray(0);
 	}
@@ -173,6 +174,5 @@ namespace EngineT {
 		glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)* vertices.size(), &vertices[0], GL_STATIC_DRAW);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
-
 }
 

@@ -3,7 +3,8 @@
 #include "utils.h" 
 #include "texture.h" 
 
-namespace EngineT {
+namespace EngineT
+{
 
 	Font::Font(Texture* texture, const string& filename)
 	{
@@ -16,7 +17,7 @@ namespace EngineT {
 	{
 		//TODO: DESTROY ALL Char*
 	}
-	 
+
 
 	void Font::Load(Texture* texture, const string& filename)
 	{
@@ -25,11 +26,11 @@ namespace EngineT {
 
 		this->texture = texture;
 		vector<string> data;
-		while (getline(file, line))
+		while(getline(file, line))
 		{
 			data = Utils::StringToStringArray(line);
-			
-			if (data[0] == "char")
+
+			if(data[0] == "char")
 			{
 				int id = Utils::GetIntAfter(data[1], '=');
 				int x = Utils::GetIntAfter(data[2], '=') - 2;
@@ -44,17 +45,17 @@ namespace EngineT {
 				float uvY1 = y / texture->height;
 				float uvX2 = (x + width) / texture->width;
 				float uvY2 = (y + height) / texture->height;
-				 
+
 				int h = yoffset + height;
-				if (h > maxHeight)
+				if(h > maxHeight)
 					maxHeight = h;
 
-				if (chars.size() <= id)
-					chars.resize(id + 1); 
+				if(chars.size() <= id)
+					chars.resize(id + 1);
 				chars[id] = new Char(uvX1, uvY1, uvX2, uvY2, width, height, xoffset, yoffset, xadvance);
 
 			}
-			
+
 		}
 	}
 }

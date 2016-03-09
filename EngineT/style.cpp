@@ -1,6 +1,7 @@
 #include "style.h"
 
-namespace EngineT {
+namespace EngineT
+{
 
 	Style::Style(Font* font)
 	{

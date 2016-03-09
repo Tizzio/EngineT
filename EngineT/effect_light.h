@@ -3,8 +3,10 @@
 #include "effect.h"
 
 
-namespace EngineT{
-	class LightEffect : public Effect{
+namespace EngineT
+{
+	class LightEffect : public Effect
+	{
 	public:
 
 		static const unsigned int MAX_POINT_LIGHTS = 2;
@@ -23,13 +25,15 @@ namespace EngineT{
 		GLint gSpecularIntensity;
 		GLint gSpecularPower;
 
-		struct gDirLight{
+		struct gDirLight
+		{
 			GLint color;
 			GLint direction;
 			GLint diffuseIntensity;
 		};
 
-		struct gPointLight{
+		struct gPointLight
+		{
 			GLint color;
 			GLint diffuseIntensity;
 			GLint attenConstant;
@@ -38,7 +42,8 @@ namespace EngineT{
 			GLint position;
 		};
 
-		struct gSpotLight{
+		struct gSpotLight
+		{
 			GLint color;
 			GLint diffuseIntensity;
 			GLint attenConstant;
@@ -61,4 +66,4 @@ namespace EngineT{
 
 	};
 
-} 
+}

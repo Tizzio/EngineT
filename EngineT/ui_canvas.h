@@ -3,7 +3,8 @@
 #include "engine_t.h"
 #include "ui_element.h"  
 
-namespace EngineT {
+namespace EngineT
+{
 	class UICanvas : UIElement
 	{
 	public:
@@ -11,7 +12,7 @@ namespace EngineT {
 		UICanvas(Sprite* sprite);
 		~UICanvas();
 		void Destroy();
-		 
+
 		void SetPosition(int x, int y);
 		vec2 GetPosition();
 
@@ -30,6 +31,6 @@ namespace EngineT {
 		Rect rect;
 
 		void Draw();
-		
+
 	};
 }

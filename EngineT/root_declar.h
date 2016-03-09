@@ -37,7 +37,8 @@ using std::unique_ptr;
 using std::make_unique;
 using std::shared_ptr;
 
-namespace EngineT{
+namespace EngineT
+{
 
 
 	class EngineT;
@@ -53,7 +54,7 @@ namespace EngineT{
 	class GameObject2D;
 	class GameObject3D;
 	class Camera;
-	class Inputs; 
+	class Inputs;
 	class TimeManager;
 	class MeshGenerator;
 
@@ -93,4 +94,3 @@ namespace EngineT{
 	class EffectText;
 
 }
- 

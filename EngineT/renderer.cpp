@@ -10,12 +10,14 @@
 #include "sprite.h"
 #include "ui_text.h"
 
-namespace EngineT{
-	void Renderer::Render(Scene* scene){
+namespace EngineT
+{
+	void Renderer::Render(Scene* scene)
+	{
 
-		if (scene == nullptr) return;
-		if (scene->cameras.size() == 0) return;
-		 
+		if(scene == nullptr) return;
+		if(scene->cameras.size() == 0) return;
+
 		effect = Engine.lightEffect;
 		effect->Enable();
 
@@ -25,7 +27,7 @@ namespace EngineT{
 		glDisable(GL_BLEND);
 
 		//render all 3D objects
-		for (auto cam : scene->cameras){
+		for(auto cam : scene->cameras){
 
 			curCamera = cam;
 			vec3 pos = cam->position;
@@ -33,15 +35,15 @@ namespace EngineT{
 			//get all object of the camera layer 
 			//TODO: add more layers to one camera
 			int layer = cam->layer;
-			for (auto go : scene->obj3DLayers[layer]){
+			for(auto go : scene->obj3DLayers[layer]){
 				curObj = go;
 				effect->UpdateUniforms();
 
 				Mesh* mesh = go->GetMesh();
-				if (mesh != NULL){
+				if(mesh != NULL){
 					mesh->Draw();
 				}
-			} 
+			}
 		}
 
 		glDisable(GL_CULL_FACE);
@@ -54,14 +56,14 @@ namespace EngineT{
 		/*
 		effect = Engine.effectSprite;
 		effect->Enable();
-		
+
 		//render all 2D objects
 		for (auto cam : scene->cameras){
 
 			curCamera = cam;
 			vec3 pos = cam->position;
 
-			//get all object of the camera layer 
+			//get all object of the camera layer
 			//TODO: add more layers to one camera
 			int layer = cam->layer;
 			for (auto go : scene->obj2DLayers[layer]){
@@ -69,21 +71,21 @@ namespace EngineT{
 				effect->UpdateUniforms();
 
 				go->Draw();
-				
+
 			}
 		}
-		
+
 		//Render 2D Text
 		effect = Engine.effectText;
 		effect->Enable();
-		 
+
 		for (auto cam : scene->cameras)
 		{
 
 			curCamera = cam;
 			vec3 pos = cam->position;
 
-			//get all object of the camera layer 
+			//get all object of the camera layer
 			//TODO: add more layers to one camera
 			int layer = cam->layer;
 			for (auto go : scene->textLayers[layer])

@@ -2,54 +2,55 @@
 #include "shader_manager.h"
 
 
-namespace EngineT{
-	ShaderManager::ShaderManager(){}
+namespace EngineT
+{
+	ShaderManager::ShaderManager() {}
 
-	ShaderManager::~ShaderManager(){}
+	ShaderManager::~ShaderManager() {}
 
 
 	GLuint ShaderManager::CreateProgram(const string& vertexShader, const string& fragmentShader, const string& geometryShader)
 	{
 		GLuint shaderProg = glCreateProgram();
 
-		if (shaderProg == 0) {
+		if(shaderProg == 0) {
 			errors.push_back("Error creating shader program");
 			return 0;
 		}
 
 		GLuint vertex = CreateShader(GL_VERTEX_SHADER, vertexShader);
-		if (vertex == 0) return 0;
+		if(vertex == 0) return 0;
 		glAttachShader(shaderProg, vertex);
 
 		GLuint fragment = CreateShader(GL_FRAGMENT_SHADER, fragmentShader);
-		if (fragment == 0) return 0;
+		if(fragment == 0) return 0;
 		glAttachShader(shaderProg, fragment);
 
 		GLuint geometry;
-		if (geometryShader.length() > 0){
+		if(geometryShader.length() > 0){
 			geometry = CreateShader(GL_GEOMETRY_SHADER, geometryShader);
-			if (geometry == 0) return 0;
+			if(geometry == 0) return 0;
 			glAttachShader(shaderProg, geometry);
 		}
 
 
 		GLint success = 0;
-		GLchar errorLog[1024] = { 0 };
+		GLchar errorLog[1024] = {0};
 
 		glLinkProgram(shaderProg);
 
 		glGetProgramiv(shaderProg, GL_LINK_STATUS, &success);
-		if (success == 0) {
+		if(success == 0) {
 			glGetProgramInfoLog(shaderProg, sizeof(errorLog), NULL, errorLog);
-			errors.push_back("Error linking shader program:" + (string)errorLog);
+			errors.push_back("Error linking shader program:" + (string) errorLog);
 			return 0;
 		}
 
 		glValidateProgram(shaderProg);
 		glGetProgramiv(shaderProg, GL_VALIDATE_STATUS, &success);
-		if (!success) {
+		if(!success) {
 			glGetProgramInfoLog(shaderProg, sizeof(errorLog), NULL, errorLog);
-			errors.push_back("Invalid shader program:" + (string)errorLog);
+			errors.push_back("Invalid shader program:" + (string) errorLog);
 			return 0;
 		}
 
@@ -57,7 +58,7 @@ namespace EngineT{
 
 		glDeleteShader(vertex);
 		glDeleteShader(fragment);
-		if (geometryShader.length() > 0){
+		if(geometryShader.length() > 0){
 			glDeleteShader(geometry);
 		}
 
@@ -69,12 +70,12 @@ namespace EngineT{
 	GLuint ShaderManager::CreateProgram(const char* vertexFname, const char* fragmentFname, const char* geometryFname)
 	{
 		string vertexStr = ReadShaderFile(vertexFname);
-		if (vertexStr == "") return 0;
+		if(vertexStr == "") return 0;
 		string fragmentStr = ReadShaderFile(fragmentFname);
-		if (fragmentStr == "") return 0;
+		if(fragmentStr == "") return 0;
 
 		string geometryStr;
-		if (geometryFname != "") {
+		if(geometryFname != "") {
 			geometryStr = ReadShaderFile(geometryFname);
 		}
 		else{
@@ -89,7 +90,7 @@ namespace EngineT{
 	{
 		GLuint shaderObj = glCreateShader(shaderType);
 
-		if (shaderObj == 0) {
+		if(shaderObj == 0) {
 			errors.push_back("Error creating " + ShaderTypeString(shaderType) + " shader");
 			return 0;
 		}
@@ -105,10 +106,10 @@ namespace EngineT{
 		GLint success;
 		glGetShaderiv(shaderObj, GL_COMPILE_STATUS, &success);
 
-		if (!success) {
+		if(!success) {
 			GLchar infoLog[1024];
 			glGetShaderInfoLog(shaderObj, 1024, NULL, infoLog);
-			errors.push_back("Error compiling shader: " + (string)infoLog);
+			errors.push_back("Error compiling shader: " + (string) infoLog);
 			return 0;
 		}
 
@@ -120,8 +121,8 @@ namespace EngineT{
 	{
 		GLint location = glGetUniformLocation(shaderProg, uniformName);
 
-		if (location == 0xFFFFFFFF) {
-			errors.push_back("invalid uniform location:" + ((string)uniformName));
+		if(location == 0xFFFFFFFF) {
+			errors.push_back("invalid uniform location:" + ((string) uniformName));
 		}
 
 		return location;
@@ -138,18 +139,18 @@ namespace EngineT{
 		cout << "<------ SHADER uniforms --------->" << endl;
 		cout << "uniforms count: " << count << endl;
 		std::vector<GLchar> nameData(256);
-		for (int unif = 0; unif < count; ++unif)
+		for(int unif = 0; unif < count; ++unif)
 		{
 			GLint arraySize = 0;
 			GLenum type = 0;
 			GLsizei actualLength = 0;
 			glGetActiveUniform(shaderProg, unif, nameData.size(), &actualLength, &arraySize, &type, &nameData[0]);
-			string name((char*)&nameData[0], actualLength);
+			string name((char*) &nameData[0], actualLength);
 
 			cout << name << endl;
 			GLint location = glGetUniformLocation(shaderProg, name.c_str());
 
-			if (location == 0xFFFFFFFF) {
+			if(location == 0xFFFFFFFF) {
 				errors.push_back("invalid uniform location:" + name);
 			}
 			else{
@@ -163,8 +164,9 @@ namespace EngineT{
 
 
 
-	string ShaderManager::ShaderTypeString(GLuint shaderType){
-		switch (shaderType){
+	string ShaderManager::ShaderTypeString(GLuint shaderType)
+	{
+		switch(shaderType){
 		case GL_VERTEX_SHADER:
 			return "vertex";
 			break;
@@ -182,22 +184,24 @@ namespace EngineT{
 	}
 
 
-	void ShaderManager::PrintErrors(){
-		if (errors.size() == 0){
+	void ShaderManager::PrintErrors()
+	{
+		if(errors.size() == 0){
 			//Debug::SetColor();
 			cout << "No errors in shader manager" << endl;
 			return;
 		}
-		for (auto it = errors.begin(); it < errors.end(); it++){
+		for(auto it = errors.begin(); it < errors.end(); it++){
 			cout << *it << endl;
 		}
 		errors.clear();
 	}
 
-	string ShaderManager::ReadShaderFile(const char* filename) {
+	string ShaderManager::ReadShaderFile(const char* filename)
+	{
 		ifstream file;
 		file.open(filename);
-		if (!file) {
+		if(!file) {
 			cout << "Impossible to open shader file: " << filename << endl;
 			return "";
 		}
@@ -207,5 +211,4 @@ namespace EngineT{
 
 		return stream.str();
 	}
-
 }

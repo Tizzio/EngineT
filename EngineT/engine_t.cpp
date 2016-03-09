@@ -13,15 +13,18 @@
 #include "engine_setup.h" 
 #include <glm/gtc/type_ptr.hpp>
 
-namespace EngineT{
-	EngineT& EngineT::Inst(){
+namespace EngineT
+{
+	EngineT& EngineT::Inst()
+	{
 		static EngineT instance; // Guaranteed to be destroyed.
 		// Instantiated on first use.
 		return instance;
 	}
 
-	bool EngineT::Init(EngineSetup setup, int argc, char** argv){
-		if (init)
+	bool EngineT::Init(EngineSetup setup, int argc, char** argv)
+	{
+		if(init)
 			return false; //already initialized
 
 		init = true;
@@ -29,7 +32,7 @@ namespace EngineT{
 
 		windowWidth = setup.windowWidth;
 		windowHeight = setup.windowHeight;
-		if (!context.Init((int)setup.windowWidth, (int)setup.windowHeight, setup.fullscreen, setup.windowTitle))
+		if(!context.Init((int) setup.windowWidth, (int) setup.windowHeight, setup.fullscreen, setup.windowTitle))
 		{
 			return false;
 		}
@@ -50,7 +53,7 @@ namespace EngineT{
 		shaderManager = new ShaderManager();
 		shaderManager->PrintErrors();
 		cout << "ShaderManager* :" << shaderManager << endl;
-		 
+
 
 		renderer = new Renderer();
 
@@ -60,20 +63,20 @@ namespace EngineT{
 		effectSprite = new EffectSprite();
 		effectText = new EffectText();
 
-		 
+
 		return true;
 	}
 
 	int EngineT::Run()
 	{
-		context.Run(); 
+		context.Run();
 		return 0;
 	}
 
 
 	bool EngineT::TrowError(string error, int line, string filename)
 	{
-		cout << "\n-----ERROR>-----\n"<<"Line "<<line<<" of \"" <<filename <<"\""<< endl << error << "\n-----<ERROR-----\n"<< endl;
+		cout << "\n-----ERROR>-----\n" << "Line " << line << " of \"" << filename << "\"" << endl << error << "\n-----<ERROR-----\n" << endl;
 		assert(false);
 		this->error = true;
 		return false;
@@ -84,7 +87,7 @@ namespace EngineT{
 	{
 		return error;
 	}
-	
+
 
 
 	void EngineT::Update()
@@ -92,35 +95,35 @@ namespace EngineT{
 		//update physics world
 		time->startFrameTime = SDL_GetTicks();
 
-		 
+
 		physics->world->stepSimulation(1.0f / 60.0f);
-		
-		for (Rigidbody* rigidbody : physics->bodies)
+
+		for(Rigidbody* rigidbody : physics->bodies)
 		{
 			float rawMat4[16];
 			rigidbody->body->getWorldTransform().getOpenGLMatrix(rawMat4);
 			rigidbody->gameObject->transform.matWorld = glm::make_mat4(rawMat4);
-			
+
 			//btVector3 pos = rigidbody->body->getWorldTransform().getOrigin();
 			//rigidbody->gameObject->transform.SetPosition(vec3(pos.getX(), pos.getY(), pos.getZ()));
 
 			//btQuaternion rot = rigidbody->body->getWorldTransform().getRotation();
 			//rigidbody->gameObject->transform.SetRotation(quat(rot.getW(), rot.getX(), rot.getY(), rot.getZ()));
-			
+
 
 		}
 		//update scene
-		scene->Update(); 
-		 
+		scene->Update();
+
 	}
 
 
 
 	void EngineT::Render()
 	{
-		 
+
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		 
+
 		renderer->Render(scene);
 
 		inputs->Clear();
@@ -131,9 +134,9 @@ namespace EngineT{
 		float delta = (curTime - time->prevFrameTime) / 1000.0f;
 		time->accumulator += delta;
 
-		if (time->accumulator >= 1.0f){
+		if(time->accumulator >= 1.0f){
 			float diff = time->accumulator - 1.0f;
-			if (diff < 1.0f)
+			if(diff < 1.0f)
 				time->accumulator = diff;
 			else
 				time->accumulator = 0;
@@ -143,16 +146,16 @@ namespace EngineT{
 			cout << "d: " << delta << " | " << time->fps << "fps \r";
 		}
 
-		if (delta > 0 && delta < 1.0f){
-			time->delta = delta; 
+		if(delta > 0 && delta < 1.0f){
+			time->delta = delta;
 		}
 
 		time->prevFrameTime = curTime;
 		time->ticks++;
 
 		float delay = (1000.0f / time->frameRate) - (curTime - time->startFrameTime);
-		if (delay > 0 && delay < 1000.0f)
-			SDL_Delay((Uint32)delay);
+		if(delay > 0 && delay < 1000.0f)
+			SDL_Delay((Uint32) delay);
 
 	}
 

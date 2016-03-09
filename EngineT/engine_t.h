@@ -8,13 +8,14 @@
 
 //#include <GL/freeglut.h> 
 
-namespace EngineT{
+namespace EngineT
+{
 
 	static const float toRad = 0.01745329251f;
 
 	class EngineT
 	{
-	friend class Inputs;
+		friend class Inputs;
 
 	public:
 		static EngineT& Inst();
@@ -32,7 +33,7 @@ namespace EngineT{
 		bool HasError();
 
 		Inputs* inputs;
-		ShaderManager* shaderManager; 
+		ShaderManager* shaderManager;
 		Renderer* renderer;
 		TimeManager* time;
 
@@ -46,7 +47,7 @@ namespace EngineT{
 		float windowWidth;
 		float windowHeight;
 	private:
-		
+
 		bool error = false;
 		Context context;
 
@@ -54,7 +55,7 @@ namespace EngineT{
 		bool init = false;
 
 		EngineT() {};// Private so that it can  not be called
-		EngineT(EngineT const&){};// copy constructor is private
+		EngineT(EngineT const&) {};// copy constructor is private
 		void operator=(EngineT const&); // assignment operator is private
 
 	};
@@ -63,4 +64,3 @@ namespace EngineT{
 	static EngineT& Engine = EngineT::Inst();
 
 }
-

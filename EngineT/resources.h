@@ -2,10 +2,11 @@
 
 #include "engine_t.h"  
 
-namespace EngineT {
+namespace EngineT
+{
 
 	class Resources
-	{		
+	{
 	public:
 
 		static vector <Texture*> textures;

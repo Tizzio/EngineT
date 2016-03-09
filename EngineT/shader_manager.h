@@ -8,7 +8,8 @@
 #define INVALID_UNIFORM_LOCATION 0xFFFFFFFF
 
 
-namespace EngineT{
+namespace EngineT
+{
 	class ShaderManager
 	{
 	public:

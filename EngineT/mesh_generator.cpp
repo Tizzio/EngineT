@@ -2,12 +2,13 @@
 #include "mesh_generator.h"
 #include "mesh.h"
 
-namespace EngineT {
+namespace EngineT
+{
 	void RawMesh::AddMesh(RawMesh* mesh)
 	{
 		int base_index = vertices.size();
 		vertices.insert(vertices.end(), mesh->vertices.begin(), mesh->vertices.end());
-		for (int tris : mesh->indices)
+		for(int tris : mesh->indices)
 		{
 			indices.push_back(base_index + tris);
 		}
@@ -16,12 +17,12 @@ namespace EngineT {
 
 	void RawMesh::Translate(const vec3& amount)
 	{
-		for (int i = 0; i < vertices.size(); i++)
+		for(int i = 0; i < vertices.size(); i++)
 		{
 			vertices[i].position += amount;
 		}
 	}
-	 
+
 
 	Mesh* RawMesh::Finalize()
 	{
@@ -48,14 +49,14 @@ namespace EngineT {
 		vec3 v4 = vec3(0, 0, zlen);
 
 		vec3 normal = vec3(0, -1, 0);
-		if (!inverted)
+		if(!inverted)
 			normal = vec3(0, 1, 0);
 
 		//vertices
 		vector<Vertex> vertices = {
 			Vertex(v1, vec2(uvXoff, uvYoff), normal),
-			Vertex(v2, vec2(xlen+ uvXoff,  uvYoff), normal),
-			Vertex(v3, vec2(xlen + uvXoff, zlen+uvYoff), normal),
+			Vertex(v2, vec2(xlen + uvXoff,  uvYoff), normal),
+			Vertex(v3, vec2(xlen + uvXoff, zlen + uvYoff), normal),
 			Vertex(v4, vec2(uvXoff, zlen + uvYoff), normal)
 		};
 
@@ -66,7 +67,7 @@ namespace EngineT {
 		//indices
 		vector<int> indices;
 
-		if (inverted)
+		if(inverted)
 		{
 			indices = {
 				0, 1, 2,
@@ -111,7 +112,7 @@ namespace EngineT {
 		//indices
 		vector<int> indices;
 
-		if (!inverted)
+		if(!inverted)
 		{
 			indices = {
 				0, 1, 2,
@@ -139,11 +140,11 @@ namespace EngineT {
 
 		//get real cell count
 		int cellCount = 0;
-		for (int x = 0; x < w; x++)
+		for(int x = 0; x < w; x++)
 		{
-			for (int y = 0; y < h; y++)
+			for(int y = 0; y < h; y++)
 			{
-				if (grid[x][y])
+				if(grid[x][y])
 					cellCount++;
 			}
 		}
@@ -154,11 +155,11 @@ namespace EngineT {
 		float deltaV = uvV * cellH / h;
 
 		int i = 0;
-		for (int x = 0; x < w; x++)
+		for(int x = 0; x < w; x++)
 		{
-			for (int y = 0; y < h; y++)
+			for(int y = 0; y < h; y++)
 			{
-				if (grid[x][y])
+				if(grid[x][y])
 				{
 					raw_mesh->vertices[i + 0] = Vertex(
 						vec3(x * cellW, 0, y * cellH),

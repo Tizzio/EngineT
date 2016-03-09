@@ -3,10 +3,11 @@
 #include "bullet\btBulletCollisionCommon.h"
 #include "bullet\btBulletDynamicsCommon.h"
 
-namespace EngineT {
+namespace EngineT
+{
 
 	class Physics
-	{ 
+	{
 	public:
 		Physics();
 		~Physics();
@@ -15,13 +16,13 @@ namespace EngineT {
 		vector<Rigidbody*> bodies;
 
 	private:
-		 
+
 		btBroadphaseInterface* broadphase;
 		btDefaultCollisionConfiguration* collisionConfiguration;
 		btCollisionDispatcher* dispatcher;
 		btSequentialImpulseConstraintSolver* solver;
 
-		 
+
 	};
 
 	enum class RigidbodyPrimitive
@@ -40,7 +41,4 @@ namespace EngineT {
 		~Rigidbody();
 		void Instantiate(btCollisionShape* shape, btScalar mass, btVector3& inertia);
 	};
-
-
-
 }

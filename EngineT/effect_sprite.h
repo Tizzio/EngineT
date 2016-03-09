@@ -3,8 +3,10 @@
 #include "effect.h"
 
 
-namespace EngineT{
-	class EffectSprite : public Effect{
+namespace EngineT
+{
+	class EffectSprite : public Effect
+	{
 	public:
 		EffectSprite();
 		void Enable();

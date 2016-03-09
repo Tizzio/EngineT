@@ -4,7 +4,8 @@
  
 #include "gameobject.h"
 
-namespace EngineT{
+namespace EngineT
+{
 	class FlyController : public GameObject
 	{
 	public:
@@ -23,9 +24,8 @@ namespace EngineT{
 		vec3 lastPosition;
 		float accumX;
 		float accumY;
-		bool mouseLock; 
+		bool mouseLock;
 		float mouseSensitivity = 0.2f;
 
 	};
-
 }

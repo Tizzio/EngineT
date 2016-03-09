@@ -11,7 +11,8 @@
 
 #define n_pieces 15
 
-struct piece{
+struct piece
+{
 	int id;
 	int A, B, C;
 	int D, E, F;

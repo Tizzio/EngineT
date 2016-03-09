@@ -5,7 +5,8 @@
 
 
 
-namespace EngineT{
+namespace EngineT
+{
 	Camera::Camera(float width, float height, const vec3& position, const vec3& target, const vec3& up)
 	{
 		this->width = width;
@@ -20,12 +21,12 @@ namespace EngineT{
 		yaw = 0.0f;
 		pitch = 0.0f;
 
-		SetPerspective(60.0f, (float)width, (float)height, 0.1f, 1000);
+		SetPerspective(60.0f, (float) width, (float) height, 0.1f, 1000);
 		matView = lookAt(position, target, up);
 	}
 
 	Camera::Camera(float width, float height)
-	{  
+	{
 		this->width = width;
 		this->height = height;
 		this->position = vec3(0.0f, 0.0f, 5.0f);
@@ -38,7 +39,7 @@ namespace EngineT{
 		yaw = 0.0f;
 		pitch = 0.0f;
 
-		SetPerspective(60.0f, (float)width, (float)height, 0.1f, 1000);
+		SetPerspective(60.0f, (float) width, (float) height, 0.1f, 1000);
 		matView = lookAt(position, target, up);
 	}
 	/*
@@ -55,9 +56,9 @@ namespace EngineT{
 		//method 1
 
 		yaw += deltaX;
-		while (yaw < 0){ yaw += 360.0f; }
+		while(yaw < 0){ yaw += 360.0f; }
 		pitch -= deltaY;
-		while (pitch < 0){ pitch += 360.0f; }
+		while(pitch < 0){ pitch += 360.0f; }
 
 		forward = vec3(
 			cos(yaw*toRad)*cos(pitch*toRad),
@@ -66,7 +67,7 @@ namespace EngineT{
 			);
 
 		up = normalize(vec3(0.0f, cos(pitch*toRad), 0.0f));
-		
+
 		right = normalize(cross(forward, up));
 
 		//method 2
@@ -123,7 +124,8 @@ namespace EngineT{
 		updateMatProjection = true;
 	}
 
-	void Camera::SetOrtho(float x, float y, float width, float height, float zNear, float zFar){
+	void Camera::SetOrtho(float x, float y, float width, float height, float zNear, float zFar)
+	{
 		this->width = width;
 		this->height = height;
 		this->zNear = zNear;
@@ -136,7 +138,7 @@ namespace EngineT{
 
 	mat4 Camera::GetViewMatrix()
 	{
-		if (updateMatView){
+		if(updateMatView){
 			matView = lookAt(position, target, up);
 			updateMatView = false;
 		}
@@ -145,9 +147,9 @@ namespace EngineT{
 
 	mat4 Camera::GetProjectionMatrix()
 	{
-		if (updateMatProjection){
+		if(updateMatProjection){
 
-			if (projectionType == ProjectionType::Perspective)
+			if(projectionType == ProjectionType::Perspective)
 				matProjection = perspective(FOV, aspect, zNear, zFar);
 			else
 				matProjection = ortho(orthoX, orthoX + width, orthoY + height, orthoY, zNear, zFar);
@@ -159,13 +161,13 @@ namespace EngineT{
 
 	mat4 Camera::GetViewProjMatrix()
 	{
-		if (updateMatView){
+		if(updateMatView){
 			matView = lookAt(position, target, up);
 			updateMatView = false;
 		}
 
-		if (updateMatProjection){
-			if (projectionType == ProjectionType::Perspective)
+		if(updateMatProjection){
+			if(projectionType == ProjectionType::Perspective)
 				matProjection = perspective(FOV, aspect, zNear, zFar);
 			else
 				matProjection = ortho(orthoX, orthoX + width, orthoY + height, orthoY, zNear, zFar);
@@ -176,11 +178,13 @@ namespace EngineT{
 
 	}
 
-	void Camera::SetPosition(vec3& position){
+	void Camera::SetPosition(vec3& position)
+	{
 		this->position = position;
 		updateMatView = true;
 	}
-	void Camera::AddPosition(vec3& delta){
+	void Camera::AddPosition(vec3& delta)
+	{
 		position += delta;
 		updateMatView = true;
 	}

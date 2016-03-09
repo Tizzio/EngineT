@@ -1,6 +1,6 @@
 #pragma once
 
- 
+
 
 #include "engine_t.h"
 
@@ -9,7 +9,8 @@
 #endif
 
 
-namespace EngineT{
+namespace EngineT
+{
 
 	enum class TextureFilter { Point, Bilinear, BilinearMipmap, PointMipmap };
 

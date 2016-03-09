@@ -2,7 +2,8 @@
 
 #include "engine_t.h"
 
-namespace EngineT {
+namespace EngineT
+{
 	class Style
 	{
 	public:

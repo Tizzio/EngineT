@@ -5,17 +5,21 @@
 #include "camera.h" 
 
 
-namespace EngineT{
+namespace EngineT
+{
 
 
-	Scene::Scene(){
+	Scene::Scene()
+	{
 	}
 
-	Scene::~Scene(){
+	Scene::~Scene()
+	{
 
 	}
-	 
-	Layer Scene::CreateLayer(){
+
+	Layer Scene::CreateLayer()
+	{
 		objLayers[currentLayerId] = vector<GameObject*>();
 		obj2DLayers[currentLayerId] = vector<GameObject2D*>();
 		obj3DLayers[currentLayerId] = vector<GameObject3D*>();
@@ -58,28 +62,30 @@ namespace EngineT{
 	{
 
 		auto gameObjects = &objLayers[gameObject->layer];
-		for (auto go = gameObjects->begin(); go < gameObjects->end(); go++){
-			if ((*go) == gameObject){
+		for(auto go = gameObjects->begin(); go < gameObjects->end(); go++){
+			if((*go) == gameObject){
 				gameObjects->erase(go);
 				break;
 			}
 		}
 	}
-	void Scene::Remove(GameObject2D* gameObject){
+	void Scene::Remove(GameObject2D* gameObject)
+	{
 
 		auto gameObjects = &obj2DLayers[gameObject->layer];
-		for (auto go = gameObjects->begin(); go < gameObjects->end(); go++){
-			if ((*go) == gameObject){
+		for(auto go = gameObjects->begin(); go < gameObjects->end(); go++){
+			if((*go) == gameObject){
 				gameObjects->erase(go);
 				break;
 			}
 		}
 	}
-	void Scene::Remove(GameObject3D* gameObject){
+	void Scene::Remove(GameObject3D* gameObject)
+	{
 
 		auto gameObjects = &obj3DLayers[gameObject->layer];
-		for (auto go = gameObjects->begin(); go < gameObjects->end(); go++){
-			if ((*go) == gameObject){
+		for(auto go = gameObjects->begin(); go < gameObjects->end(); go++){
+			if((*go) == gameObject){
 				gameObjects->erase(go);
 				break;
 			}
@@ -89,13 +95,15 @@ namespace EngineT{
 	//TODO: Important, add method remove text
 
 
-	void Scene::Add(Light* light){
+	void Scene::Add(Light* light)
+	{
 		lights.push_back(light);
 	}
 
-	void Scene::Remove(Light* light){
-		for (auto it = lights.begin(); it < lights.end(); it++){
-			if ((*it) == light){
+	void Scene::Remove(Light* light)
+	{
+		for(auto it = lights.begin(); it < lights.end(); it++){
+			if((*it) == light){
 				lights.erase(it);
 				break;
 			}
@@ -108,35 +116,35 @@ namespace EngineT{
 		cameras.push_back(camera);
 	}
 
-	void Scene::Remove(Camera* camera){
-		for (auto it = cameras.begin(); it < cameras.end(); it++){
-			if ((*it) == camera){
+	void Scene::Remove(Camera* camera)
+	{
+		for(auto it = cameras.begin(); it < cameras.end(); it++){
+			if((*it) == camera){
 				cameras.erase(it);
 				break;
 			}
 		}
 	}
 
-	void Scene::Update(){
-		for (Layer layer : layerList)
+	void Scene::Update()
+	{
+		for(Layer layer : layerList)
 		{
-			for (auto go : objLayers[layer])
+			for(auto go : objLayers[layer])
 			{
 				go->Update();
 			}
 
-			for (auto go : obj2DLayers[layer])
+			for(auto go : obj2DLayers[layer])
 			{
 				go->Update();
 			}
 
-			for (auto go : obj3DLayers[layer])
+			for(auto go : obj3DLayers[layer])
 			{
 				go->Update();
 			}
 
 		}
 	}
-
-
 }

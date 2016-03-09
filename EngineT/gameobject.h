@@ -8,9 +8,11 @@
 #include "bullet\btBulletCollisionCommon.h"
 #include "bullet\btBulletDynamicsCommon.h"
 
-namespace EngineT{
+namespace EngineT
+{
 
-	class GameObject{ 
+	class GameObject
+	{
 		friend class Renderer;
 		friend class Scene;
 	public:
@@ -25,7 +27,8 @@ namespace EngineT{
 	};
 
 
-	class GameObject3D : public GameObject{
+	class GameObject3D : public GameObject
+	{
 	public:
 		TransformRenderable transform;
 		void SetMesh(Mesh* mesh);

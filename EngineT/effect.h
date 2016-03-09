@@ -6,9 +6,11 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 
-namespace EngineT{
+namespace EngineT
+{
 
-	class Effect{
+	class Effect
+	{
 	public:
 		Effect();
 

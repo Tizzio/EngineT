@@ -2,14 +2,15 @@
 
 #include "engine_t.h"  
 
-namespace EngineT {
-	 
+namespace EngineT
+{
+
 	class RawMesh
 	{
 	public:
 		vector<Vertex> vertices;
 		vector<int> indices;
-		 
+
 		//concat vertices and uv
 		void AddMesh(RawMesh* mesh);
 
@@ -31,5 +32,5 @@ namespace EngineT {
 		static RawMesh* GenerateFloorGrid(int** grid, int gridW, int gridH, float cellW = 1.0f, float cellH = 1.0f, float uvU = 1.0f, float uvV = 1.0f);
 	};
 
-		
+
 }
