@@ -6,10 +6,10 @@ using namespace EngineT;
 class Obj3D : public GameObject3D
 {
 public:
-	float speed;
+    float speed;
 
-	void Update();
+    void Update();
 
-	Obj3D();
+    Obj3D();
 
 };

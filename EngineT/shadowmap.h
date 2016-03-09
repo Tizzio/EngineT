@@ -4,23 +4,22 @@
 
 namespace EngineT
 {
-	class Shadowmap
-	{
-	public:
-		Shadowmap();
-		~Shadowmap();
+    class Shadowmap
+    {
+    public:
+        Shadowmap();
+        ~Shadowmap();
 
-		bool Init(unsigned int WindowWidth, unsigned int WindowHeight);
+        bool Init(unsigned int WindowWidth, unsigned int WindowHeight);
 
-		void BindForWriting();
+        void BindForWriting();
 
-		void BindForReading(GLenum TextureUnit);
+        void BindForReading(GLenum TextureUnit);
 
 
-	private:
-		GLuint fbo;
-		GLuint shadowMap;
+    private:
+        GLuint fbo;
+        GLuint shadowMap;
 
-	};
+    };
 }
- 

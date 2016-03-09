@@ -10,32 +10,32 @@
 
 namespace EngineT
 {
-	class ShaderManager
-	{
-	public:
+    class ShaderManager
+    {
+    public:
 
-		ShaderManager();
+        ShaderManager();
 
-		~ShaderManager();
+        ~ShaderManager();
 
-		vector<string> errors;
+        vector<string> errors;
 
-		GLuint CreateProgram(const string& vertexShader, const string& fragmentShader, const string& geometryShader);
-		GLuint CreateProgram(const char* vertexFname, const char* fragmentFname, const char* geometryFname);
+        GLuint CreateProgram(const string& vertexShader, const string& fragmentShader, const string& geometryShader);
+        GLuint CreateProgram(const char* vertexFname, const char* fragmentFname, const char* geometryFname);
 
 
 
-		GLuint CreateShader(GLenum shaderType, const string& shaderText);
+        GLuint CreateShader(GLenum shaderType, const string& shaderText);
 
-		GLint GetUniformLoc(GLuint shaderProg, const char* uniformName);
+        GLint GetUniformLoc(GLuint shaderProg, const char* uniformName);
 
-		unordered_map<string, GLint> GetAllUniforms(GLuint shaderProg);
+        unordered_map<string, GLint> GetAllUniforms(GLuint shaderProg);
 
-		void PrintErrors();
-	private:
-		string ShaderTypeString(GLuint shaderType);
+        void PrintErrors();
+    private:
+        string ShaderTypeString(GLuint shaderType);
 
-		string ReadShaderFile(const char* filename);
-	};
+        string ReadShaderFile(const char* filename);
+    };
 }
 

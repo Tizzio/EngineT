@@ -1,6 +1,6 @@
 
 #pragma once
- 
+
 
 #include <iostream>
 #include <fstream>
@@ -26,43 +26,43 @@
 namespace EngineT
 {
 
-	class Debug
-	{
-	public:
-		void LogS(int n)
-		{
-			std::ofstream log("log.txt", std::ios_base::app | std::ios_base::out);
-			log << n << '\n';
-		}
-		void LogS(const char* szString)
-		{
-			std::ofstream log("log.txt", std::ios_base::app | std::ios_base::out);
-			log << szString << '\n';
-		}
+    class Debug
+    {
+    public:
+        void LogS(int n)
+        {
+            std::ofstream log("log.txt", std::ios_base::app | std::ios_base::out);
+            log << n << '\n';
+        }
+        void LogS(const char* szString)
+        {
+            std::ofstream log("log.txt", std::ios_base::app | std::ios_base::out);
+            log << szString << '\n';
+        }
 
-		void LogM(const char* szString, ...)
-		{
-			va_list args;
-			va_start(args, szString);
-			for(const char* arg = szString; arg != NULL; arg = va_arg(args, const char*)) {
-				std::ofstream log("log.txt", std::ios_base::app | std::ios_base::out);
-				log << arg << '\n';
-			}
+        void LogM(const char* szString, ...)
+        {
+            va_list args;
+            va_start(args, szString);
+            for(const char* arg = szString; arg != NULL; arg = va_arg(args, const char*)) {
+                std::ofstream log("log.txt", std::ios_base::app | std::ios_base::out);
+                log << arg << '\n';
+            }
 
-			va_end(args);
+            va_end(args);
 
-		}
+        }
 
-		void LogDate()
-		{
-			time_t rawtime;
-			time(&rawtime);
-			char out[100];
-			ctime_s(out, 100, &rawtime);
-			LogM("--------------------------------------", out, "--------------------------------------", NULL);
-		}
+        void LogDate()
+        {
+            time_t rawtime;
+            time(&rawtime);
+            char out[100];
+            ctime_s(out, 100, &rawtime);
+            LogM("--------------------------------------", out, "--------------------------------------", NULL);
+        }
 
 
-	};
+    };
 
 }

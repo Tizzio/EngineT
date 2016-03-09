@@ -5,17 +5,17 @@
 
 namespace EngineT
 {
-	class Renderer
-	{
-	public:
-		void Render(Scene* scene);
+    class Renderer
+    {
+    public:
+        void Render(Scene* scene);
 
-		Effect* effect;
+        Effect* effect;
 
-		Camera* curCamera;
-		GameObject* curObj;
-		unsigned int textureUnit;
+        Camera* curCamera;
+        GameObject* curObj;
+        unsigned int textureUnit;
 
-		vector<Light*> lights;
-	};
+        vector<Light*> lights;
+    };
 }

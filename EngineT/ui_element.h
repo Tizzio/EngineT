@@ -6,17 +6,17 @@
 
 namespace EngineT
 {
-	class UIElement
-	{
-	public:
-		virtual void Destroy() = 0;
+    class UIElement
+    {
+    public:
+        virtual void Destroy() = 0;
 
-		virtual void SetParent(UIElement* element) = 0;
-		virtual UIElement* GetParent() = 0;
+        virtual void SetParent(UIElement* element) = 0;
+        virtual UIElement* GetParent() = 0;
 
-	protected:
-		virtual void Draw() = 0;
-		TransformRenderable transform;
+    protected:
+        virtual void Draw() = 0;
+        TransformRenderable transform;
 
-	};
+    };
 }

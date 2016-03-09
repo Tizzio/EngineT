@@ -5,24 +5,24 @@
 namespace EngineT
 {
 
-	class Context
-	{
-		friend class Inputs;
-	private:
+    class Context
+    {
+        friend class Inputs;
+    private:
 
 
-		SDL_Window* window = NULL;
-		SDL_GLContext glContext = NULL;
+        SDL_Window* window = NULL;
+        SDL_GLContext glContext = NULL;
 
-		bool running = true;
+        bool running = true;
 
-		void OnEvent(SDL_Event* Event);
-		void Cleanup();
+        void OnEvent(SDL_Event* Event);
+        void Cleanup();
 
-	public:
-		bool Init(const uint width, const uint height, const bool fullcreen, const string title);
-		int Run();
-		void Stop();
+    public:
+        bool Init(const uint width, const uint height, const bool fullcreen, const string title);
+        int Run();
+        void Stop();
 
-	};
+    };
 }

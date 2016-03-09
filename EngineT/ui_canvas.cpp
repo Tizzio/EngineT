@@ -4,56 +4,56 @@
 namespace EngineT
 {
 
-	UICanvas::~UICanvas() {}
+    UICanvas::~UICanvas() {}
 
-	void UICanvas::Destroy() {}
-
-
-	void UICanvas::SetPosition(int x, int y)
-	{
-
-	}
-
-	vec2 UICanvas::GetPosition()
-	{
-
-		return vec2(0, 0);
-	}
+    void UICanvas::Destroy() {}
 
 
-	void UICanvas::SetSize(int width, int height)
-	{
+    void UICanvas::SetPosition(int x, int y)
+    {
 
-	}
+    }
 
-	vec2 UICanvas::GetSize()
-	{
-		return vec2(0, 0);
-	}
+    vec2 UICanvas::GetPosition()
+    {
 
-	void UICanvas::SetParent(UIElement* element)
-	{
+        return vec2(0, 0);
+    }
 
-	}
 
-	UIElement* UICanvas::GetParent()
-	{
-		return nullptr;
-	}
+    void UICanvas::SetSize(int width, int height)
+    {
 
-	void UICanvas::AddChild(UIElement* element)
-	{
+    }
 
-	}
+    vec2 UICanvas::GetSize()
+    {
+        return vec2(0, 0);
+    }
 
-	void UICanvas::RemoveChild(UIElement* element)
-	{
+    void UICanvas::SetParent(UIElement* element)
+    {
 
-	}
+    }
 
-	void UICanvas::Draw()
-	{
-		sprite->Draw(0);
-		//render all childs with glScissor
-	}
+    UIElement* UICanvas::GetParent()
+    {
+        return nullptr;
+    }
+
+    void UICanvas::AddChild(UIElement* element)
+    {
+
+    }
+
+    void UICanvas::RemoveChild(UIElement* element)
+    {
+
+    }
+
+    void UICanvas::Draw()
+    {
+        sprite->Draw(0);
+        //render all childs with glScissor
+    }
 }

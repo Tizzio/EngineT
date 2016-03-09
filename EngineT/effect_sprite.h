@@ -5,17 +5,16 @@
 
 namespace EngineT
 {
-	class EffectSprite : public Effect
-	{
-	public:
-		EffectSprite();
-		void Enable();
-		void UpdateUniforms();
+    class EffectSprite : public Effect
+    {
+    public:
+        EffectSprite();
+        void Enable();
+        void UpdateUniforms();
 
-		//uniforms
-		GLint gWVP;
-		GLint gSampler;
+        //uniforms
+        GLint gWVP;
+        GLint gSampler;
 
-
-	};
+    };
 }

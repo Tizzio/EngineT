@@ -18,14 +18,14 @@
 #include <memory> 
 
 
-using namespace glm; 
+using namespace glm;
 
 //common used from std
 using std::vector;
 using std::unordered_map;
 using std::pair;
-using std::wstring; 
-using std::string; 
+using std::wstring;
+using std::string;
 using std::cout;
 using std::cin;
 using std::stringstream;
@@ -39,58 +39,55 @@ using std::shared_ptr;
 
 namespace EngineT
 {
+    class EngineT;
+    class EngineSetup;
 
+    //core
+    class Renderer;
+    class TextRenderer;
+    class Scene;
+    class Transform;
+    class TransformRenderable;
+    class GameObject;
+    class GameObject2D;
+    class GameObject3D;
+    class Camera;
+    class Inputs;
+    class TimeManager;
+    class MeshGenerator;
 
-	class EngineT;
-	class EngineSetup;
+    //Resources
+    class Mesh;
+    class Vertex;
+    class Texture;
+    class Sprite;
+    class Font;
+    class Text;
+    class Style;
 
-	//core
-	class Renderer;
-	class TextRenderer;
-	class Scene;
-	class Transform;
-	class TransformRenderable;
-	class GameObject;
-	class GameObject2D;
-	class GameObject3D;
-	class Camera;
-	class Inputs;
-	class TimeManager;
-	class MeshGenerator;
+    //Physics 
+    class Physics;
+    class Rigidbody;
+    class Rect;
 
-	//Resources
-	class Mesh;
-	class Vertex;
-	class Texture;
-	class Sprite;
-	class Font;
-	class Text;
-	class Style;
-
-
-	//Physics 
-	class Physics;
-	class Rigidbody;
-	class Rect;
-
-	//UI
-	class UIManager;
-	//UI Interface classes
-	class UIElement;
-	//UI Elements
-	class UIWindow;
+    //UI
+    class UIManager;
+    //UI Interface classes
+    class UIElement;
+    //UI Elements
+    class UIWindow;
 
 
 
-	//graphics
-	class ShaderManager;
-	class Light;
-	class Effect;
-	class Renderable;
+    //graphics
+    class ShaderManager;
+    class Light;
+    class Effect;
+    class Renderable;
 
-	//effects
-	class LightEffect;
-	class EffectSprite;
-	class EffectText;
+    //effects
+    class LightEffect;
+    class EffectSprite;
+    class EffectText;
 
 }

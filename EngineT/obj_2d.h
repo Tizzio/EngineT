@@ -6,9 +6,9 @@ using namespace EngineT;
 class Obj2D : public GameObject2D
 {
 public:
-	float speed;
-	void Update();
+    float speed;
+    void Update();
 
-	Obj2D();
+    Obj2D();
 
 };
