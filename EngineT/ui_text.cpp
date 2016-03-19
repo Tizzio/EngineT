@@ -85,7 +85,7 @@ namespace EngineT
                 }
                 else
                 {
-                    command.push_back(c);
+                    command.push_back((char)c);
                 }
                 continue;
             }
@@ -125,7 +125,7 @@ namespace EngineT
                 });
 
                 idx += 4;
-                xpos += fc->width + spacing;
+                xpos += (int)fc->width + spacing;
 
             }
         }

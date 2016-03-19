@@ -50,7 +50,7 @@ namespace EngineT
                 if(h > maxHeight)
                     maxHeight = h;
 
-                if(chars.size() <= id)
+                if(chars.size() <= (size_t)id)
                     chars.resize(id + 1);
                 chars[id] = new Char(uvX1, uvY1, uvX2, uvY2, width, height, xoffset, yoffset, xadvance);
 

@@ -2,6 +2,7 @@
 #include "fly_controller.h" 
 #include "inputs.h"
 #include "camera.h"
+#include "light.h" 
 #include "renderer.h" 
 #include "glm/gtc/quaternion.hpp"
 #include "glm/gtx/quaternion.hpp"
@@ -49,6 +50,8 @@ namespace EngineT
 			setmouse = !setmouse;
 		}
 
+        if(light)
+            light->transform.position = transform.position;
 		float dt = Engine.time->delta;
 		bool moved = false;
 		if(inputs->GetKey(Keycode::W))

@@ -1,0 +1,141 @@
+#version 330
+const int MAX_POINT_LIGHTS = 2;
+const int MAX_SPOT_LIGHTS = 2;
+
+in vec3 vNormal;
+in vec3 vWorldPos;
+
+out vec4 fragColor; 
+
+struct DirectionalLight 
+{ 
+	vec3 color;
+	float diffuseIntensity;
+	vec3 direction; 
+};
+
+struct PointLight 
+{ 
+	vec3 color;
+	vec3 position;
+	float diffuseIntensity; 
+	float attenConstant; 
+	float attenLinear; 
+	float attenExp;
+};
+
+struct SpotLight
+{ 
+	vec3 color;
+	vec3 position;
+	vec3 direction; 
+	float diffuseIntensity; 
+	float attenConstant; 
+	float attenLinear; 
+	float attenExp;
+	float cutoff; 
+};
+
+uniform int uNumPointLights;
+uniform int uNumSpotLights;
+
+uniform DirectionalLight uDirLight;  
+uniform PointLight uPointLights[MAX_POINT_LIGHTS];
+uniform SpotLight uSpotLights[MAX_SPOT_LIGHTS];
+
+uniform vec3 uEyeWorldPos;
+uniform float uAmbientIntensity;
+
+uniform float uSpecularIntensity;
+uniform float uSpecularPower; 
+
+vec3 eyeDirection;
+vec3 normal;
+
+float CalculateSpecular(vec3 lightDirection)
+{ 
+	vec3 reflected = reflect(-lightDirection, normal); 
+	return uSpecularIntensity *pow(max(dot(reflected, -eyeDirection), 0.0), uSpecularPower);
+}
+
+float CalculateDiffuse(vec3 lightDirection) 
+{
+	return dot(normal, lightDirection);
+}
+
+
+vec3 CalcDirectionalLight()
+{
+	vec3 lightDirection = normalize(uDirLight.direction);
+	vec3 color =  max(vec3(0,0,0), uDirLight.color * (uDirLight.diffuseIntensity * CalculateDiffuse(lightDirection)));
+	 
+	color += CalculateSpecular(lightDirection);
+	
+	return color;
+}
+
+vec3 CalcPointLight(PointLight l)
+{ 
+	vec3 lightVector = l.position - vWorldPos; 
+	float distance = length(lightVector);
+	vec3 lightDirection = normalize(lightVector); 
+
+	vec3 color = l.color * (l.diffuseIntensity * CalculateDiffuse(lightDirection));
+
+	color += CalculateSpecular(lightDirection); 
+
+	float attenuation = l.attenConstant + l.attenLinear * distance +  l.attenExp * distance * distance; 
+
+	return color / attenuation ; 
+}
+
+vec3 CalcSpotLight(SpotLight l)
+{
+	vec3 lightVector = l.position - vWorldPos ; 
+	float distance = length(lightVector);
+	vec3 lightDirection = normalize(lightVector);
+	float spotFactor = dot(lightDirection, l.direction);
+
+	if (spotFactor > l.cutoff)
+	{
+		vec3 color = l.color * (l.diffuseIntensity * CalculateDiffuse(lightDirection));
+		
+		color += CalculateSpecular(lightDirection); 
+		
+		float attenuation = l.attenConstant + l.attenLinear * distance +  l.attenExp * distance * distance;
+		return (color / attenuation) * (1.0 - (1.0 - spotFactor)/(1.0 - l.cutoff)); 
+	} 
+	
+	return vec3(0,0,0); 
+} 
+
+	in vec2 vTexCoord;
+	uniform sampler2D uSampler;
+	void PreFragment() {}
+	void PostFragment()
+	{
+		fragColor.rgb *= texture2D(uSampler, vTexCoord.xy).rgb;
+	}
+ 
+void main() 
+{
+	PreFragment();
+	
+	eyeDirection = normalize(vWorldPos - uEyeWorldPos);
+	 
+	normal = normalize(vNormal); 
+	vec3 totalLight =  vec3(uAmbientIntensity, uAmbientIntensity, uAmbientIntensity);
+	totalLight += CalcDirectionalLight(); 
+	 
+	for (int i = 0 ; i < uNumPointLights ; i++)  
+		totalLight += CalcPointLight(uPointLights[i]);
+	
+	for (int i = 0 ; i < uNumSpotLights ; i++)
+		totalLight += CalcSpotLight(uSpotLights[i]);
+	 
+	fragColor.rgb = totalLight;
+	PostFragment();
+	
+	const vec3 gamma = vec3(1.0 / 2.2);
+	fragColor.rgb = pow( fragColor.rgb, gamma); 
+}

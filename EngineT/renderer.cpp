@@ -1,48 +1,46 @@
 
-#include "renderer.h"
-#include "effect_light.h"
-#include "effect_sprite.h"
-#include "effect_text.h"
+#include "renderer.h" 
 #include "gameobject.h"
 #include "scene.h"
 #include "camera.h"
 #include "mesh.h"
 #include "sprite.h"
 #include "ui_text.h"
+#include "shader.h"
 
 namespace EngineT
 {
     void Renderer::Render(Scene* scene)
     {
-
         if(scene == nullptr) return;
         if(scene->cameras.size() == 0) return;
 
-        effect = Engine.lightEffect;
-        effect->Enable();
+        shader = Engine.lightingShader;
+        shader->Enable();
+
 
         glEnable(GL_CULL_FACE);
         glEnable(GL_DEPTH_TEST);
 
         glDisable(GL_BLEND);
 
-        //render all 3D objects
-        for(auto cam : scene->cameras){
 
+        //render all 3D objects
+        for(auto cam : scene->cameras)
+        {
             curCamera = cam;
             vec3 pos = cam->position;
 
             //get all object of the camera layer 
             //TODO: add more layers to one camera
             int layer = cam->layer;
-            for(auto go : scene->obj3DLayers[layer]){
+            for(auto go : scene->obj3DLayers[layer])
+            {
                 curObj = go;
-                effect->UpdateUniforms();
-
+                shader->UpdateUniforms();
                 Mesh* mesh = go->GetMesh();
-                if(mesh != NULL){
+                if(mesh != NULL)
                     mesh->Draw();
-                }
             }
         }
 

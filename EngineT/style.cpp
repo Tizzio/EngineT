@@ -3,10 +3,10 @@
 namespace EngineT
 {
 
-	Style::Style(Font* font)
-	{
-		this->font = font;
-	}
+    Style::Style(Font* font)
+    {
+        this->font = font;
+    }
 
 }
 

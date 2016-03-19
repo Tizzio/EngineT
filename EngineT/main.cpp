@@ -6,10 +6,11 @@
 using namespace EngineT;
 int main(int argc, char** argv)
 {
-    EngineSetup setup(800, 500, false, "EngineT");
+    EngineSetup setup(900, 500, false, "EngineT");
 
-    if(!Engine.Init(setup, argc, argv)){
-        return 1;
+    if(!Engine.Init(setup, argc, argv))
+    {
+        return 0;
     }
 
     Game game;

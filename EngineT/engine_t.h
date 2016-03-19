@@ -21,11 +21,11 @@ namespace EngineT
         static EngineT& Inst();
 
 
-
         bool Init(EngineSetup setup, int argc, char** argv);
         int Run();
 
         void SetScene(Scene* scene);
+        Scene* GetScene();
 
         void Update();
         void Render();
@@ -38,14 +38,13 @@ namespace EngineT
         TimeManager* time;
 
         Physics* physics;
-
-        //effects
-        LightEffect* lightEffect;
-        EffectSprite* effectSprite;
-        EffectText* effectText;
-
+        string dataPath = "data/";
         float windowWidth;
         float windowHeight;
+
+
+        //TODO: material system
+        Shader* lightingShader;
     private:
 
         bool error = false;
@@ -59,7 +58,6 @@ namespace EngineT
         void operator=(EngineT const&); // assignment operator is private
 
     };
-
 
     static EngineT& Engine = EngineT::Inst();
 

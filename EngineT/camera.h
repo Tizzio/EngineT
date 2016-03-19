@@ -54,7 +54,7 @@ namespace EngineT
         mat4 GetProjectionMatrix();
 
         int layer = 0;
-
+         
     private:
         bool updateMatView;
         bool updateMatProjection;

@@ -26,14 +26,23 @@
     <Filter Include="Core\Graphics">
       <UniqueIdentifier>{8d51b90a-ccd4-460b-abc1-01d235fd9083}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resources">
-      <UniqueIdentifier>{f8f559b4-8195-42cc-8522-1dd334dd9846}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\Physics">
       <UniqueIdentifier>{a2371007-1997-4bab-8a4f-e705cc398d14}</UniqueIdentifier>
     </Filter>
     <Filter Include="Core\UI">
       <UniqueIdentifier>{401eaded-12ea-4850-8f8d-cd017ef98597}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Graphics\Shaders">
+      <UniqueIdentifier>{ad26d15d-f76c-4804-8b35-7c66d542de97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\IO\utils">
+      <UniqueIdentifier>{a8dc9866-00ce-4071-accb-118cc5335f5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Graphics\Materials">
+      <UniqueIdentifier>{d321ccad-f3bf-49b0-a45f-c99bbb7c917c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Graphics\Resources">
+      <UniqueIdentifier>{f8f559b4-8195-42cc-8522-1dd334dd9846}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -52,21 +61,12 @@
     <ClCompile Include="Game.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="effect.cpp">
-      <Filter>Core\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="lodepng.cpp">
       <Filter>Libraries</Filter>
     </ClCompile>
-    <ClCompile Include="shadowmap.cpp">
-      <Filter>Core\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="engine_t.cpp">
       <Filter>Core\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="shader_manager.cpp">
-      <Filter>Core\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="inputs.cpp">
       <Filter>Core\IO</Filter>
@@ -75,25 +75,19 @@
       <Filter>Core\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="mesh.cpp">
-      <Filter>Resources</Filter>
+      <Filter>Core\Graphics\Resources</Filter>
     </ClCompile>
     <ClCompile Include="sprite.cpp">
-      <Filter>Resources</Filter>
+      <Filter>Core\Graphics\Resources</Filter>
     </ClCompile>
     <ClCompile Include="texture.cpp">
-      <Filter>Resources</Filter>
+      <Filter>Core\Graphics\Resources</Filter>
     </ClCompile>
     <ClCompile Include="transform.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="context.cpp">
       <Filter>Core\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="effect_sprite.cpp">
-      <Filter>Core\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="effect_light.cpp">
-      <Filter>Core\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="fly_controller.cpp">
       <Filter>Engine</Filter>
@@ -108,19 +102,16 @@
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="mesh_generator.cpp">
-      <Filter>Resources</Filter>
+      <Filter>Core\Graphics\Resources</Filter>
     </ClCompile>
     <ClCompile Include="fps_controller.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="font.cpp">
-      <Filter>Resources</Filter>
+      <Filter>Core\Graphics\Resources</Filter>
     </ClCompile>
     <ClCompile Include="style.cpp">
-      <Filter>Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="effect_text.cpp">
-      <Filter>Core\Graphics</Filter>
+      <Filter>Core\Graphics\Resources</Filter>
     </ClCompile>
     <ClCompile Include="rect.cpp">
       <Filter>Core\Physics</Filter>
@@ -129,13 +120,34 @@
       <Filter>Core\Physics</Filter>
     </ClCompile>
     <ClCompile Include="resources.cpp">
-      <Filter>Resources</Filter>
+      <Filter>Core\Graphics\Resources</Filter>
     </ClCompile>
     <ClCompile Include="ui_canvas.cpp">
       <Filter>Core\UI</Filter>
     </ClCompile>
     <ClCompile Include="ui_text.cpp">
       <Filter>Core\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="shader.cpp">
+      <Filter>Core\Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="shadowmap.cpp">
+      <Filter>Core\Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="shader_manager.cpp">
+      <Filter>Core\Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="shader_mesh.cpp">
+      <Filter>Core\Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="string_utils.cpp">
+      <Filter>Core\IO\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="shader_lighting.cpp">
+      <Filter>Core\Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="materal.cpp">
+      <Filter>Core\Graphics\Materials</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -151,12 +163,6 @@
     <ClInclude Include="light.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="effect.h">
-      <Filter>Core\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="shadowmap.h">
-      <Filter>Core\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>Game</Filter>
     </ClInclude>
@@ -169,9 +175,6 @@
     <ClInclude Include="engine_t.h">
       <Filter>Core\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="shader_manager.h">
-      <Filter>Core\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="debug.h">
       <Filter>Core\IO</Filter>
     </ClInclude>
@@ -182,13 +185,13 @@
       <Filter>Core\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="mesh.h">
-      <Filter>Resources</Filter>
+      <Filter>Core\Graphics\Resources</Filter>
     </ClInclude>
     <ClInclude Include="sprite.h">
-      <Filter>Resources</Filter>
+      <Filter>Core\Graphics\Resources</Filter>
     </ClInclude>
     <ClInclude Include="texture.h">
-      <Filter>Resources</Filter>
+      <Filter>Core\Graphics\Resources</Filter>
     </ClInclude>
     <ClInclude Include="transform.h">
       <Filter>Engine</Filter>
@@ -201,15 +204,6 @@
     </ClInclude>
     <ClInclude Include="root_declar.h">
       <Filter>Core\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="effect_sprite.h">
-      <Filter>Core\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="effect_light.h">
-      <Filter>Core\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="utils.h">
-      <Filter>Core\IO</Filter>
     </ClInclude>
     <ClInclude Include="fly_controller.h">
       <Filter>Engine</Filter>
@@ -224,19 +218,16 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="mesh_generator.h">
-      <Filter>Resources</Filter>
+      <Filter>Core\Graphics\Resources</Filter>
     </ClInclude>
     <ClInclude Include="fps_controller.h">
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="font.h">
-      <Filter>Resources</Filter>
+      <Filter>Core\Graphics\Resources</Filter>
     </ClInclude>
     <ClInclude Include="style.h">
-      <Filter>Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="effect_text.h">
-      <Filter>Core\Graphics</Filter>
+      <Filter>Core\Graphics\Resources</Filter>
     </ClInclude>
     <ClInclude Include="rect.h">
       <Filter>Core\Physics</Filter>
@@ -251,13 +242,43 @@
       <Filter>Core\UI</Filter>
     </ClInclude>
     <ClInclude Include="resources.h">
-      <Filter>Resources</Filter>
+      <Filter>Core\Graphics\Resources</Filter>
     </ClInclude>
     <ClInclude Include="ui_canvas.h">
       <Filter>Core\UI</Filter>
     </ClInclude>
     <ClInclude Include="ui_text.h">
       <Filter>Core\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="shader.h">
+      <Filter>Core\Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="shadowmap.h">
+      <Filter>Core\Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="shader_manager.h">
+      <Filter>Core\Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="shader_mesh.h">
+      <Filter>Core\Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="string_utils.h">
+      <Filter>Core\IO\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
+      <Filter>Core\IO\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="shader_lighting.h">
+      <Filter>Core\Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="i_renderable.h">
+      <Filter>Core\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="material.h">
+      <Filter>Core\Graphics\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="component.h">
+      <Filter>Engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

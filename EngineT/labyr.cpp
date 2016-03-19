@@ -87,9 +87,9 @@ Mesh* Labyr::generate_mesh(float cellSize)
     RawMesh* roof_mesh = MeshGenerator::GenerateFloorGrid(labyrinth, N, M, cellSize, cellSize);
     raw_mesh->AddMesh(roof_mesh);
 */
-
+    float height = 5.0f;
     RawMesh* raw_mesh = MeshGenerator::GenerateFloorGrid(labyrinth, N, M, cellSize, cellSize, N, M);
-    raw_mesh->Translate(vec3(0, 3.0f, 0));
+    raw_mesh->Translate(vec3(0, height, 0));
 
     for(int i = 0; i < N; i++)
     {
@@ -98,7 +98,7 @@ Mesh* Labyr::generate_mesh(float cellSize)
             //hor
             if(!labyrinth[i][j] && labyrinth[i][j - 1])
             {
-                RawMesh* rm = MeshGenerator::GenerateWall(cellSize, 0, 3, true);
+                RawMesh* rm = MeshGenerator::GenerateWall(cellSize, 0, height, true);
                 rm->Translate(vec3(i*cellSize, 0, j*cellSize));
                 raw_mesh->AddMesh(rm);
                 delete rm;
@@ -106,7 +106,7 @@ Mesh* Labyr::generate_mesh(float cellSize)
 
             if(!labyrinth[i][j] && labyrinth[i][j + 1])
             {
-                RawMesh* rm = MeshGenerator::GenerateWall(cellSize, 0, 3);
+                RawMesh* rm = MeshGenerator::GenerateWall(cellSize, 0, height);
                 rm->Translate(vec3(i*cellSize, 0, j*cellSize + cellSize));
                 raw_mesh->AddMesh(rm);
                 delete rm;
@@ -115,7 +115,7 @@ Mesh* Labyr::generate_mesh(float cellSize)
             //ver
             if(!labyrinth[i][j] && labyrinth[i - 1][j])
             {
-                RawMesh* rm = MeshGenerator::GenerateWall(0, cellSize, 3);
+                RawMesh* rm = MeshGenerator::GenerateWall(0, cellSize, height);
                 rm->Translate(vec3(i*cellSize, 0, j*cellSize));
                 raw_mesh->AddMesh(rm);
                 delete rm;
@@ -124,7 +124,7 @@ Mesh* Labyr::generate_mesh(float cellSize)
 
             if(!labyrinth[i][j] && labyrinth[i + 1][j])
             {
-                RawMesh* rm = MeshGenerator::GenerateWall(0, cellSize, 3, true);
+                RawMesh* rm = MeshGenerator::GenerateWall(0, cellSize, height, true);
                 rm->Translate(vec3(i*cellSize + cellSize, 0, j*cellSize));
                 raw_mesh->AddMesh(rm);
                 delete rm;
@@ -133,14 +133,14 @@ Mesh* Labyr::generate_mesh(float cellSize)
             //move these out of this cycle to gain performances
             if(j == 0)
             {
-                RawMesh* rm = MeshGenerator::GenerateWall(cellSize, 0, 3);
+                RawMesh* rm = MeshGenerator::GenerateWall(cellSize, 0, height);
                 rm->Translate(vec3(i*cellSize, 0, j*cellSize));
                 raw_mesh->AddMesh(rm);
                 delete rm;
             }
             else if(j == M - 1)
             {
-                RawMesh* rm = MeshGenerator::GenerateWall(cellSize, 0, 3, true);
+                RawMesh* rm = MeshGenerator::GenerateWall(cellSize, 0, height, true);
                 rm->Translate(vec3(i*cellSize, 0, j*cellSize + cellSize));
                 raw_mesh->AddMesh(rm);
                 delete rm;
@@ -148,14 +148,14 @@ Mesh* Labyr::generate_mesh(float cellSize)
 
             if(i == 0)
             {
-                RawMesh* rm = MeshGenerator::GenerateWall(0, cellSize, 3, true);
+                RawMesh* rm = MeshGenerator::GenerateWall(0, cellSize, height, true);
                 rm->Translate(vec3(i*cellSize, 0, j*cellSize));
                 raw_mesh->AddMesh(rm);
                 delete rm;
             }
             else if(i == M - 1)
             {
-                RawMesh* rm = MeshGenerator::GenerateWall(0, cellSize, 3);
+                RawMesh* rm = MeshGenerator::GenerateWall(0, cellSize, height);
                 rm->Translate(vec3(i*cellSize + cellSize, 0, j*cellSize));
                 raw_mesh->AddMesh(rm);
                 delete rm;
@@ -169,8 +169,8 @@ Mesh* Labyr::generate_mesh(float cellSize)
 }
 bool Labyr::build_labyrinth()
 {
-    critical[0] = new short[10000000];
-    critical[1] = new short[10000000];
+    critical[0] = new short[1000000];
+    critical[1] = new short[1000000];
 
     srand((unsigned int) time(NULL));
 
@@ -261,7 +261,7 @@ bool Labyr::set_start_goal()
 
     while((int) std::sqrt(std::pow((abs(start_i - goal_i)), 2) + std::pow((abs(start_j - goal_j)), 2)) < (int) std::sqrt(std::pow(1 * (N / 2), 2) + std::pow(1 * (M / 2), 2)))
     {
-        srand(time(NULL));
+        srand((uint)time(NULL));
         start_i = 0;
         start_j = 0;
         goal_i = 0;

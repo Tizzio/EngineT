@@ -10,12 +10,14 @@ namespace EngineT
     public:
         void Render(Scene* scene);
 
-        Effect* effect;
+        Shader* shader;
 
         Camera* curCamera;
         GameObject* curObj;
         unsigned int textureUnit;
 
         vector<Light*> lights;
+        unordered_map<Material*, vector<GameObject*>> renderQueueOpaque;
+        
     };
 }

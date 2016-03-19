@@ -44,7 +44,6 @@ namespace EngineT
 
     //core
     class Renderer;
-    class TextRenderer;
     class Scene;
     class Transform;
     class TransformRenderable;
@@ -56,10 +55,13 @@ namespace EngineT
     class TimeManager;
     class MeshGenerator;
 
+    //Components
+    class Component;
     //Resources
     class Mesh;
     class Vertex;
     class Texture;
+    class Material;
     class Sprite;
     class Font;
     class Text;
@@ -82,11 +84,12 @@ namespace EngineT
     //graphics
     class ShaderManager;
     class Light;
-    class Effect;
-    class Renderable;
+    class Shader;
+    class IRenderable;
 
     //effects
-    class LightEffect;
+    class ShaderLighting;
+    class ShaderMesh;
     class EffectSprite;
     class EffectText;
 

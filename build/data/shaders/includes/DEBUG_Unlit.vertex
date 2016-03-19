@@ -1,0 +1,21 @@
+#version 330
+layout (location = 0) in vec3 inPosition;
+layout (location = 1) in vec2 inTexCoord;
+layout (location = 2) in vec3 inNormal; 
+
+uniform mat4 uWVP;
+
+	out vec2 vTexCoord;
+	
+	void PreVertex() {}
+	
+	void PostVertex()
+	{
+		vTexCoord = inTexCoord;
+	}
+void main()
+{
+	PreVertex();
+	gl_Position = uWVP * vec4(inPosition, 1.0);
+	PostVertex();
+}

@@ -27,7 +27,6 @@ namespace EngineT
         void AddRotation(float angle, vec3& axis);
         void AddPosition(vec3& delta);
         void AddScaling(vec3& delta);
-
     };
 
     class TransformRenderable : public Transform

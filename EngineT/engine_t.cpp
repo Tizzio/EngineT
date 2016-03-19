@@ -1,9 +1,6 @@
 
 #include "engine_t.h"
 #include "shader_manager.h" 
-#include "effect_light.h"
-#include "effect_sprite.h"
-#include "effect_text.h"
 #include "engine_setup.h" 
 #include "inputs.h"
 #include "gameobject.h"
@@ -35,34 +32,25 @@ namespace EngineT
         if(!context.Init((int) setup.windowWidth, (int) setup.windowHeight, setup.fullscreen, setup.windowTitle))
         {
             return false;
-        }
-
-        glClearColor(0.2f, 0.05f, 0.35f, 0.0f);
+        } 
+        glClearColor(0, 116.0f / 255.0f, 161.0f/255.0f, 0.0f);
         glFrontFace(GL_CCW);
         glCullFace(GL_BACK);
         glEnable(GL_CULL_FACE);
-
 
         physics = new Physics();
 
         time = new TimeManager();
 
         inputs = new Inputs();
-        cout << "Inputs* :" << inputs << endl;
 
         shaderManager = new ShaderManager();
         shaderManager->PrintErrors();
-        cout << "ShaderManager* :" << shaderManager << endl;
 
-
+        //TODO material system
+        lightingShader = shaderManager->Load("data/shaders/specular.shader");
+        
         renderer = new Renderer();
-
-
-        //initialize effects
-        lightEffect = new LightEffect();
-        effectSprite = new EffectSprite();
-        effectText = new EffectText();
-
 
         return true;
     }
@@ -88,8 +76,6 @@ namespace EngineT
         return error;
     }
 
-
-
     void EngineT::Update()
     {
         //update physics world
@@ -110,11 +96,9 @@ namespace EngineT
             //btQuaternion rot = rigidbody->body->getWorldTransform().getRotation();
             //rigidbody->gameObject->transform.SetRotation(quat(rot.getW(), rot.getX(), rot.getY(), rot.getZ()));
 
-
         }
         //update scene
         scene->Update();
-
     }
 
 
@@ -143,7 +127,7 @@ namespace EngineT
 
             time->fps = time->ticks;
             time->ticks = 0;
-            cout << "d: " << delta << " | " << time->fps << "fps \r";
+            //cout << "d: " << delta << " | " << time->fps << "fps \r";
         }
 
         if(delta > 0 && delta < 1.0f){
@@ -163,5 +147,9 @@ namespace EngineT
     {
         this->scene = scene;
         renderer->lights = scene->lights;
+    }
+    Scene * EngineT::GetScene()
+    {
+        return scene;
     }
 }

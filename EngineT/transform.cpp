@@ -6,7 +6,6 @@
 
 namespace EngineT
 {
-
     vec3 Transform::GetForward() const
     {
         return vec3(2.0f * (rotation.x * rotation.z + rotation.w * rotation.y),
@@ -28,18 +27,15 @@ namespace EngineT
             2.0f * (rotation.x * rotation.z - rotation.w * rotation.y));
     };
 
-
     void Transform::SetPosition(vec3& position)
     {
         this->position = position;
     }
 
-
     void Transform::AddPosition(vec3& delta)
     {
         position += delta;
     }
-
 
     void Transform::SetScaling(vec3& scaling)
     {
@@ -71,19 +67,18 @@ namespace EngineT
         matTranslate = translate(identity, position);
         matRotate = toMat4(rotation);
         matScale = scale(identity, vec3(1.0f, 1.0f, 1.0f));
-
     }
 
 
     mat4 TransformRenderable::GetWorldMatrix()
     {
-        if(matUpdate){
+        if(matUpdate)
+        {
             matWorld = matTranslate * matRotate * matScale;
             matUpdate = false;
         }
         return matWorld;
     }
-
 
     void TransformRenderable::SetPosition(vec3& position)
     {
@@ -91,7 +86,6 @@ namespace EngineT
         matTranslate = translate(identity, position);
         matUpdate = true;
     }
-
 
     void TransformRenderable::AddPosition(vec3& delta)
     {

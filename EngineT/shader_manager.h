@@ -4,6 +4,7 @@
 
 #include "engine_t.h"
 
+#include <unordered_set>
 
 #define INVALID_UNIFORM_LOCATION 0xFFFFFFFF
 
@@ -21,10 +22,7 @@ namespace EngineT
         vector<string> errors;
 
         GLuint CreateProgram(const string& vertexShader, const string& fragmentShader, const string& geometryShader);
-        GLuint CreateProgram(const char* vertexFname, const char* fragmentFname, const char* geometryFname);
-
-
-
+         
         GLuint CreateShader(GLenum shaderType, const string& shaderText);
 
         GLint GetUniformLoc(GLuint shaderProg, const char* uniformName);
@@ -32,10 +30,32 @@ namespace EngineT
         unordered_map<string, GLint> GetAllUniforms(GLuint shaderProg);
 
         void PrintErrors();
+        Shader* Load(const string filename);
     private:
-        string ShaderTypeString(GLuint shaderType);
 
+        vector<string> header;
+        unordered_map<string, string> headerMap;
+        vector<string> vertex;
+        vector<string> geometry;
+        vector<string> fragment;
+        std::unordered_set<string> defines;
+
+        string ShaderTypeString(GLuint shaderType);
         string ReadShaderFile(const char* filename);
+       
+        void ParseShader(vector<string>& input, vector<string>& output, const string filename);
+        bool SaveToFile(const string filename, vector<string>& lines);
+        
+        inline bool HeaderExits(string key)
+        {
+            return headerMap.find(key) != headerMap.end();
+        }
+
+        inline bool HeaderEnabled(string key)
+        {
+            return headerMap.find(key) != headerMap.end() && headerMap[key] == "On";
+        }
+
     };
 }
 

@@ -9,10 +9,8 @@ namespace EngineT
         shadowMap = 0;
     }
 
-
-
     Shadowmap::~Shadowmap()
-    {
+    {        
         if(fbo != 0) {
             glDeleteFramebuffers(1, &fbo);
         }

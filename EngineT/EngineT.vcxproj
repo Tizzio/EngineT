@@ -15,6 +15,7 @@
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>EngineT</RootNamespace>
     <ProjectName>EngineT</ProjectName>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -43,22 +44,22 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(SolutionDir)includes\;$(SolutionDir)includes\assimp;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)libraries\;$(SolutionDir)libraries\bullet</LibraryPath>
-    <OutDir>$(SolutionDir)\build\</OutDir>
-    <IntDir>$(SolutionDir)\build\compile\</IntDir>
+    <LibraryPath>$(SolutionDir)libraries\;$(SolutionDir)libraries\bullet;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)build\</OutDir>
+    <IntDir>$(SolutionDir)build\compile\</IntDir>
     <TargetName>$(ProjectName)_$(PlatformTarget)_d</TargetName>
     <CodeAnalysisRuleSet>C:\Program Files (x86)\Microsoft Visual Studio 14.0\Team Tools\Static Analysis Tools\Rule Sets\NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(SolutionDir)includes\;$(SolutionDir)includes\assimp;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)libraries\;$(SolutionDir)libraries\bullet</LibraryPath>
-    <OutDir>$(SolutionDir)\build\</OutDir>
-    <IntDir>$(SolutionDir)\build\compile\</IntDir>
+    <LibraryPath>$(SolutionDir)libraries\bullet;$(SolutionDir)libraries\;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)build\</OutDir>
+    <IntDir>$(SolutionDir)build\compile\</IntDir>
     <TargetName>$(ProjectName)_$(PlatformTarget)</TargetName>
     <CodeAnalysisRuleSet>C:\Program Files (x86)\Microsoft Visual Studio 14.0\Team Tools\Static Analysis Tools\Rule Sets\NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -71,13 +72,13 @@
       <AdditionalIncludeDirectories>$(SolutionDir)includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ShowIncludes>false</ShowIncludes>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <EnablePREfast>true</EnablePREfast>
+      <EnablePREfast>false</EnablePREfast>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)libraries</AdditionalLibraryDirectories>
-      <AdditionalDependencies>assimp.lib;opengl32.lib;glu32.lib;glew32s.lib;SDL2.lib;SDL2main.lib;BulletCollision_debug.lib;BulletDynamics_debug.lib;LinearMath_debug.lib</AdditionalDependencies>
+      <AdditionalDependencies>assimp.lib;opengl32.lib;glu32.lib;glew32s.lib;SDL2.lib;SDL2main.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -92,7 +93,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <EnablePREfast>true</EnablePREfast>
+      <EnablePREfast>false</EnablePREfast>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -106,13 +107,14 @@
   <ItemGroup>
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="context.cpp" />
-    <ClCompile Include="effect.cpp" />
-    <ClCompile Include="effect_sprite.cpp" />
-    <ClCompile Include="effect_text.cpp" />
+    <ClCompile Include="materal.cpp" />
+    <ClCompile Include="shader.cpp" />
     <ClCompile Include="engine_t.cpp" />
     <ClCompile Include="font.cpp" />
     <ClCompile Include="rect.cpp" />
     <ClCompile Include="resources.cpp" />
+    <ClCompile Include="shader_mesh.cpp" />
+    <ClCompile Include="string_utils.cpp" />
     <ClCompile Include="style.cpp" />
     <ClCompile Include="ui_text.cpp" />
     <ClCompile Include="fps_controller.cpp" />
@@ -121,7 +123,7 @@
     <ClCompile Include="inputs.cpp" />
     <ClCompile Include="labyr.cpp" />
     <ClCompile Include="light.cpp" />
-    <ClCompile Include="effect_light.cpp" />
+    <ClCompile Include="shader_lighting.cpp" />
     <ClCompile Include="lodepng.cpp" />
     <ClCompile Include="mesh.cpp" />
     <ClCompile Include="mesh_generator.cpp" />
@@ -141,10 +143,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
+    <ClInclude Include="component.h" />
     <ClInclude Include="context.h" />
-    <ClInclude Include="effect.h" />
-    <ClInclude Include="effect_sprite.h" />
-    <ClInclude Include="effect_text.h" />
+    <ClInclude Include="i_renderable.h" />
+    <ClInclude Include="material.h" />
+    <ClInclude Include="shader.h" />
     <ClInclude Include="engine_setup.h" />
     <ClInclude Include="engine_t.h" />
     <ClInclude Include="debug.h" />
@@ -152,6 +155,8 @@
     <ClInclude Include="font.h" />
     <ClInclude Include="rect.h" />
     <ClInclude Include="resources.h" />
+    <ClInclude Include="shader_mesh.h" />
+    <ClInclude Include="string_utils.h" />
     <ClInclude Include="style.h" />
     <ClInclude Include="ui_text.h" />
     <ClInclude Include="fps_controller.h" />
@@ -160,7 +165,7 @@
     <ClInclude Include="inputs.h" />
     <ClInclude Include="labyr.h" />
     <ClInclude Include="light.h" />
-    <ClInclude Include="effect_light.h" />
+    <ClInclude Include="shader_lighting.h" />
     <ClInclude Include="lodepng.h" />
     <ClInclude Include="mesh.h" />
     <ClInclude Include="mesh_generator.h" />

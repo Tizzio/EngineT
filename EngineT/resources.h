@@ -5,19 +5,19 @@
 namespace EngineT
 {
 
-	class Resources
-	{
-	public:
+    class Resources
+    {
+    public:
 
-		static vector <Texture*> textures;
-		static vector <Sprite*> sprites;
-		static vector <Mesh*> meshes;
-		static vector <Font*> fonts;
-		static vector <Style*> styles;
-		static vector <Text*> texts;
-		static vector <Scene*> scenes;
-		static vector <Camera*> cameras;
+        static vector <Texture*> textures;
+        static vector <Sprite*> sprites;
+        static vector <Mesh*> meshes;
+        static vector <Font*> fonts;
+        static vector <Style*> styles;
+        static vector <Text*> texts;
+        static vector <Scene*> scenes;
+        static vector <Camera*> cameras;
 
-	};
+    };
 
 }

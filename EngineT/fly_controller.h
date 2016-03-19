@@ -15,6 +15,7 @@ namespace EngineT
         void SetPosition(vec3 position);
         void SetMouseLock(bool locked, bool hideCursor, float mouseSensitivity = 0.3f);
         float smoothMouseLook = 0.6f;
+        Light* light;
     private:
         Inputs* inputs;
         float speed;

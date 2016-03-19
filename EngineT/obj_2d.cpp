@@ -10,5 +10,4 @@ Obj2D::Obj2D()
 {
     float r = (float) rand() / (float) RAND_MAX;
     speed = -75.0f + r * 150.0f;
-
 }

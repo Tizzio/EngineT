@@ -51,8 +51,7 @@ namespace EngineT
             SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
         }
         glContext = SDL_GL_CreateContext(window);
-        SDL_GL_SetSwapInterval(0);
-
+        SDL_GL_SetSwapInterval(0); 
         if(glContext == NULL)
         {
             cout << "There was an error creating the OpenGL context!\n";
