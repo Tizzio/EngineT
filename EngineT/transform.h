@@ -21,12 +21,12 @@ namespace EngineT
         vec3 GetUp() const;
         vec3 GetRight() const;
 
-        void SetPosition(vec3& position);
-        void SetScaling(vec3& scaling);
-        void SetRotation(quat& rotation);
-        void AddRotation(float angle, vec3& axis);
-        void AddPosition(vec3& delta);
-        void AddScaling(vec3& delta);
+        void SetPosition(vec3 position);
+        void SetScaling(vec3 scaling);
+        void SetRotation(quat rotation);
+        void AddRotation(float angle, vec3 axis);
+        void AddPosition(vec3 delta);
+        void AddScaling(vec3 delta);
     };
 
     class TransformRenderable : public Transform
@@ -40,12 +40,12 @@ namespace EngineT
 
         mat4 GetWorldMatrix();
 
-        void SetPosition(vec3& position);
-        void SetScaling(vec3& scaling);
-        void SetRotation(quat& rotation);
-        void AddRotation(float angle, vec3& axis);
-        void AddPosition(vec3& delta);
-        void AddScaling(vec3& delta);
+        void SetPosition(vec3 position);
+        void SetScaling(vec3 scaling);
+        void SetRotation(quat rotation);
+        void AddRotation(float angle, vec3 axis);
+        void AddPosition(vec3 delta);
+        void AddScaling(vec3 delta);
 
         TransformRenderable();
 

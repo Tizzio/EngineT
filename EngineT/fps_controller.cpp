@@ -51,7 +51,7 @@ namespace EngineT
         btTransform startTransform(btQuaternion(0, 0, 0, 1), btVector3(0.0, 12.0, 0.0));
         //TODO: DELETE motionState
         btDefaultMotionState* motionState = new btDefaultMotionState(startTransform);
-        shape->calculateLocalInertia(1.0f, btVector3(0, 0, 0));
+        /*shape->calculateLocalInertia(1.0f, std::move(btVector3(0, 0, 0)));*/
         btRigidBody::btRigidBodyConstructionInfo constructionInfo(1.0f, motionState, shape);
         rigidBody = new btRigidBody(constructionInfo);
 

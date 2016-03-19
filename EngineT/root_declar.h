@@ -3,7 +3,11 @@
 #define GLEW_STATIC
 
 #include <GL/glew.h>
-#include <sdl/SDL.h> 
+#ifdef WIN32
+	#include <sdl/SDL.h>
+#else
+	#include <SDL2/SDL.h> 
+#endif
 #include <glm/glm.hpp>
 
 #include <iostream>

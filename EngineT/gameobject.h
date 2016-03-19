@@ -5,8 +5,8 @@
 #include "engine_t.h"
 #include "transform.h"
 
-#include "bullet\btBulletCollisionCommon.h"
-#include "bullet\btBulletDynamicsCommon.h"
+#include <bullet/btBulletCollisionCommon.h>
+#include <bullet/btBulletDynamicsCommon.h>
 
 namespace EngineT
 {

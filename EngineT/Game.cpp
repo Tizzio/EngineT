@@ -214,10 +214,10 @@ Game::Game()
     Font* font0 = new Font(tex_font0, "data/fonts/font16.fnt");
     Style* style0 = new Style(font0);
 
-    Text* text = new Text(L"O_o il [#3333aa]testo[#]\nche va a capo!\nÆnche con caratteri\nspeciali e [#aa3333]Colorati[#] ", style0);
+    /*Text* text = new Text(L"O_o il [#3333aa]testo[#]\nche va a capo!\nÆnche con caratteri\nspeciali e [#aa3333]Colorati[#] ", style0);
     text->transform.SetScaling(vec3(2,2,2));
     text->transform.SetPosition(vec3(50, 250, 0));
-    scene->Add(text, layer2D);
+    scene->Add(text, layer2D);*/
 
 
     //set the current scene

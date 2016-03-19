@@ -2,12 +2,11 @@
 #include "engine_t.h"
 #include <stdio.h>
 #include "camera.h"
-
-
+ 
 
 namespace EngineT
 {
-    Camera::Camera(float width, float height, const vec3& position, const vec3& target, const vec3& up)
+    Camera::Camera(float width, float height, const vec3 position, const vec3 target, const vec3 up)
     {
         this->width = width;
         this->height = height;
@@ -20,8 +19,7 @@ namespace EngineT
         verticalAngle = 0.0f;
         yaw = 0.0f;
         pitch = 0.0f;
-
-        SetPerspective(60.0f, (float) width, (float) height, 0.1f, 1000);
+        SetPerspective(toRad*60.0f, (float) width, (float) height, 0.1f, 1000);
         matView = lookAt(position, target, up);
     }
 
@@ -39,7 +37,7 @@ namespace EngineT
         yaw = 0.0f;
         pitch = 0.0f;
 
-        SetPerspective(60.0f, (float) width, (float) height, 0.1f, 1000);
+        SetPerspective(toRad*60.0f, (float) width, (float) height, 0.1f, 1000);
         matView = lookAt(position, target, up);
     }
     /*
@@ -100,12 +98,12 @@ namespace EngineT
         updateMatView = true;
     }
 
-    void Camera::LookAt(vec3& target)
+    void Camera::LookAt(vec3 target)
     {
         this->target = target;
         updateMatView = true;
     }
-    void Camera::LookAt(vec3& target, vec3& up)
+    void Camera::LookAt(vec3 target, vec3 up)
     {
         this->target = target;
         this->up = up;
@@ -178,12 +176,12 @@ namespace EngineT
 
     }
 
-    void Camera::SetPosition(vec3& position)
+    void Camera::SetPosition(vec3 position)
     {
         this->position = position;
         updateMatView = true;
     }
-    void Camera::AddPosition(vec3& delta)
+    void Camera::AddPosition(vec3 delta)
     {
         position += delta;
         updateMatView = true;

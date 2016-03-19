@@ -19,7 +19,7 @@ namespace EngineT
         {
         public:
             float uvX1, uvY1, uvX2, uvY2, width, height, xoffset, yoffset, xadvance;
-            Char::Char(float uvX1, float uvY1, float uvX2, float uvY2, float width, float height, float xoffset, float yoffset, float xadvance)
+            Char(float uvX1, float uvY1, float uvX2, float uvY2, float width, float height, float xoffset, float yoffset, float xadvance)
             {
                 this->uvX1 = uvX1;
                 this->uvY1 = uvY1;

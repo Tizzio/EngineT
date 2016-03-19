@@ -11,8 +11,6 @@ namespace EngineT
         Load(texture, filename);
     }
 
-
-
     Font::~Font()
     {
         //TODO: DESTROY ALL Char*

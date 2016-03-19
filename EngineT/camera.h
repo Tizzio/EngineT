@@ -34,20 +34,20 @@ namespace EngineT
 
         Camera(float width, float height);
 
-        Camera(float width, float height, const vec3& position, const vec3& target, const vec3& up);
+        Camera(float width, float height, const vec3 position, const vec3 target, const vec3 up);
 
-        //void Rotate(float angle, vec3& axis);
+        //void Rotate(float angle, vec3 axis);
         void MouseLook(float deltaX, float deltaY);
 
         void SetPerspective(float FOV, float width, float height, float zNear, float zFar);
         void SetOrtho(float x, float y, float width, float height, float zNear, float zFar);
 
-        void SetPosition(vec3& position);
-        void AddPosition(vec3& position);
+        void SetPosition(vec3 position);
+        void AddPosition(vec3 position);
 
 
-        void LookAt(vec3& target);
-        void LookAt(vec3& target, vec3& up);
+        void LookAt(vec3 target);
+        void LookAt(vec3 target, vec3 up);
 
         mat4 GetViewProjMatrix();
         mat4 GetViewMatrix();

@@ -27,32 +27,32 @@ namespace EngineT
             2.0f * (rotation.x * rotation.z - rotation.w * rotation.y));
     };
 
-    void Transform::SetPosition(vec3& position)
+    void Transform::SetPosition(vec3 position)
     {
         this->position = position;
     }
 
-    void Transform::AddPosition(vec3& delta)
+    void Transform::AddPosition(vec3 delta)
     {
         position += delta;
     }
 
-    void Transform::SetScaling(vec3& scaling)
+    void Transform::SetScaling(vec3 scaling)
     {
         this->scaling = scaling;
     }
 
-    void Transform::AddScaling(vec3& delta)
+    void Transform::AddScaling(vec3 delta)
     {
         scaling += delta;
     }
 
-    void Transform::SetRotation(quat& rotation)
+    void Transform::SetRotation(quat rotation)
     {
         this->rotation = rotation;
     }
 
-    void Transform::AddRotation(float angle, vec3& axis)
+    void Transform::AddRotation(float angle, vec3 axis)
     {
         rotation = rotate(rotation, angle, axis);
     }
@@ -80,41 +80,41 @@ namespace EngineT
         return matWorld;
     }
 
-    void TransformRenderable::SetPosition(vec3& position)
+    void TransformRenderable::SetPosition(vec3 position)
     {
         this->position = position;
         matTranslate = translate(identity, position);
         matUpdate = true;
     }
 
-    void TransformRenderable::AddPosition(vec3& delta)
+    void TransformRenderable::AddPosition(vec3 delta)
     {
         position += delta;
         matTranslate = translate(identity, position);
         matUpdate = true;
     }
 
-    void TransformRenderable::SetScaling(vec3& scaling)
+    void TransformRenderable::SetScaling(vec3 scaling)
     {
         this->scaling = scaling;
         matScale = scale(identity, scaling);
         matUpdate = true;
     }
-    void TransformRenderable::AddScaling(vec3& delta)
+    void TransformRenderable::AddScaling(vec3 delta)
     {
         scaling += delta;
         matScale = scale(identity, scaling);
         matUpdate = true;
     }
 
-    void TransformRenderable::SetRotation(quat& rotation)
+    void TransformRenderable::SetRotation(quat rotation)
     {
         this->rotation = rotation;
         matRotate = toMat4(rotation);
         matUpdate = true;
     }
 
-    void TransformRenderable::AddRotation(float angle, vec3& axis)
+    void TransformRenderable::AddRotation(float angle, vec3 axis)
     {
         rotation = rotate(rotation, angle, axis);
         matRotate = toMat4(rotation);
