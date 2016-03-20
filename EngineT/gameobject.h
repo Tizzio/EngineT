@@ -4,9 +4,7 @@
 
 #include "engine_t.h"
 #include "transform.h"
-
-#include <bullet/btBulletCollisionCommon.h>
-#include <bullet/btBulletDynamicsCommon.h>
+#include "component.h"
 
 namespace EngineT
 {
@@ -19,11 +17,39 @@ namespace EngineT
         Transform transform;
         int layer = 0;
         string name;
-        //btCollisionShape* collider;
+
+        
+        template<typename T, typename... TArgs>
+        T& AddComponent(TArgs&&... mArgs)
+        {
+            T* component(new T(std::forward < TArgs(mArgs)...));
+
+            component->gameObject = this;
+
+            components.emplace_back(component);
+
+            return *component;
+        };
+        
+ 
+
+        template<typename T>
+        T* GetComponent()
+        {
+            cout << "GetComponent" << endl;
+            const string cName = typeid(T).name();
+            for(Component* c : components)
+            {
+                cout << c->GetType() << " < -- > " << cName << endl;
+                if(c->GetType() == cName)
+                    return reinterpret_cast<T*>(c);
+            }
+            return nullptr;
+        }
 
     protected:
         virtual void Update() = 0;
-        //btDefaultMotionState* motionState;
+        vector<Component*> components;
     };
 
 

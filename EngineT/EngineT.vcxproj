@@ -144,6 +144,7 @@
   <ItemGroup>
     <ClInclude Include="camera.h" />
     <ClInclude Include="component.h" />
+    <ClInclude Include="componenttest.h" />
     <ClInclude Include="context.h" />
     <ClInclude Include="i_renderable.h" />
     <ClInclude Include="material.h" />

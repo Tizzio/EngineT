@@ -7,6 +7,9 @@
 #include <SDL2/SDL.h> 
 #include <glm/glm.hpp>
 
+#include <bullet/btBulletCollisionCommon.h>
+#include <bullet/btBulletDynamicsCommon.h>
+
 #include <iostream>
 #include <vector> 
 #include <unordered_map>

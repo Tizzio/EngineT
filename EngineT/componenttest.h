@@ -1,29 +1,33 @@
 #pragma once
 
 #include "engine_t.h"
-
+#include "component.h"
 namespace EngineT
 {
-    class Component
+    class ComponentTest : public Component
     {
     public:
+
         GameObject* gameObject;
 
-        Component()
+        ComponentTest()
         {
             cout << GetType() << " constructor" << endl;
         }
 
-        ~Component()
+        ~ComponentTest()
         {
             cout << GetType() << " destructor" << endl;
         }
 
-        virtual void Update() = 0;
-
-        virtual string GetType()
+        void Update() override
         {
-            return typeid(Component).name();
+            
+        }
+
+        string GetType() override
+        {
+            return typeid(ComponentTest).name();
         }
     };
 }

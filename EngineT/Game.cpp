@@ -15,6 +15,7 @@
 #include "style.h"
 #include "ui_text.h"
 #include "shader_manager.h"
+#include "componenttest.h"
 //#include "zlib\zlib.h"
 
 #include "mesh_generator.h"
@@ -123,9 +124,10 @@ Game::Game()
     obj_tree->SetSprite(spr_tree);
     obj_tree->transform.SetPosition(vec3(300, 100, 0));
     scene->Add(obj_tree, layer2D);
-
+    
+    /*
     //labirynth
-  /*  Labyr * labyr = new Labyr();
+    Labyr * labyr = new Labyr();
     labyr->set_difficulty(1);
     labyr->set_dimensions(32, 32);
     labyr->build_labyrinth();
@@ -137,7 +139,8 @@ Game::Game()
     obj_labyr->SetMesh(mesh_labyr);
     obj_labyr->transform.SetPosition(vec3(-16.0f, 0, -16.0f));
     scene->Add(obj_labyr, mainLayer);
-*/
+    */
+
     /*
     //Add a start and and a goal
     labyr->set_start_goal();
@@ -149,11 +152,16 @@ Game::Game()
     //delete labyr;
     */
 
-    //DEBUG floor
+    //DEBUG floor 
     Obj3D* obj_test_plane = new Obj3D();
+
+    obj_test_plane->AddComponent<ComponentTest>();
+    ComponentTest* t = obj_test_plane->GetComponent<ComponentTest>();
+    if(t != nullptr)
+        cout << "TROVATOOOOOOOO\n\n" << t->GetType() << "\n\n";
     Rigidbody* body_plane = new Rigidbody(obj_test_plane);
     btCollisionShape* shape_plane = new btStaticPlaneShape(btVector3(0, 1, 0), 0);
-    body_plane->Instantiate(shape_plane, 0, std::move(btVector3(0, 0, 0)));
+    body_plane->Instantiate(shape_plane, 0);
     Mesh* mesh_floor = MeshGenerator::GenerateFloor(250.0f, 250.0f)->Finalize();
     mesh_floor->SetTexture(tex_bricks, 0, 0);
     Obj3D* floor = new Obj3D();
@@ -165,7 +173,7 @@ Game::Game()
     Mesh* mesh_cube = new Mesh("data/models/cube.obj");
     mesh_cube->SetTexture(tex_crate, 0, 0);
 
-    for(int i = 0; i < 132; i++)
+    for(int i = 0; i < 32; i++)
     {
         Obj3D* obj_cube = new Obj3D();
         obj_cube->SetMesh(mesh_cube);
@@ -174,9 +182,8 @@ Game::Game()
 
         Rigidbody* body_cube = new Rigidbody(obj_cube);
         btCollisionShape* shape_cube = new btBoxShape(btVector3(0.5f, 0.5f, 0.5f));
-        body_cube->Instantiate(shape_cube, 1.0f, std::move(btVector3(0, 0, 0)));
+        body_cube->Instantiate(shape_cube, 1.0f);
     }
-
 
     //first person controller
     FlyController* controller = new FlyController(camera);
