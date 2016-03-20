@@ -1,13 +1,10 @@
 ﻿
 #pragma once 
 #define GLEW_STATIC
+#define GLM_FORCE_RADIANS
 
-#include <GL/glew.h>
-#ifdef WIN32
-	#include <sdl/SDL.h>
-#else
-	#include <SDL2/SDL.h> 
-#endif
+#include <GL/glew.h> 
+#include <SDL2/SDL.h> 
 #include <glm/glm.hpp>
 
 #include <iostream>

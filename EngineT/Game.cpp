@@ -153,7 +153,7 @@ Game::Game()
     Obj3D* obj_test_plane = new Obj3D();
     Rigidbody* body_plane = new Rigidbody(obj_test_plane);
     btCollisionShape* shape_plane = new btStaticPlaneShape(btVector3(0, 1, 0), 0);
-    body_plane->Instantiate(shape_plane, 0, btVector3(0, 0, 0));
+    body_plane->Instantiate(shape_plane, 0, std::move(btVector3(0, 0, 0)));
     Mesh* mesh_floor = MeshGenerator::GenerateFloor(250.0f, 250.0f)->Finalize();
     mesh_floor->SetTexture(tex_bricks, 0, 0);
     Obj3D* floor = new Obj3D();
@@ -174,7 +174,7 @@ Game::Game()
 
         Rigidbody* body_cube = new Rigidbody(obj_cube);
         btCollisionShape* shape_cube = new btBoxShape(btVector3(0.5f, 0.5f, 0.5f));
-        body_cube->Instantiate(shape_cube, 1.0f, btVector3(0, 0, 0));
+        body_cube->Instantiate(shape_cube, 1.0f, std::move(btVector3(0, 0, 0)));
     }
 
 

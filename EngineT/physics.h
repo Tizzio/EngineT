@@ -39,6 +39,6 @@ namespace EngineT
         btRigidBody* body;
         Rigidbody(GameObject3D* obj3D);
         ~Rigidbody();
-        void Instantiate(btCollisionShape* shape, btScalar mass, btVector3 inertia);
+        void Instantiate(btCollisionShape* shape, btScalar mass, btVector3& inertia);
     };
 }
