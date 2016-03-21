@@ -1,6 +1,6 @@
 
 #include "shader.h"
-#include "renderer.h"
+#include "render_manager.h"
 #include "shader_manager.h"
 
 namespace EngineT
@@ -8,7 +8,7 @@ namespace EngineT
     Shader::Shader()
     {
         shaderManager = Engine.shaderManager;
-        renderer = Engine.renderer;
+        renderManager = Engine.renderManager;
     }
 
     GLuint Shader::CreateProgram(string vertex, string fragment, string geometry)

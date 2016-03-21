@@ -34,7 +34,7 @@ namespace EngineT
 
         Inputs* inputs;
         ShaderManager* shaderManager;
-        Renderer* renderer;
+        RenderManager* renderManager;
         TimeManager* time;
 
         Physics* physics;
@@ -42,9 +42,6 @@ namespace EngineT
         float windowWidth;
         float windowHeight;
 
-
-        //TODO: material system
-        Shader* lightingShader;
     private:
 
         bool error = false;

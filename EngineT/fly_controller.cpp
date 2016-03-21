@@ -3,7 +3,7 @@
 #include "inputs.h"
 #include "camera.h"
 #include "light.h" 
-#include "renderer.h" 
+#include "render_manager.h" 
 #include "glm/gtc/quaternion.hpp"
 #include "glm/gtx/quaternion.hpp"
 

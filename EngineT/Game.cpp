@@ -5,7 +5,7 @@
 #include "texture.h"
 #include "sprite.h"
 #include "mesh.h"
-#include "renderer.h"
+#include "render_manager.h"
 #include "gameobject.h"
 #include "transform.h"
 #include "light.h"
@@ -14,8 +14,8 @@
 #include "font.h"
 #include "style.h"
 #include "ui_text.h"
-#include "shader_manager.h"
-#include "componenttest.h"
+#include "shader_manager.h" 
+#include "material.h" 
 //#include "zlib\zlib.h"
 
 #include "mesh_generator.h"
@@ -29,73 +29,71 @@
 #include "obj_3d.h"
 using namespace EngineT;
 
-
-
 Game::Game()
 {
-
     Scene* scene = new Scene();
 
-    //create a rendering layer
-    Layer mainLayer = scene->CreateLayer();
-
-    //create a rendering layer for 2D objects
-    Layer layer2D = scene->CreateLayer();
-
+ 
     //load textures
-    //auto tex_font0 = make_unique<Texture>("data/fonts/font16.png");
-    Texture* tex_font0 = new Texture("data/fonts/font16.png");
-    Texture* tex_ship = new Texture("data/textures/tex_ship.png", 3);
-    Texture* tex_bricks = new Texture("data/textures/tex_bricks.png", 3);
-    Texture* tex_crate = new Texture("data/textures/tex_crate.png", 3);
+    //Texture* tex_font0 = new Texture("data/fonts/font16.png");
 
-    Texture* tex_atlas0 = new Texture("data/textures/atlas0.png");
+    Shader* shader_diffuse = Engine.shaderManager->Load("data/shaders/diffuse.shader");
+    Shader* shader_specular = Engine.shaderManager->Load("data/shaders/specular.shader");
+    Shader* shader_unlit = Engine.shaderManager->Load("data/shaders/unlit.shader");
 
-    Sprite* spr_window = new Sprite();
-    spr_window->LoadSliced(tex_atlas0, "data/sprites/spr_window.spr", vec2(400, 250));
+   
+    //Texture* tex_atlas0 = new Texture("data/textures/atlas0.png"); 
+    //Sprite* spr_window = new Sprite();
+    //spr_window->LoadSliced(tex_atlas0, "data/sprites/spr_window.spr", vec2(400, 250));
 
-    Sprite* spr_spider = new Sprite(tex_atlas0, "data/sprites/spr_spider.spr");
-    Sprite* spr_tree = new Sprite(tex_atlas0, "data/sprites/spr_tree.spr");
+    //Sprite* spr_spider = new Sprite(tex_atlas0, "data/sprites/spr_spider.spr");
+    //Sprite* spr_tree = new Sprite(tex_atlas0, "data/sprites/spr_tree.spr");
     //spr_test->CreateFromStrip(tex_sprite_test, 11*21, tex_sprite_test->width / 11, tex_sprite_test->height / 21);
 
 
-    //load car
-    Mesh* mesh_ship = new Mesh("data/models/ship.dae");
-    mesh_ship->SetTexture(tex_ship, 0, 0);
-
     //load farm
-    /*Mesh* mesh_farm = new Mesh("data/models/farm.obj");
-    mesh_farm->SetTexture(tex_farm, 0, 0);*/
+    //Mesh* mesh_farm = new Mesh("data/models/farm.obj");
+    //mesh_farm->SetTexture(tex_farm, 0, 0);*/
 
     //create 3D camera
     Camera* camera = new Camera(Engine.windowWidth, Engine.windowHeight);
-    scene->Add(camera, mainLayer);
+    scene->Add(camera);
 
-    //create 2D camera
-    Camera* camera2D = new Camera(Engine.windowWidth, Engine.windowHeight);
-    camera2D->SetOrtho(-100.0f, -100.0f, Engine.windowWidth, Engine.windowHeight, 0.001f, 1000.0f);
-    camera2D->SetPosition(vec3(0, 0, 1000.0f));
-    scene->Add(camera2D, layer2D);
+    ////create 2D camera
+    //Camera* camera2D = new Camera(Engine.windowWidth, Engine.windowHeight);
+    //camera2D->SetOrtho(-100.0f, -100.0f, Engine.windowWidth, Engine.windowHeight, 0.001f, 1000.0f);
+    //camera2D->SetPosition(vec3(0, 0, 1000.0f));
+    //scene->Add(camera2D);
 
 
-    //skybox
 
-    Texture* tex_skybox = new Texture("data/textures/tex_skybox.png", 3);
-    Mesh* mesh_skybox = new Mesh("data/models/skybox.obj");
-    mesh_skybox->SetTexture(tex_skybox, 0, 0);
-    Obj3D* skybox = new Obj3D();
+    //=======================
+    //= Skybox
+    //======================= 
+    auto tex_skybox = new Texture("data/textures/tex_skybox.png", 3);
+    auto mat_skybox = new Material(shader_unlit, tex_skybox);
+    auto mesh_skybox = new Mesh("data/models/skybox.obj");
+
+    auto skybox = new Obj3D();
     skybox->SetMesh(mesh_skybox);
-    skybox->transform.SetScaling(vec3(22,22,22));
-    skybox->transform.SetPosition(vec3(0,0,0));
-    //scene->Add(skybox, mainLayer);
+    skybox->SetMaterial(mat_skybox);
 
-    /*Obj3D* farm = new Obj3D();
-    farm->SetMesh(mesh_farm);*/
-    //scene->Add(farm, mainLayer);
+    skybox->transform.SetScaling(vec3(30, 30, 30));
+    skybox->transform.SetPosition(vec3(0, -160, 0));
+    scene->Add(skybox); 
+     
+    //=======================
+    //= Spaceship
+    //======================= 
+    Texture* tex_ship = new Texture("data/textures/tex_ship.png", 3);
+    Material* mat_ship = new Material(shader_specular, tex_ship);
+    Mesh* mesh_ship = new Mesh("data/models/ship.dae");
 
-    for(int i = 0; i < 15; i++){
+    for(int i = 0; i < 15; i++)
+    {
         Obj3D* spaceship = new Obj3D();
         spaceship->SetMesh(mesh_ship);
+        spaceship->SetMaterial(mat_ship);
 
         spaceship->transform.SetScaling(vec3(0.2f, 0.2f, 0.2f));
         spaceship->transform.SetPosition(vec3(
@@ -103,28 +101,28 @@ Game::Game()
             2.0f + i*1.0f,
             sin(i * 15 * 0.01745) * 15.0f
             ));
-        scene->Add(spaceship, mainLayer);
+        scene->Add(spaceship);
     }
 
-    //2d spider
-    Obj2D* obj_spider = new Obj2D();
-    obj_spider->SetSprite(spr_spider);
-    obj_spider->transform.SetScaling(vec3(2, 2, 2));
-    obj_spider->imageSpeed = 0.1f;
-    scene->Add(obj_spider, layer2D);
+    ////2d spider
+    //Obj2D* obj_spider = new Obj2D();
+    //obj_spider->SetSprite(spr_spider);
+    //obj_spider->transform.SetScaling(vec3(2, 2, 2));
+    //obj_spider->imageSpeed = 0.1f;
+    //scene->Add(obj_spider);
 
-    //test window
-    Obj2D* obj_window = new Obj2D();
-    obj_window->SetSprite(spr_window);
-    obj_window->transform.SetPosition(vec3(50, 50, 0));
-    scene->Add(obj_window, layer2D);
+    ////test window
+    //Obj2D* obj_window = new Obj2D();
+    //obj_window->SetSprite(spr_window);
+    //obj_window->transform.SetPosition(vec3(50, 50, 0));
+    //scene->Add(obj_window);
 
-    //2d tree
-    Obj2D* obj_tree = new Obj2D();
-    obj_tree->SetSprite(spr_tree);
-    obj_tree->transform.SetPosition(vec3(300, 100, 0));
-    scene->Add(obj_tree, layer2D);
-    
+    ////2d tree
+    //Obj2D* obj_tree = new Obj2D();
+    //obj_tree->SetSprite(spr_tree);
+    //obj_tree->transform.SetPosition(vec3(300, 100, 0));
+    //scene->Add(obj_tree);
+    //
     /*
     //labirynth
     Labyr * labyr = new Labyr();
@@ -138,7 +136,7 @@ Game::Game()
     Obj3D* obj_labyr = new Obj3D();
     obj_labyr->SetMesh(mesh_labyr);
     obj_labyr->transform.SetPosition(vec3(-16.0f, 0, -16.0f));
-    scene->Add(obj_labyr, mainLayer);
+    scene->Add(obj_labyr);
     */
 
     /*
@@ -152,59 +150,79 @@ Game::Game()
     //delete labyr;
     */
 
-    //DEBUG floor 
-    Obj3D* obj_test_plane = new Obj3D();
 
-    obj_test_plane->AddComponent<ComponentTest>();
-    ComponentTest* t = obj_test_plane->GetComponent<ComponentTest>();
-    if(t != nullptr)
-        cout << "TROVATOOOOOOOO\n\n" << t->GetType() << "\n\n";
-    Rigidbody* body_plane = new Rigidbody(obj_test_plane);
+    //=======================
+    //= Ground
+    //======================= 
+
+    auto tex_bricks = new Texture("data/textures/tex_bricks.png", 3);
+    auto mat_ground = new Material(shader_diffuse, tex_bricks);
+    auto mesh_floor = MeshGenerator::GenerateFloor(250.0f, 250.0f, false, 0, 0, 3, 3)->Finalize();
+ 
+    auto obj_floor = new Obj3D();
+    obj_floor->SetMesh(mesh_floor);
+    obj_floor->SetMaterial(mat_ground);
+    obj_floor->transform.SetPosition(vec3(-125.0f, 0, -125.0f));
+  
+    Rigidbody* body_plane = new Rigidbody(obj_floor);
     btCollisionShape* shape_plane = new btStaticPlaneShape(btVector3(0, 1, 0), 0);
     body_plane->Instantiate(shape_plane, 0);
-    Mesh* mesh_floor = MeshGenerator::GenerateFloor(250.0f, 250.0f)->Finalize();
-    mesh_floor->SetTexture(tex_bricks, 0, 0);
-    Obj3D* floor = new Obj3D();
-    floor->SetMesh(mesh_floor);
-    floor->transform.SetPosition(vec3(-125.0f, 0, -125.0f));
-    scene->Add(floor, mainLayer);
 
-    //RIGIDBODY CUBE
-    Mesh* mesh_cube = new Mesh("data/models/cube.obj");
-    mesh_cube->SetTexture(tex_crate, 0, 0);
+    scene->Add(obj_floor);
+    //obj_test_plane->AddComponent<ComponentTest>();
+    //ComponentTest* t = obj_test_plane->GetComponent<ComponentTest>();
+    //if(t != nullptr)
+    //    cout << "trovato componente: " << t->GetType() << endl;
+  
+    //=======================
+    //= Rigidbody cube
+    //======================= 
 
+    auto tex_crate = new Texture("data/textures/tex_crate.png", 3);
+    auto mat_crate = new Material(shader_specular, tex_crate);
+    auto mesh_cube = new Mesh("data/models/cube.obj");
+    
     for(int i = 0; i < 32; i++)
     {
-        Obj3D* obj_cube = new Obj3D();
+        auto obj_cube = new Obj3D();
         obj_cube->SetMesh(mesh_cube);
+        obj_cube->SetMaterial(mat_crate);
+
         obj_cube->transform.SetPosition(vec3(10, i*1.2f + 5.0f, 0));
-        scene->Add(obj_cube, mainLayer);
+        scene->Add(obj_cube);
 
         Rigidbody* body_cube = new Rigidbody(obj_cube);
         btCollisionShape* shape_cube = new btBoxShape(btVector3(0.5f, 0.5f, 0.5f));
         body_cube->Instantiate(shape_cube, 1.0f);
     }
 
-    //first person controller
+    //=======================
+    //= Character controller
+    //======================= 
+
+    // fly controller
     FlyController* controller = new FlyController(camera);
     controller->SetPosition(vec3(1.0f, 2.0f, 1.0f));
-    scene->Add(controller, mainLayer);
+    scene->Add(controller);
 
     /*
+    // first person controller
     FpsController* controller = new FpsController(camera);
     controller->Setup();
     controller->SetPosition(vec3(1.0f, 2.0f, 1.0f));
-    scene->Add(controller, mainLayer);
+    scene->Add(controller);
     */
 
-    //create lights
+    //=======================
+    //= Lights
+    //======================= 
+
     Light* light;
     light = new Light(LightType::Directional);
-    light->color = vec3(0.5f, 0.5f, 0.5f);
+    light->color = vec3(0.8f, 0.5f, 0.0f);
     light->transform.AddRotation(-15, vec3(1.0f, 0.0f, 0.0f)); 
     scene->Add(light);
 
-    
     light = new Light(LightType::Point);
     light->color = vec3(1.0f, 0.0f, 0.0f);
     light->transform.SetPosition(vec3(20.0f, 1.0f, 0.0f));
@@ -217,16 +235,15 @@ Game::Game()
     //scene->Add(light);
 
 
-    tex_font0->SetFilter(TextureFilter::Point);
-    Font* font0 = new Font(tex_font0, "data/fonts/font16.fnt");
-    Style* style0 = new Style(font0);
+    //tex_font0->SetFilter(TextureFilter::Point);
+    //Font* font0 = new Font(tex_font0, "data/fonts/font16.fnt");
+    //Style* style0 = new Style(font0);
 
     /*Text* text = new Text(L"O_o il [#3333aa]testo[#]\nche va a capo!\nÆnche con caratteri\nspeciali e [#aa3333]Colorati[#] ", style0);
     text->transform.SetScaling(vec3(2,2,2));
     text->transform.SetPosition(vec3(50, 250, 0));
-    scene->Add(text, layer2D);*/
-
-
+    scene->Add(text);*/
+    
     //set the current scene
     Engine.SetScene(scene);
 }

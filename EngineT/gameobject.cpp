@@ -2,8 +2,8 @@
 #include "gameobject.h"
 #include "mesh.h"
 #include "sprite.h"
-
 #include "transform.h"
+#include "render_manager.h"
 
 namespace EngineT
 {
@@ -17,8 +17,23 @@ namespace EngineT
 		return mesh;
 	}
 
+    void GameObjectRenderable::SetMaterial(Material * mat)
+    {
+        if(material == mat)
+            return;
+
+        material = mat;      
+    }
+
+    Material * GameObjectRenderable::GetMaterial()
+    {
+        return material;
+    }
+
 	void GameObject3D::Draw()
 	{
+        if(mesh == nullptr)
+            cout << "ERROR: GameObject3D::Draw()" << endl;
 		mesh->Draw();
 	}
 
@@ -34,6 +49,9 @@ namespace EngineT
 
 	void GameObject2D::Draw()
 	{
+        if(sprite == nullptr)
+            cout << "ERROR: GameObject2D::Draw()" << endl;
+
 		uint index = (uint) imageIndex;
 		sprite->Draw(index);
 		imageIndex = fmodf(imageIndex + imageSpeed, (float) sprite->frames.size());

@@ -11,14 +11,13 @@ namespace EngineT
 
     class GameObject
     {
-        friend class Renderer;
+        friend class RenderManager;
         friend class Scene;
     public:
         Transform transform;
         int layer = 0;
         string name;
 
-        
         template<typename T, typename... TArgs>
         T& AddComponent(TArgs&&... mArgs)
         {
@@ -31,8 +30,6 @@ namespace EngineT
             return *component;
         };
         
- 
-
         template<typename T>
         T* GetComponent()
         {
@@ -47,35 +44,51 @@ namespace EngineT
             return nullptr;
         }
 
-    protected:
         virtual void Update() = 0;
+    protected:
         vector<Component*> components;
+        bool isInScene;
     };
 
 
-    class GameObject3D : public GameObject
+    class GameObjectRenderable : public GameObject
     {
+        friend class RenderManager;
+        friend class Scene;
     public:
+        
         TransformRenderable transform;
+        void SetMaterial(Material* material);
+        Material* GetMaterial();
+    protected:
+        virtual void Draw() = 0;
+        Material* material = nullptr;
+    };
+
+    class GameObject3D : public GameObjectRenderable
+    {
+        friend class RenderManager;
+        friend class Scene;
+    public: 
         void SetMesh(Mesh* mesh);
         Mesh* GetMesh();
+
     private:
-        Mesh* mesh = NULL;
-        void Draw();
+        Mesh* mesh = nullptr;
+        void Draw() override;
     };
 
-    class GameObject2D : public GameObject
+    class GameObject2D : public GameObjectRenderable
     {
-        friend class Renderer;
+        friend class RenderManager;
         friend class Scene;
     public:
         float imageIndex;
         float imageSpeed;
-        TransformRenderable transform;
         void SetSprite(Sprite* sprite);
         Sprite* GetSprite();
     private:
-        Sprite* sprite = NULL;
-        void Draw();
+        Sprite* sprite = nullptr;
+        void Draw() override;
     };
 }

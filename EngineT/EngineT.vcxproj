@@ -106,13 +106,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="component.cpp" />
     <ClCompile Include="context.cpp" />
     <ClCompile Include="materal.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="engine_t.cpp" />
     <ClCompile Include="font.cpp" />
     <ClCompile Include="rect.cpp" />
-    <ClCompile Include="resources.cpp" />
     <ClCompile Include="shader_mesh.cpp" />
     <ClCompile Include="string_utils.cpp" />
     <ClCompile Include="style.cpp" />
@@ -130,7 +130,7 @@
     <ClCompile Include="obj_3d.cpp" />
     <ClCompile Include="obj_2d.cpp" />
     <ClCompile Include="physics.cpp" />
-    <ClCompile Include="renderer.cpp" />
+    <ClCompile Include="render_manager.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="shader_manager.cpp" />
     <ClCompile Include="fly_controller.cpp" />
@@ -144,9 +144,7 @@
   <ItemGroup>
     <ClInclude Include="camera.h" />
     <ClInclude Include="component.h" />
-    <ClInclude Include="componenttest.h" />
     <ClInclude Include="context.h" />
-    <ClInclude Include="i_renderable.h" />
     <ClInclude Include="material.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="engine_setup.h" />
@@ -155,7 +153,6 @@
     <ClInclude Include="fly_controller.h" />
     <ClInclude Include="font.h" />
     <ClInclude Include="rect.h" />
-    <ClInclude Include="resources.h" />
     <ClInclude Include="shader_mesh.h" />
     <ClInclude Include="string_utils.h" />
     <ClInclude Include="style.h" />
@@ -174,7 +171,7 @@
     <ClInclude Include="obj_2d.h" />
     <ClInclude Include="physics.h" />
     <ClInclude Include="root_declar.h" />
-    <ClInclude Include="renderer.h" />
+    <ClInclude Include="render_manager.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="shader_manager.h" />
     <ClInclude Include="shadowmap.h" />
@@ -186,9 +183,6 @@
     <ClInclude Include="ui_manager.h" />
     <ClInclude Include="ui_canvas.h" />
     <ClInclude Include="utils.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="test.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

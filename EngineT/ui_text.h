@@ -6,7 +6,7 @@ namespace EngineT
 {
     class Text : GameObject
     {
-        friend class Renderer;
+        friend class RenderManager;
         friend class Scene;
     public:
 

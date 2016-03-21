@@ -47,11 +47,12 @@ namespace EngineT
     class EngineSetup;
 
     //core
-    class Renderer;
+    class RenderManager;
     class Scene;
     class Transform;
     class TransformRenderable;
     class GameObject;
+    class GameObjectRenderable;
     class GameObject2D;
     class GameObject3D;
     class Camera;

@@ -1,6 +1,6 @@
 
 #include "shader_lighting.h"
-#include "renderer.h"
+#include "render_manager.h"
 #include "gameobject.h"
 #include "camera.h"
 #include "light.h"
@@ -14,19 +14,18 @@ namespace EngineT
 
     ShaderLighting::ShaderLighting() 
     {
-        renderer = Engine.renderer;
+        renderManager = Engine.renderManager;
     }
 
     void ShaderLighting::LoadUniforms()
     {
 
         uWVP = Loc("uWVP");
+        uWorld = Loc("uWorld");
         //uniforms
-        if(hasSpecular)
-        {
-            uWorld = Loc("uWorld");
-            uEyeWorldPos = Loc("uEyeWorldPos");
-        }
+        
+        if(hasSpecular) 
+            uEyeWorldPos = Loc("uEyeWorldPos"); 
 
         uNumPointLights = Loc("uNumPointLights");
         uNumSpotLights = Loc("uNumSpotLights");
@@ -82,11 +81,11 @@ namespace EngineT
 
     void ShaderLighting::Enable()
     {
-        renderer = Engine.renderer;
+        renderManager = Engine.renderManager;
         glUseProgram(shaderProgram);
         int pointLightCount = 0;
         int spotLightCount = 0;
-        for(auto light : renderer->lights)
+        for(auto light : renderManager->lights)
         {
             if(light->type == LightType::Directional)
             {
@@ -143,15 +142,15 @@ namespace EngineT
 
     void ShaderLighting::UpdateUniforms()
     {
-        mat4 worldMatrix = ((GameObject3D*) (renderer->curObj))->transform.GetWorldMatrix();
-        mat4 WVP = renderer->curCamera->GetViewProjMatrix() * worldMatrix;
+        mat4 worldMatrix = ((GameObject3D*) (renderManager->curObj))->transform.GetWorldMatrix();
+        mat4 WVP = renderManager->curCamera->GetViewProjMatrix() * worldMatrix;
 
         glUniformMatrix4fv(uWVP, 1, GL_FALSE, &WVP[0][0]);
 
         glUniformMatrix4fv(uWorld, 1, GL_FALSE, &worldMatrix[0][0]);
 
         glUniform1i(GetUniformLoc("uSampler"), 0); //set texture unit 
-        vec3 eye = renderer->curCamera->position;
+        vec3 eye = renderManager->curCamera->position;
         glUniform3f(uEyeWorldPos, eye.x, eye.y, eye.z);
     }
 }

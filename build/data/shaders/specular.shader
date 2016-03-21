@@ -6,7 +6,7 @@ Header
 		LightingModel: Lambert
 		Specular: On
 		Normalmap: On
-	GammaCorrection: On
+	GammaCorrection: Off
 }
 
 Vertex

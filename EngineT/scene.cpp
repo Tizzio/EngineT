@@ -1,13 +1,12 @@
 
 #include "scene.h"
+#include "render_manager.h" 
 #include "gameobject.h"
-#include "ui_text.h"
 #include "camera.h" 
 
 
 namespace EngineT
 {
-
 
     Scene::Scene()
     {
@@ -15,86 +14,54 @@ namespace EngineT
 
     Scene::~Scene()
     {
+    } 
 
-    }
-
-    Layer Scene::CreateLayer()
+    void Scene::Add(GameObject* gameObject)
     {
-        objLayers[currentLayerId] = vector<GameObject*>();
-        obj2DLayers[currentLayerId] = vector<GameObject2D*>();
-        obj3DLayers[currentLayerId] = vector<GameObject3D*>();
-        textLayers[currentLayerId] = vector<Text*>();
-        layerList.push_back(currentLayerId);
-        return currentLayerId++;
+        gameObjects.push_back(gameObject);
+        gameObject->isInScene = true;
     }
 
-    void Scene::DeleteLayer(Layer layer)
+    void Scene::Add(GameObjectRenderable* gameObject)
     {
-        //TODO: implement
-    }
+        //if it's not in render queue and it has a material
+        //assign a default material
+        if(gameObject->material == nullptr) 
+            Engine.TrowError("Missing material NOT IMPLEMENTED DEFAULT MATERIAL", __LINE__, __FILE__); 
 
-    void Scene::Add(GameObject* gameObject, Layer layer)
-    {
-        gameObject->layer = layer;
-        auto gameObjects = &objLayers[layer];
-        gameObjects->push_back(gameObject);
-    }
-    void Scene::Add(GameObject2D* gameObject, Layer layer)
-    {
-        gameObject->layer = layer;
-        auto gameObjects = &obj2DLayers[layer];
-        gameObjects->push_back(gameObject);
-    }
-    void Scene::Add(Text* text, Layer layer)
-    {
-        text->layer = layer;
-        auto texts = &textLayers[layer];
-        texts->push_back(text);
-    }
-    void Scene::Add(GameObject3D* gameObject, Layer layer)
-    {
-        gameObject->layer = layer;
-        auto gameObjects = &obj3DLayers[layer];
-        gameObjects->push_back(gameObject);
-    }
+        gameObject->isInScene = true;
+        gameObjects.push_back(gameObject);
+        Engine.renderManager->Add(gameObject);
+    } 
 
     void Scene::Remove(GameObject* gameObject)
     {
-
-        auto gameObjects = &objLayers[gameObject->layer];
-        for(auto go = gameObjects->begin(); go < gameObjects->end(); go++){
-            if((*go) == gameObject){
-                gameObjects->erase(go);
+        for(auto go = gameObjects.begin(); go < gameObjects.end(); go++)
+        {
+            if((*go) == gameObject)
+            {
+                gameObjects.erase(go);
+                gameObject->isInScene = false;
                 break;
             }
         }
     }
-    void Scene::Remove(GameObject2D* gameObject)
+
+
+    void Scene::Remove(GameObjectRenderable* gameObject)
     {
-
-        auto gameObjects = &obj2DLayers[gameObject->layer];
-        for(auto go = gameObjects->begin(); go < gameObjects->end(); go++){
-            if((*go) == gameObject){
-                gameObjects->erase(go);
+        for(auto go = gameObjects.begin(); go < gameObjects.end(); go++)
+        {
+            if((*go) == gameObject)
+            {
+                gameObjects.erase(go);
+                gameObject->isInScene = false;
+                Engine.renderManager->Remove(gameObject);
                 break;
             }
         }
     }
-    void Scene::Remove(GameObject3D* gameObject)
-    {
-
-        auto gameObjects = &obj3DLayers[gameObject->layer];
-        for(auto go = gameObjects->begin(); go < gameObjects->end(); go++){
-            if((*go) == gameObject){
-                gameObjects->erase(go);
-                break;
-            }
-        }
-    }
-
-    //TODO: Important, add method remove text
-
-
+     
     void Scene::Add(Light* light)
     {
         lights.push_back(light);
@@ -110,9 +77,8 @@ namespace EngineT
         }
     }
 
-    void Scene::Add(Camera* camera, Layer layer)
+    void Scene::Add(Camera* camera)
     {
-        camera->layer = layer;
         cameras.push_back(camera);
     }
 
@@ -127,24 +93,10 @@ namespace EngineT
     }
 
     void Scene::Update()
-    {
-        for(Layer layer : layerList)
+    { 
+        for(auto go : gameObjects)
         {
-            for(auto go : objLayers[layer])
-            {
-                go->Update();
-            }
-
-            for(auto go : obj2DLayers[layer])
-            {
-                go->Update();
-            }
-
-            for(auto go : obj3DLayers[layer])
-            {
-                go->Update();
-            }
-
+            go->Update();
         }
     }
 }

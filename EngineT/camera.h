@@ -45,7 +45,6 @@ namespace EngineT
         void SetPosition(vec3 position);
         void AddPosition(vec3 position);
 
-
         void LookAt(vec3 target);
         void LookAt(vec3 target, vec3 up);
 

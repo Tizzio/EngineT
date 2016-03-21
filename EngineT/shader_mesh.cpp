@@ -1,6 +1,6 @@
 
 #include "shader_mesh.h"
-#include "renderer.h"
+#include "render_manager.h"
 #include "gameobject.h"
 #include "camera.h"
 #include "light.h"
@@ -24,10 +24,10 @@ namespace EngineT
 
     void ShaderMesh::UpdateUniforms()
     {
-        renderer = Engine.renderer;
+        renderManager = Engine.renderManager;
        
-        mat4 worldMatrix = ((GameObject3D*) (renderer->curObj))->transform.GetWorldMatrix();//translate(mat4(), transform.position);
-        mat4  WVP = renderer->curCamera->GetViewProjMatrix() * worldMatrix;
+        mat4 worldMatrix = ((GameObject3D*) (renderManager->curObj))->transform.GetWorldMatrix();//translate(mat4(), transform.position);
+        mat4  WVP = renderManager->curCamera->GetViewProjMatrix() * worldMatrix;
 
         glUniformMatrix4fv(uWVP, 1, GL_FALSE, &WVP[0][0]); //set WVP
 

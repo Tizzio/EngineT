@@ -7,7 +7,7 @@ namespace EngineT
     class UIManager
     {
         friend class EngineT;
-        friend class Renderer;
+        friend class RenderManager;
 
     public:
         UIWindow* CreateWindow(float x, float y, float width, float height);

@@ -5,7 +5,7 @@
 #include "inputs.h"
 #include "gameobject.h"
 #include "scene.h"
-#include "renderer.h" 
+#include "render_manager.h" 
 #include "physics.h" 
 #include "engine_setup.h" 
 #include <glm/gtc/type_ptr.hpp>
@@ -46,11 +46,8 @@ namespace EngineT
 
         shaderManager = new ShaderManager();
         shaderManager->PrintErrors();
-
-        //TODO material system
-        lightingShader = shaderManager->Load("data/shaders/specular.shader");
-        
-        renderer = new Renderer();
+         
+        renderManager = new RenderManager();
 
         return true;
     }
@@ -64,7 +61,7 @@ namespace EngineT
 
     bool EngineT::TrowError(string error, int line, string filename)
     {
-        cout << "\n-----ERROR>-----\n" << "Line " << line << " of \"" << filename << "\"" << endl << error << "\n-----<ERROR-----\n" << endl;
+        cout << "\n-------ERROR>-------\n" << "Line " << line << " of \"" << filename << "\"" << endl << error << "\n-------<ERROR-------\n" << endl;
         assert(false);
         this->error = true;
         return false;
@@ -101,14 +98,12 @@ namespace EngineT
         scene->Update();
     }
 
-
-
     void EngineT::Render()
     {
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        renderer->Render(scene);
+        renderManager->Render(scene);
 
         inputs->Clear();
 
@@ -146,8 +141,8 @@ namespace EngineT
     void EngineT::SetScene(Scene* scene)
     {
         this->scene = scene;
-        renderer->lights = scene->lights;
     }
+
     Scene * EngineT::GetScene()
     {
         return scene;

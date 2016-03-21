@@ -38,11 +38,14 @@
     <Filter Include="Core\IO\utils">
       <UniqueIdentifier>{a8dc9866-00ce-4071-accb-118cc5335f5f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Graphics\Materials">
-      <UniqueIdentifier>{d321ccad-f3bf-49b0-a45f-c99bbb7c917c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\Graphics\Resources">
       <UniqueIdentifier>{f8f559b4-8195-42cc-8522-1dd334dd9846}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Components">
+      <UniqueIdentifier>{556c344e-b711-42d6-ac6c-a7d8acd519e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\EngineUtils">
+      <UniqueIdentifier>{65797504-53be-4664-b681-6c1926f86ad0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -71,9 +74,6 @@
     <ClCompile Include="inputs.cpp">
       <Filter>Core\IO</Filter>
     </ClCompile>
-    <ClCompile Include="renderer.cpp">
-      <Filter>Core\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="mesh.cpp">
       <Filter>Core\Graphics\Resources</Filter>
     </ClCompile>
@@ -101,9 +101,6 @@
     <ClCompile Include="labyr.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="mesh_generator.cpp">
-      <Filter>Core\Graphics\Resources</Filter>
-    </ClCompile>
     <ClCompile Include="fps_controller.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
@@ -118,9 +115,6 @@
     </ClCompile>
     <ClCompile Include="physics.cpp">
       <Filter>Core\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="resources.cpp">
-      <Filter>Core\Graphics\Resources</Filter>
     </ClCompile>
     <ClCompile Include="ui_canvas.cpp">
       <Filter>Core\UI</Filter>
@@ -146,8 +140,17 @@
     <ClCompile Include="shader_lighting.cpp">
       <Filter>Core\Graphics\Shaders</Filter>
     </ClCompile>
+    <ClCompile Include="render_manager.cpp">
+      <Filter>Core\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="component.cpp">
+      <Filter>Engine\Components</Filter>
+    </ClCompile>
     <ClCompile Include="materal.cpp">
-      <Filter>Core\Graphics\Materials</Filter>
+      <Filter>Core\Graphics\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="mesh_generator.cpp">
+      <Filter>Core\EngineUtils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -180,9 +183,6 @@
     </ClInclude>
     <ClInclude Include="inputs.h">
       <Filter>Core\IO</Filter>
-    </ClInclude>
-    <ClInclude Include="renderer.h">
-      <Filter>Core\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="mesh.h">
       <Filter>Core\Graphics\Resources</Filter>
@@ -217,9 +217,6 @@
     <ClInclude Include="labyr.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="mesh_generator.h">
-      <Filter>Core\Graphics\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="fps_controller.h">
       <Filter>Engine</Filter>
     </ClInclude>
@@ -240,9 +237,6 @@
     </ClInclude>
     <ClInclude Include="ui_element.h">
       <Filter>Core\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="resources.h">
-      <Filter>Core\Graphics\Resources</Filter>
     </ClInclude>
     <ClInclude Include="ui_canvas.h">
       <Filter>Core\UI</Filter>
@@ -271,22 +265,17 @@
     <ClInclude Include="shader_lighting.h">
       <Filter>Core\Graphics\Shaders</Filter>
     </ClInclude>
-    <ClInclude Include="i_renderable.h">
+    <ClInclude Include="render_manager.h">
       <Filter>Core\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="material.h">
-      <Filter>Core\Graphics\Materials</Filter>
-    </ClInclude>
     <ClInclude Include="component.h">
-      <Filter>Engine</Filter>
+      <Filter>Engine\Components</Filter>
     </ClInclude>
-    <ClInclude Include="componenttest.h">
-      <Filter>Engine</Filter>
+    <ClInclude Include="material.h">
+      <Filter>Core\Graphics\Resources</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="test.png">
-      <Filter>Resource Files</Filter>
-    </Image>
+    <ClInclude Include="mesh_generator.h">
+      <Filter>Core\EngineUtils</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

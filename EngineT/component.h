@@ -9,15 +9,9 @@ namespace EngineT
     public:
         GameObject* gameObject;
 
-        Component()
-        {
-            cout << GetType() << " constructor" << endl;
-        }
+        Component();
 
-        ~Component()
-        {
-            cout << GetType() << " destructor" << endl;
-        }
+        ~Component();
 
         virtual void Update() = 0;
 

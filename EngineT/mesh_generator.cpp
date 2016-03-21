@@ -39,7 +39,7 @@ namespace EngineT
         return MeshGenerator::GenerateWall(xw, zw, height, inverted, uvXoff, uvYoff);
 
     }
-    RawMesh* MeshGenerator::GenerateFloor(float xlen, float zlen, bool inverted, float uvXoff, float uvYoff)
+    RawMesh* MeshGenerator::GenerateFloor(float xlen, float zlen, bool inverted, float uvXoff, float uvYoff, float xScale, float yScale)
     {
         RawMesh* rm = new RawMesh();
 
@@ -52,12 +52,12 @@ namespace EngineT
         if(!inverted)
             normal = vec3(0, 1, 0);
 
-        //vertices
+        //vertices 
         vector<Vertex> vertices = {
             Vertex(v1, vec2(uvXoff, uvYoff), normal),
-            Vertex(v2, vec2(xlen + uvXoff,  uvYoff), normal),
-            Vertex(v3, vec2(xlen + uvXoff, zlen + uvYoff), normal),
-            Vertex(v4, vec2(uvXoff, zlen + uvYoff), normal)
+            Vertex(v2, vec2(xlen / xScale + uvXoff,  uvYoff), normal),
+            Vertex(v3, vec2(xlen / xScale + uvXoff, zlen / yScale + uvYoff), normal),
+            Vertex(v4, vec2(uvXoff, zlen / yScale + uvYoff), normal)
         };
 
 

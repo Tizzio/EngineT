@@ -20,7 +20,7 @@ namespace EngineT
 
         virtual void LoadUniforms() = 0;
         ShaderManager* shaderManager;
-        Renderer* renderer;
+        RenderManager* renderManager;
         GLuint shaderProgram;
         unordered_map<string, GLint> uLoc;//uniform location
     };

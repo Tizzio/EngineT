@@ -46,17 +46,10 @@ uniform SpotLight uSpotLights[MAX_SPOT_LIGHTS];
 uniform vec3 uEyeWorldPos;
 uniform float uAmbientIntensity;
 
-uniform float uSpecularIntensity;
-uniform float uSpecularPower; 
 
 vec3 eyeDirection;
 vec3 normal;
 
-float CalculateSpecular(vec3 lightDirection)
-{ 
-	vec3 reflected = reflect(-lightDirection, normal); 
-	return uSpecularIntensity *pow(max(dot(reflected, -eyeDirection), 0.0), uSpecularPower);
-}
 
 float CalculateDiffuse(vec3 lightDirection) 
 {
@@ -69,7 +62,6 @@ vec3 CalcDirectionalLight()
 	vec3 lightDirection = normalize(uDirLight.direction);
 	vec3 color =  max(vec3(0,0,0), uDirLight.color * (uDirLight.diffuseIntensity * CalculateDiffuse(lightDirection)));
 	 
-	color += CalculateSpecular(lightDirection);
 	
 	return color;
 }
@@ -82,7 +74,6 @@ vec3 CalcPointLight(PointLight l)
 
 	vec3 color = l.color * (l.diffuseIntensity * CalculateDiffuse(lightDirection));
 
-	color += CalculateSpecular(lightDirection); 
 
 	float attenuation = l.attenConstant + l.attenLinear * distance +  l.attenExp * distance * distance; 
 
@@ -100,7 +91,6 @@ vec3 CalcSpotLight(SpotLight l)
 	{
 		vec3 color = l.color * (l.diffuseIntensity * CalculateDiffuse(lightDirection));
 		
-		color += CalculateSpecular(lightDirection); 
 		
 		float attenuation = l.attenConstant + l.attenLinear * distance +  l.attenExp * distance * distance;
 		return (color / attenuation) * (1.0 - (1.0 - spotFactor)/(1.0 - l.cutoff)); 
@@ -121,7 +111,6 @@ void main()
 {
 	PreFragment();
 	
-	eyeDirection = normalize(vWorldPos - uEyeWorldPos);
 	
 	normal = normalize(vNormal); 
 	vec3 totalLight =  vec3(uAmbientIntensity, uAmbientIntensity, uAmbientIntensity);

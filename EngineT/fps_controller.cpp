@@ -1,12 +1,9 @@
 
 #include "fps_controller.h" 
 #include "inputs.h"
-#include "camera.h"
-#include "renderer.h" 
+#include "camera.h" 
 #include "engine_t.h" 
 #include "physics.h" 
-#include "glm/gtc/quaternion.hpp"
-#include "glm/gtx/quaternion.hpp"
 
 namespace EngineT
 {

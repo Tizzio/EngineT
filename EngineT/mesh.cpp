@@ -34,7 +34,6 @@ namespace EngineT
         glDeleteBuffers(1, &vbo_i);
         glDeleteVertexArrays(1, &vao);
 
-        subMeshes.clear();
     }
 
 
@@ -43,14 +42,7 @@ namespace EngineT
         Clear();
 
         GenBuffers();
-
-
-        subMeshes.resize(1);
-        subMeshes[0].numIndices = indices.size();
-        subMeshes[0].firstVertex = 0;
-        subMeshes[0].firstIndex = 0;
-        subMeshes[0].textures.push_back(NULL);
-
+        
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo_i);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint)* indices.size(), &indices[0], GL_STATIC_DRAW);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -58,6 +50,8 @@ namespace EngineT
         glBindBuffer(GL_ARRAY_BUFFER, vbo_v);
         glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)* vertices.size(), &vertices[0], GL_STATIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, 0);/**/
+
+        numIndices = indices.size();
     }
 
     void Mesh::GenBuffers()
@@ -118,16 +112,21 @@ namespace EngineT
             );
 
 
-        if(scene) {
-
-            subMeshes.resize(scene->mNumMeshes);
-
+        if(scene)
+        {
+            if(scene->mNumMeshes > 1)
+                Engine.TrowError("Multiple meshes not implemented", __LINE__, __FILE__);
+         
             vector<Vertex> vertices;
             vector<uint> indices;
+             
+            numVertices = scene->mMeshes[0]->mNumVertices;
+            numIndices = scene->mMeshes[0]->mNumFaces * 3; 
 
-            uint numVertices = 0;
-            uint numIndices = 0;
+            vertices.reserve(numVertices);
+            indices.reserve(numIndices);
 
+            /*
             // Count the number of vertices and indices
             for(unsigned int i = 0; i < subMeshes.size(); i++)
             {
@@ -141,44 +140,38 @@ namespace EngineT
                 numVertices += verts;
                 numIndices += indices;
             }
+            */
 
             cout << "numVertices " << numVertices << endl;
             cout << "numIndices " << numIndices << endl;
 
-            vertices.reserve(numVertices);
-            indices.reserve(numIndices);
+             
+            const aiMesh* paiMesh = scene->mMeshes[0]; 
+            const aiVector3D zero3d(0.0f, 0.0f, 0.0f);
 
-            // Initialize the meshes in the scene one by one
-            for(unsigned int i = 0; i < subMeshes.size(); i++) 
+            // Populate the vertex attribute vectors
+            for(unsigned int i = 0; i < paiMesh->mNumVertices; i++) {
+                const aiVector3D* pos = &(paiMesh->mVertices[i]);
+                const aiVector3D* norm = &(paiMesh->mNormals[i]);
+                const aiVector3D* coord = paiMesh->HasTextureCoords(0) ?
+                    &(paiMesh->mTextureCoords[0][i]) : &zero3d;
+                bool n = paiMesh->HasNormals();
+                vertices.push_back(
+                    Vertex(
+                        vec3(pos->x, pos->y, pos->z),
+                        vec2(coord->x, coord->y),
+                        vec3(n ? norm->x : 0, n ? norm->y : 0, n ? norm->z : 0)
+                        ));
+            }
+
+            // Populate the index buffer
+            for(unsigned int i = 0; i < paiMesh->mNumFaces; i++)
             {
-                const aiMesh* paiMesh = scene->mMeshes[i];
-                //InitMesh(paiMesh, positions, normals, texCoords, indices);
-
-                const aiVector3D zero3d(0.0f, 0.0f, 0.0f);
-
-                // Populate the vertex attribute vectors
-                for(unsigned int i = 0; i < paiMesh->mNumVertices; i++) {
-                    const aiVector3D* pos = &(paiMesh->mVertices[i]);
-                    const aiVector3D* norm = &(paiMesh->mNormals[i]);
-                    const aiVector3D* coord = paiMesh->HasTextureCoords(0) ?
-                        &(paiMesh->mTextureCoords[0][i]) : &zero3d;
-                    bool n = paiMesh->HasNormals();
-                    vertices.push_back(
-                        Vertex(
-                            vec3(pos->x, pos->y, pos->z),
-                            vec2(coord->x, coord->y),
-                            vec3(n ? norm->x : 0, n ? norm->y : 0, n ? norm->z : 0)
-                            ));
-                }
-
-                // Populate the index buffer
-                for(unsigned int i = 0; i < paiMesh->mNumFaces; i++) {
-                    const aiFace& face = paiMesh->mFaces[i];
-                    assert(face.mNumIndices == 3);
-                    indices.push_back(face.mIndices[0]);
-                    indices.push_back(face.mIndices[1]);
-                    indices.push_back(face.mIndices[2]);
-                }
+                const aiFace& face = paiMesh->mFaces[i];
+                assert(face.mNumIndices == 3);
+                indices.push_back(face.mIndices[0]);
+                indices.push_back(face.mIndices[1]);
+                indices.push_back(face.mIndices[2]);
             }
 
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo_i);
@@ -197,22 +190,17 @@ namespace EngineT
         return false;
     }
 
-    void Mesh::SetTexture(Texture* texture, uint subMesh, uint textureIndex)
-    {
-        subMeshes[subMesh].textures[textureIndex] = texture;
-    }
 
     void Mesh::Draw()
     {
         glBindVertexArray(vao);
-        for(unsigned int i = 0; i < subMeshes.size(); i++)
-        {
-            if(subMeshes[i].textures[0])
-                subMeshes[i].textures[0]->Bind(GL_TEXTURE0);
-            glDrawElementsBaseVertex(GL_TRIANGLES, subMeshes[i].numIndices, GL_UNSIGNED_INT,
-                (void*) (sizeof(uint)* subMeshes[i].firstIndex),
-                subMeshes[i].firstVertex);
-        }
+        
+        /*glDrawElementsBaseVertex(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT,
+            (void*) (sizeof(uint)* subMeshes[i].firstIndex),
+            subMeshes[i].firstVertex);*/
+
+        glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, 0);
+        //glDrawArrays(GL_TRIANGLES, 0, numIndices);
 
         // Make sure the VAO is not changed from the outside 
         glBindVertexArray(0);

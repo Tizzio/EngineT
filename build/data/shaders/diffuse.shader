@@ -1,8 +1,11 @@
 Header
 {
-	Name: Unlit
+	Name: Diffuse
 	Version: 330
-	Mesh: On
+	Lighting: On
+		LightingModel: Lambert
+		Specular: Off
+		Normalmap: Off
 	GammaCorrection: Off
 }
 
