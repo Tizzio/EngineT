@@ -46,9 +46,10 @@ uniform SpotLight uSpotLights[MAX_SPOT_LIGHTS];
 uniform vec3 uEyeWorldPos;
 uniform float uAmbientIntensity;
 
-
 vec3 eyeDirection;
 vec3 normal;
+
+
 
 
 float CalculateDiffuse(vec3 lightDirection) 
@@ -113,6 +114,8 @@ void main()
 	
 	
 	normal = normalize(vNormal); 
+	
+	
 	vec3 totalLight =  vec3(uAmbientIntensity, uAmbientIntensity, uAmbientIntensity);
 	totalLight += CalcDirectionalLight(); 
 	 

@@ -5,6 +5,7 @@ Header
 	Lighting: On
 		LightingModel: Lambert
 		Specular: On
+		Normalmap: On
 	GammaCorrection: Off
 }
 

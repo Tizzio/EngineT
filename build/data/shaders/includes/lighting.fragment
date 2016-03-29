@@ -43,13 +43,18 @@ uniform SpotLight uSpotLights[MAX_SPOT_LIGHTS];
 uniform vec3 uEyeWorldPos;
 uniform float uAmbientIntensity;
 
+vec3 eyeDirection;
+vec3 normal;
+
 #if Specular:On
 uniform float uSpecularIntensity;
 uniform float uSpecularPower; 
 #endif
 
-vec3 eyeDirection;
-vec3 normal;
+#if Normalmap:On
+uniform sampler2D uNormalMap; 
+in mat3 vTBN;
+#endif
 
 #if Specular:On
 float CalculateSpecular(vec3 lightDirection)
@@ -76,6 +81,9 @@ float CalculateDiffuse(vec3 lightDirection)
 vec3 CalcDirectionalLight()
 {
 	vec3 lightDirection = normalize(uDirLight.direction);
+	#if Normalmap:On
+	lightDirection = vTBN * lightDirection;
+	#endif
 	vec3 color =  max(vec3(0,0,0), uDirLight.color * (uDirLight.diffuseIntensity * CalculateDiffuse(lightDirection)));
 	 
 	#if Specular:On
@@ -90,6 +98,9 @@ vec3 CalcPointLight(PointLight l)
 	vec3 lightVector = l.position - vWorldPos; 
 	float distance = length(lightVector);
 	vec3 lightDirection = normalize(lightVector); 
+	#if Normalmap:On
+	lightDirection = vTBN * lightDirection;
+	#endif
 
 	vec3 color = l.color * (l.diffuseIntensity * CalculateDiffuse(lightDirection));
 
@@ -107,6 +118,9 @@ vec3 CalcSpotLight(SpotLight l)
 	vec3 lightVector = l.position - vWorldPos ; 
 	float distance = length(lightVector);
 	vec3 lightDirection = normalize(lightVector);
+	#if Normalmap:On
+	lightDirection = vTBN * lightDirection;
+	#endif
 	float spotFactor = dot(lightDirection, l.direction);
 
 	if (spotFactor > l.cutoff)
@@ -133,6 +147,13 @@ void main()
 	#endif
 	
 	normal = normalize(vNormal); 
+	
+	#if Normalmap:On
+    normal = texture2D(uNormalMap, vTexCoord.xy).rgb;
+    normal = normalize(normal * 2.0 - 1.0);
+    eyeDirection  = vTBN * eyeDirection;    
+	#endif
+	
 	vec3 totalLight =  vec3(uAmbientIntensity, uAmbientIntensity, uAmbientIntensity);
 	totalLight += CalcDirectionalLight(); 
 	 

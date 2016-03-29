@@ -149,7 +149,11 @@ namespace EngineT
 
         glUniformMatrix4fv(uWorld, 1, GL_FALSE, &worldMatrix[0][0]);
 
-        glUniform1i(GetUniformLoc("uSampler"), 0); //set texture unit 
+        glUniform1i(GetUniformLoc("uSampler"), 0); //texture unit 0
+
+        if(hasNnormalmap)
+            glUniform1i(GetUniformLoc("uNormalMap"), 1); //texture unit 1
+
         vec3 eye = renderManager->curCamera->position;
         glUniform3f(uEyeWorldPos, eye.x, eye.y, eye.z);
     }

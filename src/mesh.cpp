@@ -74,10 +74,14 @@ namespace EngineT
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
         glEnableVertexAttribArray(2);
+        glEnableVertexAttribArray(3);
+        glEnableVertexAttribArray(4);
 
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) offsetof(class Vertex, position));
         glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) offsetof(class Vertex, texcoord));
         glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) offsetof(class Vertex, normal));
+        glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) offsetof(class Vertex, tangent));
+        glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) offsetof(class Vertex, bitangent));
 
         ////world matrix
         //for (uint i = 0; i < 4; i++) {
@@ -104,11 +108,11 @@ namespace EngineT
         GenBuffers();
 
         const aiScene* scene = importer.ReadFile(filename.c_str(),
-            aiProcess_GenNormals |
-            aiProcess_CalcTangentSpace |
-            aiProcess_Triangulate |
+            aiProcess_FlipUVs |
             aiProcess_JoinIdenticalVertices |
-            aiProcess_FlipUVs 
+            aiProcess_Triangulate |
+            aiProcess_GenNormals |
+            aiProcess_CalcTangentSpace
             );
 
 
@@ -122,7 +126,6 @@ namespace EngineT
              
             numVertices = scene->mMeshes[0]->mNumVertices;
             numIndices = scene->mMeshes[0]->mNumFaces * 3; 
-
             vertices.reserve(numVertices);
             indices.reserve(numIndices);
 
@@ -147,20 +150,25 @@ namespace EngineT
 
              
             const aiMesh* paiMesh = scene->mMeshes[0]; 
-            const aiVector3D zero3d(0.0f, 0.0f, 0.0f);
+            const aiVector3D zero(0.0f, 0.0f, 0.0f);
 
             // Populate the vertex attribute vectors
             for(unsigned int i = 0; i < paiMesh->mNumVertices; i++) {
                 const aiVector3D* pos = &(paiMesh->mVertices[i]);
-                const aiVector3D* norm = &(paiMesh->mNormals[i]);
-                const aiVector3D* coord = paiMesh->HasTextureCoords(0) ?
-                    &(paiMesh->mTextureCoords[0][i]) : &zero3d;
+
                 bool n = paiMesh->HasNormals();
+                const aiVector3D* norm = n ? &(paiMesh->mNormals[i]) : &zero;
+                const aiVector3D* tan = n ? &(paiMesh->mTangents[i]) : &zero;
+                const aiVector3D* bitan = n ? &(paiMesh->mBitangents[i]) : &zero;
+                const aiVector3D* coord = paiMesh->HasTextureCoords(0) ? &(paiMesh->mTextureCoords[0][i]) : &zero;
+
                 vertices.push_back(
                     Vertex(
                         vec3(pos->x, pos->y, pos->z),
                         vec2(coord->x, coord->y),
-                        vec3(n ? norm->x : 0, n ? norm->y : 0, n ? norm->z : 0)
+                        vec3(norm->x, norm->y, norm->z),
+                        vec3(tan->x, tan->y, tan->z),
+                        vec3(bitan->x, bitan->y, bitan->z)
                         ));
             }
 
@@ -175,13 +183,12 @@ namespace EngineT
             }
 
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo_i);
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint)* indices.size(), &indices[0], GL_STATIC_DRAW);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * indices.size(), &indices[0], GL_STATIC_DRAW);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
             glBindBuffer(GL_ARRAY_BUFFER, vbo_v);
-            glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)* vertices.size(), &vertices[0], GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
             glBindBuffer(GL_ARRAY_BUFFER, 0);
-
         }
         else {
             cout << "Error parsing" << filename.c_str() << " : " << importer.GetErrorString() << endl;

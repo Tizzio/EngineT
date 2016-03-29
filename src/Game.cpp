@@ -16,13 +16,8 @@
 #include "ui_text.h"
 #include "shader_manager.h" 
 #include "material.h" 
-//#include "zlib\zlib.h"
-
 #include "mesh_generator.h"
-
 #include "physics.h" 
-
-
 #include "fly_controller.h" 
 #include "fps_controller.h" 
 #include "obj_2d.h"
@@ -32,14 +27,14 @@ using namespace EngineT;
 Game::Game()
 {
     Scene* scene = new Scene();
-
- 
+    
     //load textures
     //Texture* tex_font0 = new Texture("data/fonts/font16.png");
 
+    Shader* shader_unlit = Engine.shaderManager->Load("data/shaders/unlit.shader");
     Shader* shader_diffuse = Engine.shaderManager->Load("data/shaders/diffuse.shader");
     Shader* shader_specular = Engine.shaderManager->Load("data/shaders/specular.shader");
-    Shader* shader_unlit = Engine.shaderManager->Load("data/shaders/unlit.shader");
+    Shader* shader_normalmap = Engine.shaderManager->Load("data/shaders/normalmap.shader");
 
    
     //Texture* tex_atlas0 = new Texture("data/textures/atlas0.png"); 
@@ -65,8 +60,6 @@ Game::Game()
     //camera2D->SetPosition(vec3(0, 0, 1000.0f));
     //scene->Add(camera2D);
 
-
-
     //=======================
     //= Skybox
     //======================= 
@@ -85,9 +78,9 @@ Game::Game()
     //=======================
     //= Spaceship
     //======================= 
-    Texture* tex_ship = new Texture("data/textures/tex_ship.png", 3);
-    Material* mat_ship = new Material(shader_specular, tex_ship);
-    Mesh* mesh_ship = new Mesh("data/models/ship.dae");
+    auto tex_ship = new Texture("data/textures/tex_ship.png", 3);
+    auto mat_ship = new Material(shader_specular, tex_ship);
+    auto mesh_ship = new Mesh("data/models/ship.obj");
 
     for(int i = 0; i < 15; i++)
     {
@@ -155,6 +148,7 @@ Game::Game()
     //= Ground
     //======================= 
 
+    
     auto tex_bricks = new Texture("data/textures/tex_bricks.png", 3);
     auto mat_ground = new Material(shader_diffuse, tex_bricks);
     auto mesh_floor = MeshGenerator::GenerateFloor(250.0f, 250.0f, false, 0, 0, 3, 3)->Finalize();
@@ -169,6 +163,8 @@ Game::Game()
     body_plane->Instantiate(shape_plane, 0);
 
     scene->Add(obj_floor);
+    
+
     //obj_test_plane->AddComponent<ComponentTest>();
     //ComponentTest* t = obj_test_plane->GetComponent<ComponentTest>();
     //if(t != nullptr)
@@ -178,9 +174,10 @@ Game::Game()
     //= Rigidbody cube
     //======================= 
 
-    auto tex_crate = new Texture("data/textures/tex_crate.png", 3);
-    auto mat_crate = new Material(shader_specular, tex_crate);
-    auto mesh_cube = new Mesh("data/models/cube.obj");
+    auto tex_crate = new Texture("data/textures/tex_wall.png", 3);
+    auto tex_crate_normal = new Texture("data/textures/norm_wall.png", 3);
+    auto mat_crate = new Material(shader_normalmap, tex_crate, tex_crate_normal);
+    auto mesh_cube = new Mesh("data/models/mod_cube.obj");
     
     for(int i = 0; i < 32; i++)
     {

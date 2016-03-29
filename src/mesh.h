@@ -11,6 +11,8 @@ namespace EngineT
         vec3 position;
         vec2 texcoord;
         vec3 normal;
+        vec3 tangent;
+        vec3 bitangent;
 
         Vertex(const vec3& position, const vec2& texcoord, const vec3& normal)
         {
@@ -18,6 +20,17 @@ namespace EngineT
             this->texcoord = texcoord;
             this->normal = normal;
         }
+
+
+        Vertex(const vec3& position, const vec2& texcoord, const vec3& normal, const vec3& tangent, const vec3& bitangent)
+        {
+            this->position = position;
+            this->texcoord = texcoord;
+            this->normal = normal;
+            this->tangent = tangent;
+            this->bitangent = bitangent;
+        }
+
         Vertex() {};
     };
 

@@ -5,10 +5,11 @@
 
 namespace EngineT
 {
-    Material::Material(Shader* s, Texture* t)
+    Material::Material(Shader* s, Texture* t, Texture* n)
     {
         shader = s;
         texture = t;
+        normalmap = n;
     }
 
     void Material::Enable()
@@ -29,6 +30,9 @@ namespace EngineT
 
         texture->Bind(GL_TEXTURE0);
 
+        if(normalmap)
+            normalmap->Bind(GL_TEXTURE1);
+         
         if(backfaceCulling)
             glEnable(GL_CULL_FACE);
         else

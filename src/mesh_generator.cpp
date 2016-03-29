@@ -17,9 +17,9 @@ namespace EngineT
 
     void RawMesh::Translate(const vec3& amount)
     {
-        for(auto i = 0; i < vertices.size(); i++)
+        for(Vertex& v : vertices)
         {
-            vertices[i].position += amount;
+            v.position += amount;
         }
     }
 
@@ -48,9 +48,12 @@ namespace EngineT
         vec3 v3 = vec3(xlen, 0, zlen);
         vec3 v4 = vec3(0, 0, zlen);
 
-        vec3 normal = vec3(0, -1, 0);
+
+        vec3 normal;
         if(!inverted)
             normal = vec3(0, 1, 0);
+        else 
+            normal = vec3(0, -1, 0);
 
         //vertices 
         vector<Vertex> vertices = {
