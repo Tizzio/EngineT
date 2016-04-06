@@ -57,7 +57,7 @@ namespace EngineT
         delete motionState;
     }
 
-    void Rigidbody::Instantiate(btCollisionShape* shape, btScalar mass, btVector3 &inertia)
+    void Rigidbody::Instantiate(btCollisionShape* shape, btScalar mass, btVector3  inertia)
     {
         assert(shape != nullptr);
         this->shape = shape;

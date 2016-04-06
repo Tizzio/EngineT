@@ -14,11 +14,15 @@ namespace EngineT
 
         ShaderLighting();
 
-        virtual void Enable();
+        virtual void Enable(Material* material);
         virtual void UpdateUniforms();
 
+        bool hasCubeMap;
         bool hasSpecular;
-        bool hasNnormalmap;
+        bool hasSpecularMap;
+        bool hasNormalMap;
+        bool hasOcclusionMap;
+        bool hasEmissionMap;
     
     private:
 

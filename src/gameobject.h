@@ -21,7 +21,7 @@ namespace EngineT
         template<typename T, typename... TArgs>
         T& AddComponent(TArgs&&... mArgs)
         {
-            T* component(new T(std::forward < TArgs(mArgs)...));
+            T* component(new T(std::forward < TArgs(mArgs)...>));
 
             component->gameObject = this;
 

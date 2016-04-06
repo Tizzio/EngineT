@@ -11,8 +11,6 @@ namespace EngineT
 
     ShaderManager::~ShaderManager() {}
 
-     
-
     GLuint ShaderManager::CreateProgram(const string& vertexShader, const string& fragmentShader, const string& geometryShader)
     {
         GLuint shaderProg = glCreateProgram();
@@ -218,6 +216,10 @@ namespace EngineT
         int  i = 0;
         while(getline(file, line))
         {
+        	//remove new line
+        	if(line[line.length() -1] == '\r')
+        		line = line.substr(0, line.length() - 1);
+        	
             trimLine = StringUtils::Trim(line);
             i++;
             if(trimLine.length() > 0)
@@ -309,8 +311,13 @@ namespace EngineT
             ParseShader(vertexInput, vertex, path + "lighting.vertex");
             ParseShader(fragmentInput, fragment, path + "lighting.fragment");
             newShader = new ShaderLighting();
-            ((ShaderLighting*) newShader)->hasSpecular = HeaderEnabled("Specular");
-            ((ShaderLighting*) newShader)->hasNnormalmap = HeaderEnabled("Normalmap");
+            auto sl = ((ShaderLighting*) newShader);
+            sl->hasCubeMap = HeaderEnabled("CubeMap");
+            sl->hasSpecular = HeaderEnabled("Specular");
+            sl->hasSpecularMap = HeaderEnabled("SpecularMap");
+            sl->hasNormalMap = HeaderEnabled("NormalMap");
+            sl->hasOcclusionMap = HeaderEnabled("OcclusionMap");
+            sl->hasEmissionMap = HeaderEnabled("EmissionMap");
             cout << "Created ShaderLighting..." << endl;
         } 
         else
@@ -357,7 +364,6 @@ namespace EngineT
 
     }
 
-
     void ShaderManager::ParseShader(vector<string>& input, vector<string>& output, const string filename)
     {
         ifstream file;
@@ -372,28 +378,53 @@ namespace EngineT
         //read sections
         string line, trimLine;
         int  i = 0;
-        bool skip;
+        int skip = -1;
+        int level = -1;
+        bool branched = false;
         while(getline(file, line))
         {
+        	//remove new line
+        	if(line[line.length() -1] == '\r')
+        		line = line.substr(0, line.length() - 1);
+        		
             trimLine = StringUtils::Trim(line);
             if(trimLine.find("#if") != trimLine.npos)
             {
-                if(defines.find(trimLine.substr(4)) == defines.end())
-                    skip = true;
+                level++;
+                //if this line is not skipped, evaluate the condition
+                if(skip == -1)
+                {
+                    //if the condition is false, skip that level
+                    if(!EvaluateExpression(trimLine.substr(4)))
+                        skip = level;
+                }
+
+            }
+            else if(trimLine.find("#else") != trimLine.npos)
+            {
+                if(skip == level)
+                    skip = -1;
+                //the if wasn't skipped, skip the else
+                else if(skip == -1)
+                    skip = level;
             }
             else if(trimLine.find("#endif") != trimLine.npos)
             {
-                skip = false;
+                if(skip == level)
+                    skip = -1;
+
+                level--;
             }
-            else if(!skip)
+            else if(skip == -1)
             {
-                //add custom lines
+                // add custom shader lines before the main
                 if(trimLine.find("void main") != trimLine.npos)
                 {
                     for(string line : input)
                         output.push_back(line);
                 }
 
+                // add the line
                 output.push_back(std::move(line));
             }
         }
@@ -418,4 +449,130 @@ namespace EngineT
         return true;
 
     }
+
+
+
+    bool ShaderManager::EvaluateExpression(string expression)
+    {
+        //cout << endl << "Evaluating: " << expression << endl;
+        bool andOperator = false;
+        string last = "";
+        for(int i = 0; i < expression.length(); i++)
+        {
+            char c = expression[i];
+            if(c == ' ' || c == '\t')
+                continue;
+
+            if(c == '(')
+            {
+                int open = 0;
+                int j;
+                for(j = i + 1; j < expression.length(); j++)
+                {
+                    if(expression[j] == '(') open++;
+                    if(expression[j] == ')')  open--;
+                    if(open == -1) break;
+                }
+
+                if(j == expression.length())
+                {
+                    //cout << "Error bracket not closed ')' at pos: " + to_string(i) << endl;
+                    return false;
+                }
+                bool result = EvaluateExpression(expression.substr(i + 1, j - i - 1));
+
+                if(andOperator)
+                {
+                    //cout << last << " (AND) " << expression.substr(i + 1, j - i - 1) << " : ";
+
+                    if((last == "true" || defines.find(last) != defines.end()) && result)
+                        last = "true";
+                    else
+                        last = "false";
+
+                    //cout << " " << last << endl;
+                }
+                else
+                    last = result ? "true" : "false";
+
+                i += j;
+            }
+            else
+            {
+                int end = expression.find_first_of(' ', i);
+                int count = end - i;
+                string word;
+                if(count > 0)
+                {
+                    word = expression.substr(i, count);
+                    i += count;
+                }
+                else
+                {
+                    word = expression.substr(i);
+                    i = expression.length();
+                }
+
+                if(word == "AND")
+                {
+                    andOperator = true;
+                    if(last == "" || last == "AND" || last == "OR")
+                    {
+                        //cout << "Error while parsing, wrong AND operator at pos: " + to_string(i) << endl;
+                        return false;
+                    }
+                }
+                else if(word == "OR")
+                {
+                    andOperator = false;
+
+                    if(last == "" || last == "AND" || last == "OR")
+                    {
+                        //cout << "Error while parsing, wrong OR operator at pos: " + to_string(i) << endl;
+                        return false;
+                    }
+
+                    if(last == "true" || defines.find(last) != defines.end() || EvaluateExpression(expression.substr(i + 1)))
+                    {
+                        //cout << ">    " << last << " (OR) " << expression.substr(i + 1) << " is TRUE" << endl;
+                        return true;
+                    }
+                    else
+                    {
+                        //cout << ">    " << last << " (OR) " << expression.substr(i + 1) << " is FALSE" << endl;
+                        return false;
+                    }
+
+                }
+                else if(i == expression.length())
+                {
+                    //cout << "atomic expression " << word << (words.find(word) != words.end() ? " true" : " false") << endl;
+                    return defines.find(word) != defines.end();
+                }
+                else
+                {
+                    if(andOperator)
+                    {
+                        //cout << last << " (AND) " << word << " : ";
+
+                        if((last == "true" || defines.find(last) != defines.end()) && defines.find(word) != defines.end())
+                            last = "true";
+                        else
+                            last = "false";
+
+                        //cout << " " << last << endl;
+
+                    }
+                    else{
+                        //cout << "word: " << word << endl;
+                        last = word;
+                    }
+                }
+
+            }
+        }
+        //cout << "# out of for cycle" << endl;
+        return last == "true" || defines.find(last) != defines.end();
+    }
+
 }

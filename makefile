@@ -2,7 +2,7 @@ CC = g++
 CXXFLAGS = -w -std=gnu++14
 
 # paths 
-SRC_DIR = EngineT
+SRC_DIR = src
 BUILD_DIR = obj
 
 SOURCES = $(wildcard $(SRC_DIR)/*.cpp)
@@ -38,5 +38,5 @@ $(BUILD_DIR):
 	mkdir -p $@
     
 clean:
-	rm -rf $(BUILD_DIR)
+	rm -rf $(BUILD_DIR)/*
 

@@ -108,7 +108,10 @@
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="component.cpp" />
     <ClCompile Include="context.cpp" />
+    <ClCompile Include="cubemap.cpp" />
     <ClCompile Include="materal.cpp" />
+    <ClCompile Include="particles_manager.cpp" />
+    <ClCompile Include="physics_particle.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="engine_t.cpp" />
     <ClCompile Include="font.cpp" />
@@ -145,7 +148,11 @@
     <ClInclude Include="camera.h" />
     <ClInclude Include="component.h" />
     <ClInclude Include="context.h" />
+    <ClInclude Include="cubemap.h" />
+    <ClInclude Include="engine_headers.h" />
     <ClInclude Include="material.h" />
+    <ClInclude Include="particles_manager.h" />
+    <ClInclude Include="physics_particle.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="engine_setup.h" />
     <ClInclude Include="engine_t.h" />

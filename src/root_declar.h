@@ -3,6 +3,10 @@
 #define GLEW_STATIC
 #define GLM_FORCE_RADIANS
 
+#ifdef _MSC_VER
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+
 #include <GL/glew.h> 
 #include <SDL2/SDL.h> 
 #include <glm/glm.hpp>
@@ -62,10 +66,12 @@ namespace EngineT
 
     //Components
     class Component;
+    
     //Resources
     class Mesh;
     class Vertex;
     class Texture;
+    class Cubemap;
     class Material;
     class Sprite;
     class Font;

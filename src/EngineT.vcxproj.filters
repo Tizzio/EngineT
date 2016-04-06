@@ -152,6 +152,11 @@
     <ClCompile Include="mesh_generator.cpp">
       <Filter>Core\EngineUtils</Filter>
     </ClCompile>
+    <ClCompile Include="cubemap.cpp">
+      <Filter>Core\Graphics\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="physics_particle.cpp" />
+    <ClCompile Include="particles_manager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h">
@@ -277,5 +282,13 @@
     <ClInclude Include="mesh_generator.h">
       <Filter>Core\EngineUtils</Filter>
     </ClInclude>
+    <ClInclude Include="cubemap.h">
+      <Filter>Core\Graphics\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="engine_headers.h">
+      <Filter>Core\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="physics_particle.h" />
+    <ClInclude Include="particles_manager.h" />
   </ItemGroup>
 </Project>

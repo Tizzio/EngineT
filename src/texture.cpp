@@ -18,25 +18,25 @@ namespace EngineT
 
     void Texture::SetFilter(TextureFilter filter)
     {
-
         glBindTexture(textureTarget, textureObj);
-        switch(filter){
-        case TextureFilter::Point:
-            glTexParameterf(textureTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-            glTexParameterf(textureTarget, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-            break;
-        case TextureFilter::Bilinear:
-            glTexParameterf(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            glTexParameterf(textureTarget, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            break;
-        case TextureFilter::BilinearMipmap:
-            glTexParameterf(textureTarget, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-            glTexParameterf(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-            break;
-        case TextureFilter::PointMipmap:
-            glTexParameterf(textureTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST_MIPMAP_NEAREST);
-            glTexParameterf(textureTarget, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
-            break;
+        switch(filter)
+        {
+            case TextureFilter::Point:
+                glTexParameteri(textureTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                glTexParameteri(textureTarget, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+                break;
+            case TextureFilter::Bilinear:
+                glTexParameteri(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                glTexParameteri(textureTarget, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+                break;
+            case TextureFilter::BilinearMipmap:
+                glTexParameteri(textureTarget, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+                glTexParameteri(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+                break;
+            case TextureFilter::PointMipmap:
+                glTexParameteri(textureTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+                glTexParameteri(textureTarget, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+                break;
         }
         glBindTexture(textureTarget, 0);
     }
@@ -55,11 +55,13 @@ namespace EngineT
         unsigned error = lodepng::decode(image, _width, _height, state, png);
 
         //if there's an error, display it
-        if(error){
+        if(error)
+        {
             std::cout << "error loading image " << endl << error << ": " << lodepng_error_text(error) << std::endl;
             return false;
         }
-        else{
+        else
+        {
             cout << "success loading image" << endl;;
 
             this->width = (float) _width;
@@ -79,8 +81,8 @@ namespace EngineT
             else
             {
                 glTexImage2D(textureTarget, 0, GL_RGBA, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*) &image[0]);
-                glTexParameterf(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-                glTexParameterf(textureTarget, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+                glTexParameteri(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                glTexParameteri(textureTarget, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             }
         }
         return true;

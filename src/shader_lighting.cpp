@@ -4,6 +4,7 @@
 #include "gameobject.h"
 #include "camera.h"
 #include "light.h"
+#include "material.h"
 #include "transform.h"
 
 namespace EngineT
@@ -79,7 +80,7 @@ namespace EngineT
          
     }
 
-    void ShaderLighting::Enable()
+    void ShaderLighting::Enable(Material* material)
     {
         renderManager = Engine.renderManager;
         glUseProgram(shaderProgram);
@@ -131,13 +132,25 @@ namespace EngineT
         glUniform1i(uNumPointLights, pointLightCount);
         glUniform1i(uNumSpotLights, spotLightCount);
 
-        glUniform1f(uAmbientIntensity, 0.01f);
+        glUniform1f(uAmbientIntensity, 0.05f);
 
+        glUniform1i(GetUniformLoc("uSampler"), 0); //texture unit 0
+        
         if(hasSpecular)
-        { 
-            glUniform1f(uSpecularIntensity, 0.75f);
-            glUniform1f(uSpecularPower, 16.0f);
+        {
+            if(hasSpecularMap)
+                glUniform1i(GetUniformLoc("uSpecularMap"), 1); //texture unit
+
+            glUniform1f(uSpecularIntensity, material->specularIntensity);//0.75
+            glUniform1f(uSpecularPower, material->specularPower);//16
         }
+
+        if(hasNormalMap)
+            glUniform1i(GetUniformLoc("uNormalMap"), 2); //texture unit
+
+
+        if(material->cubemap)
+            glUniform1i(GetUniformLoc("uCubeMap"), 5); //texture unit
     }
 
     void ShaderLighting::UpdateUniforms()
@@ -149,10 +162,7 @@ namespace EngineT
 
         glUniformMatrix4fv(uWorld, 1, GL_FALSE, &worldMatrix[0][0]);
 
-        glUniform1i(GetUniformLoc("uSampler"), 0); //texture unit 0
-
-        if(hasNnormalmap)
-            glUniform1i(GetUniformLoc("uNormalMap"), 1); //texture unit 1
+       
 
         vec3 eye = renderManager->curCamera->position;
         glUniform3f(uEyeWorldPos, eye.x, eye.y, eye.z);

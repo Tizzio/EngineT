@@ -6,7 +6,7 @@
 using namespace EngineT;
 int main(int argc, char** argv)
 {
-    EngineSetup setup(700, 500, false, "EngineT");
+    EngineSetup setup(900, 650, false, "EngineT");
 
     if(!Engine.Init(setup, argc, argv))
     {

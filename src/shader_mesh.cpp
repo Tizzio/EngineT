@@ -17,7 +17,7 @@ namespace EngineT
         uWVP = Loc("uWVP"); 
     }
 
-    void ShaderMesh::Enable()
+    void ShaderMesh::Enable(Material* material)
     {
         glUseProgram(shaderProgram);
     }

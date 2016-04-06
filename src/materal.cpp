@@ -2,37 +2,53 @@
 #include "material.h" 
 #include "shader.h"
 #include "texture.h"
+#include "cubemap.h"
 
 namespace EngineT
-{
-    Material::Material(Shader* s, Texture* t, Texture* n)
+{ 
+    Material::Material(Shader * shader, Texture * a, Texture * s, Texture * n, Texture * e, Texture * o)
     {
-        shader = s;
-        texture = t;
+        this->shader = shader;
+        albedo = a;
+        specular = s;
         normalmap = n;
+        emission = e;
+        occlusion = o;
     }
 
     void Material::Enable()
     {
         if(shader == nullptr)
         {
-            cout << "ERROR in Material -> shader does not exits" << endl;
+            Engine.TrowError("ERROR in Material -> shader does not exits", __LINE__, __FILE__);
             return;
         }
 
-        if(texture == nullptr)
-        {
-            cout << "ERROR in Material -> texture does not exits" << endl;
-            return;
-        }
 
-        shader->Enable();
+        shader->Enable(this);
 
-        texture->Bind(GL_TEXTURE0);
+        // Bind textures
+
+        if(albedo) 
+            albedo->Bind(GL_TEXTURE0); 
+
+        if(specular)
+            specular->Bind(GL_TEXTURE1);
 
         if(normalmap)
-            normalmap->Bind(GL_TEXTURE1);
-         
+            normalmap->Bind(GL_TEXTURE2);
+        
+        if(occlusion)
+            occlusion->Bind(GL_TEXTURE3);
+
+        if(emission)
+            emission->Bind(GL_TEXTURE4);
+
+        if(cubemap)
+            cubemap->Bind();
+
+        // Settings
+
         if(backfaceCulling)
             glEnable(GL_CULL_FACE);
         else

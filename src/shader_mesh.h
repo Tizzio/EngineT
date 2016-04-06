@@ -11,7 +11,7 @@ namespace EngineT
          
         ShaderMesh();
 
-        virtual void Enable();
+        virtual void Enable(Material* material);
         virtual void UpdateUniforms(); 
     
     private:

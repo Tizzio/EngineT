@@ -4,8 +4,6 @@ Header
 	Version: 330
 	Lighting: On
 		LightingModel: Lambert
-		Specular: Off
-		Normalmap: Off
 	GammaCorrection: Off
 }
 

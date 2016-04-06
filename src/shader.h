@@ -14,8 +14,9 @@ namespace EngineT
         GLint GetUniformLoc(const string& uniformName);
 
         GLint Loc(const string& uniformName);
-        virtual void Enable() = 0;
+        virtual void Enable(Material* material) = 0;
         virtual void UpdateUniforms() = 0;
+
     protected:
 
         virtual void LoadUniforms() = 0;

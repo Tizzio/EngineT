@@ -45,11 +45,12 @@ namespace EngineT
        
         void ParseShader(vector<string>& input, vector<string>& output, const string filename);
         bool SaveToFile(const string filename, vector<string>& lines);
+        bool EvaluateExpression(string expression);
         
         inline bool HeaderExits(string key)
         {
             return headerMap.find(key) != headerMap.end();
-        }
+        } 
 
         inline bool HeaderEnabled(string key)
         {

@@ -42,52 +42,64 @@ uniform SpotLight uSpotLights[MAX_SPOT_LIGHTS];
 
 uniform vec3 uEyeWorldPos;
 uniform float uAmbientIntensity;
-
-vec3 eyeDirection;
+ 
 vec3 normal;
 
 #if Specular:On
-uniform float uSpecularIntensity;
-uniform float uSpecularPower; 
+	vec3 eyeDirection;
+	uniform float uSpecularIntensity;
+	uniform float uSpecularPower; 
+	#if SpecularMap:On
+		uniform sampler2D uSpecularMap;
+		float specularTexel;
+	#endif
 #endif
 
-#if Normalmap:On
-uniform sampler2D uNormalMap; 
-in mat3 vTBN;
+#if NormalMap:On
+	uniform sampler2D uNormalMap; 
+	in mat3 vTBN;
 #endif
 
 #if Specular:On
-float CalculateSpecular(vec3 lightDirection)
-{ 
-	vec3 reflected = reflect(-lightDirection, normal); 
-	return uSpecularIntensity *pow(max(dot(reflected, -eyeDirection), 0.0), uSpecularPower);
-}
+	float CalculateSpecular(vec3 lightDirection)
+	{ 
+		vec3 reflected = reflect(-lightDirection, normal); 
+		#if SpecularMap:On
+			return specularTexel * uSpecularIntensity *pow(max(dot(reflected, -eyeDirection), 0.0), uSpecularPower);
+		#else
+			return uSpecularIntensity *pow(max(dot(reflected, -eyeDirection), 0.0), uSpecularPower);
+		#endif
+	}
 #endif
 
 #if LightingModel:Lambert
-float CalculateDiffuse(vec3 lightDirection) 
-{
-	return dot(normal, lightDirection);
-}
+	float CalculateDiffuse(vec3 lightDirection) 
+	{
+		return dot(normal, lightDirection);
+	}
+#endif
+
+#if CubeMap:On
+	uniform samplerCube uCubeMap;
 #endif
 
 #if LightingModel:OrenNayar
-float CalculateDiffuse(vec3 lightDirection) 
-{
-	return 1;
-}
+	float CalculateDiffuse(vec3 lightDirection) 
+	{
+		return 1;
+	}
 #endif
 
 vec3 CalcDirectionalLight()
 {
 	vec3 lightDirection = normalize(uDirLight.direction);
-	#if Normalmap:On
-	lightDirection = vTBN * lightDirection;
+	#if NormalMap:On
+		lightDirection = vTBN * lightDirection;
 	#endif
 	vec3 color =  max(vec3(0,0,0), uDirLight.color * (uDirLight.diffuseIntensity * CalculateDiffuse(lightDirection)));
 	 
 	#if Specular:On
-	color += CalculateSpecular(lightDirection);
+		color += CalculateSpecular(lightDirection);
 	#endif
 	
 	return color;
@@ -98,14 +110,14 @@ vec3 CalcPointLight(PointLight l)
 	vec3 lightVector = l.position - vWorldPos; 
 	float distance = length(lightVector);
 	vec3 lightDirection = normalize(lightVector); 
-	#if Normalmap:On
-	lightDirection = vTBN * lightDirection;
+	#if NormalMap:On
+		lightDirection = vTBN * lightDirection;
 	#endif
 
 	vec3 color = l.color * (l.diffuseIntensity * CalculateDiffuse(lightDirection));
 
 	#if Specular:On
-	color += CalculateSpecular(lightDirection); 
+		color += CalculateSpecular(lightDirection); 
 	#endif
 
 	float attenuation = l.attenConstant + l.attenLinear * distance +  l.attenExp * distance * distance; 
@@ -118,8 +130,8 @@ vec3 CalcSpotLight(SpotLight l)
 	vec3 lightVector = l.position - vWorldPos ; 
 	float distance = length(lightVector);
 	vec3 lightDirection = normalize(lightVector);
-	#if Normalmap:On
-	lightDirection = vTBN * lightDirection;
+	#if NormalMap:On
+		lightDirection = vTBN * lightDirection;
 	#endif
 	float spotFactor = dot(lightDirection, l.direction);
 
@@ -128,7 +140,7 @@ vec3 CalcSpotLight(SpotLight l)
 		vec3 color = l.color * (l.diffuseIntensity * CalculateDiffuse(lightDirection));
 		
 		#if Specular:On
-		color += CalculateSpecular(lightDirection); 
+			color += CalculateSpecular(lightDirection); 
 		#endif
 		
 		float attenuation = l.attenConstant + l.attenLinear * distance +  l.attenExp * distance * distance;
@@ -143,17 +155,25 @@ void main()
 	PreFragment();
 	
 	#if Specular:On
-	eyeDirection = normalize(vWorldPos - uEyeWorldPos);
+		eyeDirection = normalize(vWorldPos - uEyeWorldPos);
+		#if SpecularMap:On
+			specularTexel = texture2D(uSpecularMap, vTexCoord.xy).r;
+		#endif	
+	#endif
+	 
+	#if NormalMap:On
+		normal = texture2D(uNormalMap, vTexCoord.xy).rgb;
+		normal = normalize(normal * 2.0 - 1.0);
+		
+		#if Specular:On
+		eyeDirection  = vTBN * eyeDirection;
+		#endif
+		
+	#else 
+		normal = normalize(vNormal);
 	#endif
 	
-	normal = normalize(vNormal); 
-	
-	#if Normalmap:On
-    normal = texture2D(uNormalMap, vTexCoord.xy).rgb;
-    normal = normalize(normal * 2.0 - 1.0);
-    eyeDirection  = vTBN * eyeDirection;    
-	#endif
-	
+		
 	vec3 totalLight =  vec3(uAmbientIntensity, uAmbientIntensity, uAmbientIntensity);
 	totalLight += CalcDirectionalLight(); 
 	 
@@ -166,8 +186,14 @@ void main()
 	fragColor.rgb = totalLight;
 	PostFragment();
 	
-	#if GammaCorrection:On
-	const vec3 gamma = vec3(1.0 / 2.2);
-	fragColor.rgb = pow( fragColor.rgb, gamma); 
+	#if CubeMap:On
+		vec3 eyeReflected = reflect(eyeDirection, normal);
+		//fragColor.rgb = eyeReflected;
+		fragColor.rgb = fragColor.rgb *0.8 + texture(uCubeMap, eyeReflected).rgb * 0.2;
 	#endif
+	
+	#if GammaCorrection:On
+		const vec3 gamma = vec3(1.0 / 2.2);
+		fragColor.rgb = pow( fragColor.rgb, gamma); 
+	#endif 
 }

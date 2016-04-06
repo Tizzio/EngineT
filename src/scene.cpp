@@ -24,14 +24,18 @@ namespace EngineT
 
     void Scene::Add(GameObjectRenderable* gameObject)
     {
+        gameObjects.push_back(gameObject);
+
         //if it's not in render queue and it has a material
         //assign a default material
-        if(gameObject->material == nullptr) 
-            Engine.TrowError("Missing material NOT IMPLEMENTED DEFAULT MATERIAL", __LINE__, __FILE__); 
+        if(gameObject->material != nullptr)
+        {
+            gameObject->isInScene = true;
+            Engine.renderManager->Add(gameObject);
+        }
+        //else
+            //Engine.TrowError("Missing material NOT IMPLEMENTED DEFAULT MATERIAL", __LINE__, __FILE__); 
 
-        gameObject->isInScene = true;
-        gameObjects.push_back(gameObject);
-        Engine.renderManager->Add(gameObject);
     } 
 
     void Scene::Remove(GameObject* gameObject)

@@ -1,6 +1,6 @@
 Header
 {
-	Name: Specular
+	Name: SimpleSpecular
 	Version: 330
 	Lighting: On
 		LightingModel: Lambert

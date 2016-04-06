@@ -122,7 +122,7 @@ namespace EngineT
 
             time->fps = time->ticks;
             time->ticks = 0;
-            //cout << "d: " << delta << " | " << time->fps << "fps \r";
+            cout << "d: " << delta << " | " << time->fps << "fps \r";
         }
 
         if(delta > 0 && delta < 1.0f){

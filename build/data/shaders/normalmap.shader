@@ -1,11 +1,11 @@
 Header
 {
-	Name: Specular
+	Name: Normalmap
 	Version: 330
 	Lighting: On
 		LightingModel: Lambert
+		NormalMap: On
 		Specular: On
-		Normalmap: On
 	GammaCorrection: Off
 }
 
