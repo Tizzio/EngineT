@@ -1,4 +1,4 @@
-# EngineT
+d# EngineT
 Game engine 
 
 ### Clone Repository to your desktop
@@ -26,4 +26,8 @@ sudo apt-get install libglm-dev
 
 > Assimp
 https://github.com/assimp/assimp/blob/master/INSTALL
+
+
+### to view the dependancies
+readelf -d executable.x | grep NEEDED
 

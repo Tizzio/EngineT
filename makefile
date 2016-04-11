@@ -10,17 +10,19 @@ OBJECTS = $(patsubst $(SRC_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(SOURCES))
 
 vpath %.cpp $(SRC_DIR)
 
-# includes
-SDL_INCLUDES = `sdl-config --cflags --libs`
-BULLET_INCLUDES =  `pkg-config --cflags bullet`
-GLEW_INCLUDES = `pkg-config --cflags glew`  
-INCLUDES = $(SDL_INCLUDES) $(BULLET_INCLUDES) $(GLEW_INCLUDES)
+# flags
+SDL_FLAGS = `sdl-config --cflags`
+BULLET_FLAGS =  `pkg-config --cflags bullet`
+GLEW_FLAGS = `pkg-config --cflags glew`  
+FLAGS = $(SDL_FLAGS) $(BULLET_FLAGS) $(GLEW_FLAGS)
 
 # libraries
+GL_LIBS = -lGLEW -lGLU -lGL
+SDL_LIBS = -lSDL2
 BULLET_LIBS = `pkg-config --libs bullet`
 ASSIMP_LIBS = `pkg-config --libs assimp`
 
-LIBS = -lSDL2 -lGLEW -lGLU -lGL -I  $(BULLET_LIBS) $(ASSIMP_LIBS)
+LIBS = $(SDL_LIBS)  $(GL_LIBS) $(BULLET_LIBS) $(ASSIMP_LIBS)
 EXEC = build/executable.x
 
 # main target
@@ -30,7 +32,7 @@ $(EXEC): $(OBJECTS)
 
 # object files
 $(BUILD_DIR)/%.o: %.cpp
-	$(CC) $(INCLUDES) -c $(CXXFLAGS) $< -o $@ 
+	$(CC) -c $(CXXFLAGS) $(FLAGS) $< -o $@ 
 
 checkdirs: $(BUILD_DIR)
 
@@ -38,5 +40,8 @@ $(BUILD_DIR):
 	mkdir -p $@
     
 clean:
+	rm -rf $(BUILD_DIR)/*
+
+force:
 	rm -rf $(BUILD_DIR)/*
 
